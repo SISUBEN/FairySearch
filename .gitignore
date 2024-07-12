@@ -113,7 +113,8 @@ celerybeat.pid
 
 # Environments
 .env
-.venv
+.
+pyvenv.cfg
 env/
 venv/
 ENV/
