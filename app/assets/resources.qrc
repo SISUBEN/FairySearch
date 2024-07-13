@@ -1,0 +1,8 @@
+<RCC>
+  <qresource prefix="images">
+    <file>images/login.png</file>
+  </qresource>
+  <qresource prefix="icons">
+    
+  </qresource>
+</RCC>
