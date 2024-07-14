@@ -3,6 +3,6 @@
     <file>images/login.png</file>
   </qresource>
   <qresource prefix="icons">
-    
+    <file>icons/icon.jpg</file>
   </qresource>
 </RCC>

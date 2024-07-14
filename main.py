@@ -5,7 +5,10 @@ from PySide6.QtWidgets import (
 )
 from app.modules.Ui_login import Ui_Form
 from app.assets.resources_rc import *
+from app.database.tools import DatabaseTool
+import hashlib
 from qt_material import apply_stylesheet
+dbTool = DatabaseTool()
 class LoginWindow(QWidget, Ui_Form):
     def __init__(self):
         super().__init__()
@@ -13,10 +16,19 @@ class LoginWindow(QWidget, Ui_Form):
         self.login_btn.clicked.connect(self.login)
         self.register_2.clicked.connect(self.register)
     def login(self):
-        if self.username.text() == "admin" and self.password.text() == "123456":
-            self.msgBox("Login Success", f"Welcome! {self.username.text()}")
+        username_input = self.username.text()
+        password_input = self.password.text()
+        if dbTool.user_exists(self.username.text()):
+            if hashlib.sha256(
+                    password_input.encode()
+                ).hexdigest() == dbTool.query_user_password(username_input): 
+                self.msgBox("Login Success", f"Welcome! {self.username.text()}")
+            else:
+                self.msgBox("Login Fail", "Username or password incorrect!\nPlease try again.")
         else:
-            self.msgBox("Login Fail", "Username or password incorrect!\nPlease try again.")
+            self.msgBox("Login Fail", "User does not exist!")
+        
+
     def msgBox(self, title:str, text: str):
         MessageBox = QMessageBox()
         MessageBox.about(self, title, text)
@@ -39,6 +51,10 @@ class MainWindow(QWidget):
         super().__init__()
         self.setWindowTitle("test")
         
+class RegisterWindow(QWidget):
+    def __init__(self) -> None:
+        super().__init__()
+        self.setWindowTitle("test")
 
 if __name__ == "__main__":
     app = QApplication([])

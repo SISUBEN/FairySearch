@@ -71,7 +71,7 @@
       <property name="font">
        <font>
         <family>Consolas</family>
-        <pointsize>28</pointsize>
+        <pointsize>40</pointsize>
         <bold>true</bold>
        </font>
       </property>
@@ -265,6 +265,12 @@
     </item>
     <item>
      <widget class="QPushButton" name="register_2">
+      <property name="maximumSize">
+       <size>
+        <width>640</width>
+        <height>16777215</height>
+       </size>
+      </property>
       <property name="styleSheet">
        <string notr="true">color: white;</string>
       </property>

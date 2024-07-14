@@ -18,9 +18,6 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
 from PySide6.QtWidgets import (QApplication, QHBoxLayout, QLabel, QLineEdit,
     QPushButton, QSizePolicy, QSpacerItem, QVBoxLayout,
     QWidget)
-import resources_rc
-import resources_rc
-import resources_rc
 
 class Ui_Form(object):
     def setupUi(self, Form):
@@ -47,7 +44,7 @@ class Ui_Form(object):
         self.label_4.setMaximumSize(QSize(640, 200))
         font = QFont()
         font.setFamilies([u"Consolas"])
-        font.setPointSize(28)
+        font.setPointSize(40)
         font.setBold(True)
         self.label_4.setFont(font)
         self.label_4.setStyleSheet(u"color: white;")
@@ -138,6 +135,7 @@ class Ui_Form(object):
 
         self.register_2 = QPushButton(self.layoutWidget)
         self.register_2.setObjectName(u"register_2")
+        self.register_2.setMaximumSize(QSize(640, 16777215))
         self.register_2.setStyleSheet(u"color: white;")
 
         self.verticalLayout_2.addWidget(self.register_2)
