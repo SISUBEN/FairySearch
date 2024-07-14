@@ -4,6 +4,7 @@ from PySide6.QtWidgets import (
     QMessageBox
 )
 from app.modules.Ui_login import Ui_Form
+from app.modules.Ui_register import Ui_Register
 from app.assets.resources_rc import *
 from app.database.tools import DatabaseTool
 import hashlib
@@ -27,8 +28,7 @@ class LoginWindow(QWidget, Ui_Form):
                 self.msgBox("Login Fail", "Username or password incorrect!\nPlease try again.")
         else:
             self.msgBox("Login Fail", "User does not exist!")
-        
-
+            
     def msgBox(self, title:str, text: str):
         MessageBox = QMessageBox()
         MessageBox.about(self, title, text)
@@ -43,18 +43,31 @@ class LoginWindow(QWidget, Ui_Form):
         
     def openRegisterWindow(self):
         self.close()
-        # self.registerWindow = RegisterWindow()
-        # self.registerWindo.show()
+        self.registerWindow = RegisterWindow()
+        self.registerWindow.show()
 
 class MainWindow(QWidget):
     def __init__(self) -> None:
+        # TODO: 实现mainwindow
         super().__init__()
         self.setWindowTitle("test")
         
-class RegisterWindow(QWidget):
-    def __init__(self) -> None:
+class RegisterWindow(QWidget, Ui_Register, LoginWindow):
+    def __init__(self):
         super().__init__()
-        self.setWindowTitle("test")
+        self.setupUi(self)
+        self.pushButton.clicked.connect(self.register)
+    
+    def register(self) -> None:
+        self.username = self.username_4.text()
+        self.password_ipt = self.password.text()
+        self.password2_ipt = self.password2.text()
+        if self.password_ipt == self.password2_ipt:
+            dbTool.user_add(self.username, hashlib.sha256(self.password_ipt.encode()).hexdigest())
+            self.msgBox("Register Success", "Register Success!")
+        else:
+            self.msgBox("Register Fail", "Password not match!")
+        self.openMainWindow()
 
 if __name__ == "__main__":
     app = QApplication([])
