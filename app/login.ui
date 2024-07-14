@@ -53,9 +53,9 @@
   <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
-     <x>810</x>
-     <y>40</y>
-     <width>541</width>
+     <x>740</x>
+     <y>30</y>
+     <width>682</width>
      <height>591</height>
     </rect>
    </property>
@@ -64,14 +64,14 @@
      <widget class="QLabel" name="label_4">
       <property name="maximumSize">
        <size>
-        <width>16777215</width>
-        <height>300</height>
+        <width>640</width>
+        <height>200</height>
        </size>
       </property>
       <property name="font">
        <font>
         <family>Consolas</family>
-        <pointsize>23</pointsize>
+        <pointsize>28</pointsize>
         <bold>true</bold>
        </font>
       </property>
@@ -79,10 +79,13 @@
        <string notr="true">color: white;</string>
       </property>
       <property name="text">
-       <string>Welcome To Access H.D.D System</string>
+       <string>欢迎访问H.D.D System</string>
       </property>
       <property name="textFormat">
        <enum>Qt::RichText</enum>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
       </property>
      </widget>
     </item>
@@ -91,12 +94,25 @@
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout">
         <item>
+         <spacer name="horizontalSpacer_5">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
          <widget class="QLabel" name="label">
           <property name="styleSheet">
            <string notr="true">color: white;</string>
           </property>
           <property name="text">
-           <string>Username:</string>
+           <string>用户名：</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -108,7 +124,23 @@
           <property name="styleSheet">
            <string notr="true">background-color: white;</string>
           </property>
+          <property name="placeholderText">
+           <string>请输入用户名</string>
+          </property>
          </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer_4">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
         </item>
        </layout>
       </item>
@@ -128,12 +160,25 @@
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_2">
         <item>
+         <spacer name="horizontalSpacer_6">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
          <widget class="QLabel" name="label_2">
           <property name="styleSheet">
            <string notr="true">color: white;</string>
           </property>
           <property name="text">
-           <string>Password:</string>
+           <string>密   码：</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -142,6 +187,12 @@
         </item>
         <item>
          <widget class="QLineEdit" name="password">
+          <property name="maximumSize">
+           <size>
+            <width>500</width>
+            <height>16777215</height>
+           </size>
+          </property>
           <property name="styleSheet">
            <string notr="true">background-color: white;</string>
           </property>
@@ -151,7 +202,23 @@
           <property name="echoMode">
            <enum>QLineEdit::Password</enum>
           </property>
+          <property name="placeholderText">
+           <string>请输入密码</string>
+          </property>
          </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer_3">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
         </item>
        </layout>
       </item>
@@ -188,7 +255,7 @@
            <string notr="true">color: white;background-color:grey;</string>
           </property>
           <property name="text">
-           <string>Login</string>
+           <string>登入</string>
           </property>
          </widget>
         </item>
@@ -202,7 +269,7 @@
        <string notr="true">color: white;</string>
       </property>
       <property name="text">
-       <string>Register</string>
+       <string>注册</string>
       </property>
      </widget>
     </item>
@@ -212,7 +279,7 @@
  <resources>
   <include location="assets/resources.qrc"/>
   <include location="assets/resources.qrc"/>
-  <include location="../../../../../../.designer/backup/assets/resources.qrc"/>
+  <include location="assets/resources.qrc"/>
  </resources>
  <connections/>
 </ui>
