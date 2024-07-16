@@ -1,4 +1,14 @@
 Fairy Search Engine
 --------------
-FairySearch is a target search and analytics engine for search the favorite video user liked according to their browsing history.
-# Directory
+FairySearch是一个免费的视频搜索引擎，它通过分析用户的浏览数据和喜欢推荐视频。
+## Function
+- 登入☑️
+- 注册☑️
+- 搜索⬜️
+- 视频播放⬜️
+- 分析用户喜好⬜️
+
+## TODO
+- 视频添加功能
+- 密码强度
+- 机器学习用户喜好
