@@ -2,8 +2,13 @@
   <qresource prefix="images">
     <file>images/login.png</file>
     <file>images/hdd.png</file>
+    <file>images/background.png</file>
   </qresource>
   <qresource prefix="icons">
     <file>icons/icon.jpg</file>
+    <file>icons/hdd.ico</file>
+  </qresource>
+  <qresource prefix="font">
+    <file>font/HarmonySans_black.ttf</file>
   </qresource>
 </RCC>
