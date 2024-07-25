@@ -4,7 +4,8 @@ from PySide6.QtWidgets import (
     QMessageBox
 )
 from app.modules.Ui_login import Ui_Form
-from app.modules.Ui_register import Ui_Register
+# from app.modules.Ui_register import Ui_Register
+from app.modules.Ui_reg import Ui_Reg as Ui_Register
 from app.assets.resources_rc import *
 from app.database.tools import DatabaseTool
 import hashlib
@@ -56,12 +57,12 @@ class RegisterWindow(QWidget, Ui_Register, LoginWindow):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
-        self.pushButton.clicked.connect(self.register)
+        self.register_btn.clicked.connect(self.register)
     
     def register(self) -> None:
-        self.username = self.username_4.text()
+        self.username = self.username.text()
         self.password_ipt = self.password.text()
-        self.password2_ipt = self.password2.text()
+        self.password2_ipt = self.password_2.text()
         if self.password_ipt == self.password2_ipt:
             dbTool.user_add(self.username, hashlib.sha256(self.password_ipt.encode()).hexdigest())
             self.msgBox("Register Success", "Register Success!")
