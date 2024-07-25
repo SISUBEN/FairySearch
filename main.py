@@ -6,11 +6,21 @@ from PySide6.QtWidgets import (
 from app.modules.Ui_login import Ui_Form
 # from app.modules.Ui_register import Ui_Register
 from app.modules.Ui_reg import Ui_Reg as Ui_Register
+from app.modules.Ui_dialog import Ui_Dialog
 from app.assets.resources_rc import *
 from app.database.tools import DatabaseTool
 import hashlib
 from qt_material import apply_stylesheet
 dbTool = DatabaseTool()
+class DialogWindow(QWidget, Ui_Dialog):
+    def __init__(self, text: str):
+        super().__init__()
+        self.setupUi(self, text)
+
+def openDialog(title: str, text: str):
+    dialogWindow = DialogWindow(title, text)
+    dialogWindow.show()
+    
 class LoginWindow(QWidget, Ui_Form):
     def __init__(self):
         super().__init__()
@@ -35,7 +45,9 @@ class LoginWindow(QWidget, Ui_Form):
         MessageBox.about(self, title, text)
         
     def register(self):
-        pass
+        self.close()
+        self.registerWindow = RegisterWindow()
+        self.registerWindow.show()
     
     def openMainWindow(self):
         self.close()
@@ -65,14 +77,15 @@ class RegisterWindow(QWidget, Ui_Register, LoginWindow):
         self.password2_ipt = self.password_2.text()
         if self.password_ipt == self.password2_ipt:
             dbTool.user_add(self.username, hashlib.sha256(self.password_ipt.encode()).hexdigest())
-            self.msgBox("Register Success", "Register Success!")
+            # self.msgBox("提示", "注册成功")
+            openDialog("提示", "注册成功")
         else:
-            self.msgBox("Register Fail", "Password not match!")
+            openDialog("提示", "注册失败")
         self.openMainWindow()
 
 if __name__ == "__main__":
     app = QApplication([])
-    apply_stylesheet(app, theme="dark_blue.xml")
-    window = LoginWindow()
-    window.show()
+    apply_stylesheet(app) #, theme='dark_teal.xml'
+    loginWindow = LoginWindow()
+    loginWindow.show()
     app.exec()
