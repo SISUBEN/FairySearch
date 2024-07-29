@@ -6,20 +6,20 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1391</width>
-    <height>651</height>
+    <width>1036</width>
+    <height>874</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>1391</width>
-    <height>651</height>
+    <width>0</width>
+    <height>0</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>1391</width>
-    <height>651</height>
+    <width>16777215</width>
+    <height>16777215</height>
    </size>
   </property>
   <property name="focusPolicy">
@@ -34,27 +34,11 @@
   <property name="styleSheet">
    <string notr="true">background-color: #061c3e;</string>
   </property>
-  <widget class="QLabel" name="label_3">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>-10</y>
-     <width>801</width>
-     <height>671</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-   <property name="pixmap">
-    <pixmap resource="assets/resources.qrc">:/images/images/login.png</pixmap>
-   </property>
-  </widget>
   <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
-     <x>740</x>
-     <y>30</y>
+     <x>190</x>
+     <y>150</y>
      <width>682</width>
      <height>591</height>
     </rect>
@@ -283,9 +267,10 @@
   </widget>
  </widget>
  <resources>
-  <include location="assets/resources.qrc"/>
-  <include location="assets/resources.qrc"/>
-  <include location="assets/resources.qrc"/>
+  <include location="modules/assets/resources.qrc"/>
+  <include location="modules/assets/resources.qrc"/>
+  <include location="modules/assets/resources.qrc"/>
+  <include location="modules/assets/resources.qrc"/>
  </resources>
  <connections/>
 </ui>

@@ -17,12 +17,13 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QAbstractButton, QApplication, QDialog, QDialogButtonBox,
     QLabel, QSizePolicy, QVBoxLayout, QWidget)
-from ..assets import resources_rc
+from .assets import resources_rc
+
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         if not Dialog.objectName():
             Dialog.setObjectName(u"Dialog")
-        Dialog.resize(569, 438)
+        Dialog.resize(601, 542)
         Dialog.setMinimumSize(QSize(0, 0))
         Dialog.setMaximumSize(QSize(16777215, 16777215))
         Dialog.setStyleSheet(u"QDialog#Dialog {\n"
@@ -30,7 +31,7 @@ class Ui_Dialog(object):
 "}")
         self.layoutWidget = QWidget(Dialog)
         self.layoutWidget.setObjectName(u"layoutWidget")
-        self.layoutWidget.setGeometry(QRect(40, 40, 491, 371))
+        self.layoutWidget.setGeometry(QRect(40, 40, 521, 471))
         self.verticalLayout = QVBoxLayout(self.layoutWidget)
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)

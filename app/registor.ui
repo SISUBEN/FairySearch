@@ -29,21 +29,50 @@
    <string notr="true">QWidget#Registor {
 	background-image: url(:/images/images/reg.png);
     background-position: center;
-    background-size: contain;
 }</string>
   </property>
   <widget class="QWidget" name="layoutWidget">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
    <property name="geometry">
     <rect>
-     <x>440</x>
-     <y>430</y>
-     <width>508</width>
+     <x>430</x>
+     <y>460</y>
+     <width>551</width>
      <height>261</height>
     </rect>
    </property>
-   <layout class="QVBoxLayout" name="verticalLayout">
+   <property name="minimumSize">
+    <size>
+     <width>0</width>
+     <height>0</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>16777215</width>
+     <height>16777215</height>
+    </size>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout_2">
     <item>
-     <widget class="QLineEdit" name="username">
+     <widget class="QLineEdit" name="username_2">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>0</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>16777215</height>
+       </size>
+      </property>
       <property name="styleSheet">
        <string notr="true">QLineEdit {
     background-color: rgb(13, 13, 13);
@@ -67,7 +96,22 @@ QLineEdit::placeholderText {
      </widget>
     </item>
     <item>
-     <widget class="QLineEdit" name="password_2">
+     <widget class="QLineEdit" name="password_3">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>0</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>16777215</height>
+       </size>
+      </property>
       <property name="styleSheet">
        <string notr="true">QLineEdit {
     background-color: rgb(13, 13, 13);
@@ -84,6 +128,9 @@ QLineEdit::placeholderText {
       </property>
       <property name="text">
        <string/>
+      </property>
+      <property name="echoMode">
+       <enum>QLineEdit::Password</enum>
       </property>
       <property name="placeholderText">
        <string>请输入密码</string>
@@ -91,7 +138,22 @@ QLineEdit::placeholderText {
      </widget>
     </item>
     <item>
-     <widget class="QLineEdit" name="password">
+     <widget class="QLineEdit" name="password_4">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>0</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>16777215</height>
+       </size>
+      </property>
       <property name="styleSheet">
        <string notr="true">QLineEdit {
     background-color: rgb(13, 13, 13);
@@ -109,25 +171,31 @@ QLineEdit::placeholderText {
       <property name="text">
        <string/>
       </property>
+      <property name="echoMode">
+       <enum>QLineEdit::Password</enum>
+      </property>
       <property name="placeholderText">
        <string>请再次输入密码</string>
       </property>
      </widget>
     </item>
     <item>
-     <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <layout class="QHBoxLayout" name="horizontalLayout_3">
       <item>
-       <widget class="QPushButton" name="register_btn">
+       <widget class="QPushButton" name="register_btn_2">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
         <property name="minimumSize">
          <size>
-          <width>271</width>
-          <height>71</height>
+          <width>0</width>
+          <height>0</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>271</width>
-          <height>71</height>
+          <width>281</width>
+          <height>61</height>
          </size>
         </property>
         <property name="font">
@@ -168,7 +236,7 @@ QPushButton:pressed {
   </widget>
  </widget>
  <resources>
-  <include location="assets/resources.qrc"/>
+  <include location="modules/assets/resources.qrc"/>
  </resources>
  <connections/>
 </ui>
