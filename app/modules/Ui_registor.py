@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'reg.ui'
+## Form generated from reading UI file 'registor.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.5.2
 ##
@@ -17,21 +17,21 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QHBoxLayout, QLineEdit, QPushButton,
     QSizePolicy, QVBoxLayout, QWidget)
+from ..assets import resources_rc
 
-class Ui_Reg(object):
-    def setupUi(self, Reg):
-        if not Reg.objectName():
-            Reg.setObjectName(u"Reg")
-        Reg.resize(1388, 879)
-        Reg.setMinimumSize(QSize(0, 0))
-        Reg.setMaximumSize(QSize(16777215, 16777215))
-        Reg.setStyleSheet(u"QWidget#Reg {\n"
-"	background-image: url(:/images/images/reg.png) no-repeat;\n"
-"    background-repeat: no-repeat;\n"
+class Ui_Registor(object):
+    def setupUi(self, Registor):
+        if not Registor.objectName():
+            Registor.setObjectName(u"Registor")
+        Registor.resize(1388, 879)
+        Registor.setMinimumSize(QSize(1388, 879))
+        Registor.setMaximumSize(QSize(1388, 879))
+        Registor.setStyleSheet(u"QWidget#Registor {\n"
+"	background-image: url(:/images/images/reg.png);\n"
 "    background-position: center;\n"
 "    background-size: contain;\n"
 "}")
-        self.layoutWidget = QWidget(Reg)
+        self.layoutWidget = QWidget(Registor)
         self.layoutWidget.setObjectName(u"layoutWidget")
         self.layoutWidget.setGeometry(QRect(440, 430, 508, 261))
         self.verticalLayout = QVBoxLayout(self.layoutWidget)
@@ -120,19 +120,19 @@ class Ui_Reg(object):
         self.verticalLayout.addLayout(self.horizontalLayout_2)
 
 
-        self.retranslateUi(Reg)
+        self.retranslateUi(Registor)
 
-        QMetaObject.connectSlotsByName(Reg)
+        QMetaObject.connectSlotsByName(Registor)
     # setupUi
 
-    def retranslateUi(self, Reg):
-        Reg.setWindowTitle(QCoreApplication.translate("Reg", u"Form", None))
+    def retranslateUi(self, Registor):
+        Registor.setWindowTitle(QCoreApplication.translate("Registor", u"Form", None))
         self.username.setText("")
-        self.username.setPlaceholderText(QCoreApplication.translate("Reg", u"\u8bf7\u8f93\u5165\u7528\u6237\u540d", None))
+        self.username.setPlaceholderText(QCoreApplication.translate("Registor", u"\u8bf7\u8f93\u5165\u7528\u6237\u540d", None))
         self.password_2.setText("")
-        self.password_2.setPlaceholderText(QCoreApplication.translate("Reg", u"\u8bf7\u8f93\u5165\u5bc6\u7801", None))
+        self.password_2.setPlaceholderText(QCoreApplication.translate("Registor", u"\u8bf7\u8f93\u5165\u5bc6\u7801", None))
         self.password.setText("")
-        self.password.setPlaceholderText(QCoreApplication.translate("Reg", u"\u8bf7\u518d\u6b21\u8f93\u5165\u5bc6\u7801", None))
-        self.register_btn.setText(QCoreApplication.translate("Reg", u"\u6ce8\u518c", None))
+        self.password.setPlaceholderText(QCoreApplication.translate("Registor", u"\u8bf7\u518d\u6b21\u8f93\u5165\u5bc6\u7801", None))
+        self.register_btn.setText(QCoreApplication.translate("Registor", u"\u6ce8\u518c", None))
     # retranslateUi
 

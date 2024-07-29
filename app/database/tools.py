@@ -1,5 +1,5 @@
 import sqlite3
-from config import Config
+from .config import Config
 
 class DatabaseTool:
     config = Config()

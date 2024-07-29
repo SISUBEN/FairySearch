@@ -17,24 +17,24 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QAbstractButton, QApplication, QDialog, QDialogButtonBox,
     QLabel, QSizePolicy, QVBoxLayout, QWidget)
-
+from ..assets import resources_rc
 class Ui_Dialog(object):
-    def setupUi(self, Dialog, title, text):
+    def setupUi(self, Dialog):
         if not Dialog.objectName():
             Dialog.setObjectName(u"Dialog")
-        Dialog.resize(593, 486)
-        Dialog.setMinimumSize(QSize(593, 486))
-        Dialog.setMaximumSize(QSize(593, 486))
+        Dialog.resize(569, 438)
+        Dialog.setMinimumSize(QSize(0, 0))
+        Dialog.setMaximumSize(QSize(16777215, 16777215))
         Dialog.setStyleSheet(u"QDialog#Dialog {\n"
 "	background-image: url(:/images/images/background.png);\n"
 "}")
-        self.widget = QWidget(Dialog)
-        self.widget.setObjectName(u"widget")
-        self.widget.setGeometry(QRect(40, 40, 521, 411))
-        self.verticalLayout = QVBoxLayout(self.widget)
+        self.layoutWidget = QWidget(Dialog)
+        self.layoutWidget.setObjectName(u"layoutWidget")
+        self.layoutWidget.setGeometry(QRect(40, 40, 491, 371))
+        self.verticalLayout = QVBoxLayout(self.layoutWidget)
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)
-        self.label = QLabel(self.widget)
+        self.label = QLabel(self.layoutWidget)
         self.label.setObjectName(u"label")
         font = QFont()
         font.setPointSize(28)
@@ -46,7 +46,7 @@ class Ui_Dialog(object):
 
         self.verticalLayout.addWidget(self.label)
 
-        self.buttonBox = QDialogButtonBox(self.widget)
+        self.buttonBox = QDialogButtonBox(self.layoutWidget)
         self.buttonBox.setObjectName(u"buttonBox")
         self.buttonBox.setStyleSheet(u"QPushButton {\n"
 "    background-color: rgb(0, 0, 0);\n"
@@ -67,15 +67,15 @@ class Ui_Dialog(object):
         self.verticalLayout.addWidget(self.buttonBox)
 
 
-        self.retranslateUi(Dialog, text, title)
-        self.buttonBox.rejected.connect(Dialog.reject)
+        self.retranslateUi(Dialog)
         self.buttonBox.accepted.connect(Dialog.accept)
+        self.buttonBox.rejected.connect(Dialog.reject)
 
         QMetaObject.connectSlotsByName(Dialog)
     # setupUi
 
-    def retranslateUi(self, Dialog, text, title):
-        Dialog.setWindowTitle(QCoreApplication.translate("Dialog", f"{title}", None))
-        self.label.setText(QCoreApplication.translate("Dialog", f"{text}", None))
+    def retranslateUi(self, Dialog):
+        Dialog.setWindowTitle(QCoreApplication.translate("Dialog", u"Dialog", None))
+        self.label.setText(QCoreApplication.translate("Dialog", u"{text}", None))
     # retranslateUi
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Reg</class>
- <widget class="QWidget" name="Reg">
+ <class>Registor</class>
+ <widget class="QWidget" name="Registor">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -12,23 +12,22 @@
   </property>
   <property name="minimumSize">
    <size>
-    <width>0</width>
-    <height>0</height>
+    <width>1388</width>
+    <height>879</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>16777215</width>
-    <height>16777215</height>
+    <width>1388</width>
+    <height>879</height>
    </size>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">QWidget#Reg {
-	background-image: url(:/images/images/reg.png) no-repeat;
-    background-repeat: no-repeat;
+   <string notr="true">QWidget#Registor {
+	background-image: url(:/images/images/reg.png);
     background-position: center;
     background-size: contain;
 }</string>
