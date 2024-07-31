@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>601</width>
-    <height>542</height>
+    <width>670</width>
+    <height>444</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -27,16 +27,16 @@
   </property>
   <property name="styleSheet">
    <string notr="true">QDialog#Dialog {
-	background-image: url(:/images/images/background.png);
+	background-image: url(:/images/images/background.png)
 }</string>
   </property>
   <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
-     <x>40</x>
-     <y>40</y>
-     <width>521</width>
-     <height>471</height>
+     <x>80</x>
+     <y>50</y>
+     <width>511</width>
+     <height>341</height>
     </rect>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -89,6 +89,7 @@ QPushButton:pressed {
   </widget>
  </widget>
  <resources>
+  <include location="assets/resources.qrc"/>
   <include location="modules/assets/resources.qrc"/>
  </resources>
  <connections>
