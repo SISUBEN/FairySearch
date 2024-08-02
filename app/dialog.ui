@@ -35,7 +35,7 @@
     <rect>
      <x>80</x>
      <y>50</y>
-     <width>511</width>
+     <width>1020</width>
      <height>341</height>
     </rect>
    </property>
@@ -89,7 +89,7 @@ QPushButton:pressed {
   </widget>
  </widget>
  <resources>
-  <include location="assets/resources.qrc"/>
+  <include location="modules/assets/resources.qrc"/>
   <include location="modules/assets/resources.qrc"/>
  </resources>
  <connections>

@@ -86,16 +86,7 @@ class RegisterWindow(QWidget, Ui_Registor):
         # palette = QPalette()
         # palette.setBrush(QPalette.Window, QBrush(background))
         # self.setPalette(palette)
-        self.register_btn_2.clicked.connect(self.register)
-        
-    # def paintEvent(self, event):
-    #     super().paintEvent(event)
-    #     painter = QPainter(self)
-    #     pixmap = QPixmap(":/images/images/reg.png")
-    #     window_size = self.size()
-    #     scaled_pixmap = pixmap.scaled(window_size, Qt.AspectRatioMode.KeepAspectRatioByExpanding)
-    #     painter.drawPixmap(self.rect(), scaled_pixmap)
-    #     painter.end()
+        self.register_btn.clicked.connect(self.register)
     
     def paintEvent(self, event):
         painter = QPainter(self)

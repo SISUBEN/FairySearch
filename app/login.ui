@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1036</width>
-    <height>874</height>
+    <width>1279</width>
+    <height>846</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -32,24 +32,29 @@
    <string>Login</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-color: #061c3e;</string>
+   <string notr="true">QWidget#Form {
+	background-image: url(:/images/images/background.png)
+}</string>
   </property>
   <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
-     <x>190</x>
-     <y>150</y>
-     <width>682</width>
-     <height>591</height>
+     <x>260</x>
+     <y>120</y>
+     <width>791</width>
+     <height>641</height>
     </rect>
    </property>
-   <layout class="QVBoxLayout" name="verticalLayout_2">
-    <item>
+   <layout class="QGridLayout" name="gridLayout">
+    <property name="sizeConstraint">
+     <enum>QLayout::SetMinAndMaxSize</enum>
+    </property>
+    <item row="0" column="0">
      <widget class="QLabel" name="label_4">
       <property name="maximumSize">
        <size>
-        <width>640</width>
-        <height>200</height>
+        <width>16777215</width>
+        <height>150</height>
        </size>
       </property>
       <property name="font">
@@ -73,7 +78,7 @@
       </property>
      </widget>
     </item>
-    <item>
+    <item row="1" column="0">
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout">
@@ -92,6 +97,12 @@
         </item>
         <item>
          <widget class="QLabel" name="label">
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+            <bold>true</bold>
+           </font>
+          </property>
           <property name="styleSheet">
            <string notr="true">color: white;</string>
           </property>
@@ -106,7 +117,19 @@
         <item>
          <widget class="QLineEdit" name="username">
           <property name="styleSheet">
-           <string notr="true">background-color: white;</string>
+           <string notr="true">QLineEdit {
+    background-color: rgb(13, 13, 13);
+    /*color: rgb(41, 41, 41);*/
+	color: white;
+    border: 3px solid #262626;
+    height: 50px;
+    width: 500px;
+    border-radius: 25px;
+	padding: 0 10%;
+}
+QLineEdit::placeholderText {
+    font-size: 16px;
+}</string>
           </property>
           <property name="placeholderText">
            <string>请输入用户名</string>
@@ -158,11 +181,17 @@
         </item>
         <item>
          <widget class="QLabel" name="label_2">
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+            <bold>true</bold>
+           </font>
+          </property>
           <property name="styleSheet">
            <string notr="true">color: white;</string>
           </property>
           <property name="text">
-           <string>密   码：</string>
+           <string>密    码：</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -171,6 +200,12 @@
         </item>
         <item>
          <widget class="QLineEdit" name="password">
+          <property name="minimumSize">
+           <size>
+            <width>526</width>
+            <height>0</height>
+           </size>
+          </property>
           <property name="maximumSize">
            <size>
             <width>500</width>
@@ -178,7 +213,19 @@
            </size>
           </property>
           <property name="styleSheet">
-           <string notr="true">background-color: white;</string>
+           <string notr="true">QLineEdit {
+    background-color: rgb(13, 13, 13);
+    /*color: rgb(41, 41, 41);*/
+	color: white;
+    border: 3px solid #262626;
+    height: 50px;
+    width: 500px;
+    border-radius: 25px;
+	padding: 0 10%;
+}
+QLineEdit::placeholderText {
+    font-size: 16px;
+}</string>
           </property>
           <property name="inputMask">
            <string/>
@@ -235,8 +282,25 @@
             <height>50</height>
            </size>
           </property>
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
           <property name="styleSheet">
-           <string notr="true">color: white;background-color:grey;</string>
+           <string notr="true">QPushButton {
+    background-color: rgb(0, 0, 0);
+    color: white;
+    border: 3px solid #262626;
+    height: 50px;
+    width: 500px;
+    border-radius: 25px;
+}
+QPushButton:pressed {
+    background-color: #a6c100;
+    color: black;
+    border: 5px solid #a6c100;
+}</string>
           </property>
           <property name="text">
            <string>登入</string>
@@ -245,23 +309,79 @@
         </item>
        </layout>
       </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_4">
+        <item>
+         <widget class="QPushButton" name="register_2">
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton#register_2 {
+	color: #1a0dab;
+	color: white;
+	background-color:transparent;
+}
+QPushButton#register_2:pressed {
+	color: #681DA8;
+	background-color:transparent;
+}
+QPushButton#register_2:hover {
+	text-decoration: underline;
+	background-color:transparent;
+}</string>
+          </property>
+          <property name="text">
+           <string>注册</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="forget_password">
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton#forget_password {
+	color: #1a0dab;
+	color: white;
+	background-color:transparent;
+}
+QPushButton#forget_password:pressed {
+	color: #681DA8;
+	background-color:transparent;
+}
+QPushButton#forget_password:hover {
+	text-decoration: underline;
+	background-color:transparent;
+}</string>
+          </property>
+          <property name="text">
+           <string>忘记密码</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
      </layout>
-    </item>
-    <item>
-     <widget class="QPushButton" name="register_2">
-      <property name="maximumSize">
-       <size>
-        <width>640</width>
-        <height>16777215</height>
-       </size>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">color: white;</string>
-      </property>
-      <property name="text">
-       <string>注册</string>
-      </property>
-     </widget>
     </item>
    </layout>
   </widget>
