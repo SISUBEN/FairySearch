@@ -1,7 +1,6 @@
 from PySide6.QtWidgets import (
     QApplication,
     QWidget,
-    QMessageBox,
     QDialog,
 )
 from PySide6.QtCore import (
@@ -95,9 +94,9 @@ class RegisterWindow(QWidget, Ui_Registor):
         painter.drawPixmap(self.rect(), pixmap)
     
     def register(self) -> None:
-        self._username = self.username_2.text()
-        self.password_ipt = self.password_3.text()
-        self.password2_ipt = self.password_4.text()
+        self._username = self.username.text()
+        self.password_ipt = self.password.text()
+        self.password2_ipt = self.password_2.text()
         if self._username == "" or self.password_ipt == "" or self.password2_ipt == "": 
             openDialog(title="提示", text="请输入完整信息")
         elif self.password_ipt == self.password2_ipt:
