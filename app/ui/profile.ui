@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Profile</class>
+ <widget class="QWidget" name="Profile">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>777</width>
+    <height>547</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Profile</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QWidget#Profile {
+	background-image: url(:/images/images/background.png);
+	background-size:cover;
+}</string>
+  </property>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
