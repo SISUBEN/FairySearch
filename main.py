@@ -1,3 +1,4 @@
+# Import PySide6
 from PySide6.QtWidgets import (
     QApplication,
     QWidget,
@@ -6,17 +7,20 @@ from PySide6.QtWidgets import (
 from PySide6.QtCore import (
     QCoreApplication
 )
+from PySide6.QtCore import Qt
+# Import Ui file from Qt Designer.
 from PySide6.QtGui import QPixmap, QPainter
 from app.modules.Ui_login import Ui_Form
 from app.modules.Ui_registor import Ui_Registor
 from app.modules.Ui_dialog import Ui_Dialog
+from app.modules.Ui_main import Ui_mainWindow
+# Import resources, sqlite3 tools and hashlib
 import app.modules.assets.resources_rc
 from app.database.tools import DatabaseTool
-from PySide6.QtCore import Qt
 import hashlib
-from qt_material import apply_stylesheet
+# Initialize the application
 dbTool = DatabaseTool()
-
+#TODO:move to lib
 class DialogWindow(QDialog, Ui_Dialog):
     def __init__(self, title: str ,text: str):
         super().__init__()
@@ -70,11 +74,37 @@ class LoginWindow(QWidget, Ui_Form):
         self.registerWindow = RegisterWindow()
         self.registerWindow.show()
 
-class MainWindow(QWidget):
+class ProfileWindow(QWidget):
     def __init__(self) -> None:
-        # TODO: 实现mainwindow
         super().__init__()
-        self.setWindowTitle("test")
+        raise NotImplementedError
+    
+    
+    
+class MainWindow(QWidget, Ui_mainWindow):
+    def __init__(self) -> None:
+        super().__init__()
+        self.setupUi(self)
+        self.setWindowTitle("Main Window")
+        self.profile.clicked.connect(self.openProfile)
+        # when content in lineEdit changed, call search function
+        self.lineEdit.textChanged.connect(self.search)
+        # TODO: add page of tabWeight
+        
+    def paintEvent(self, event):
+        painter = QPainter(self)
+        painter.drawRect(self.rect())
+        pixmap = QPixmap(":/images/images/main.png")
+        painter.drawPixmap(self.rect(), pixmap)
+    
+    def openProfile(self):
+        # self.profileWindow = ProfileWindow()
+        # self.profileWindow.show()
+        raise NotImplementedError
+    
+    def search(self):
+        raise NotImplementedError
+        
         
 class RegisterWindow(QWidget, Ui_Registor):
     def __init__(self) -> None:

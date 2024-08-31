@@ -8,6 +8,8 @@
   <qresource prefix="icons">
     <file>icons/icon.jpg</file>
     <file>icons/hdd.ico</file>
+    <file>icons/user.png</file>
+    <file>icons/icons.png</file>
   </qresource>
   <qresource prefix="font">
     <file>font/HarmonySans_black.ttf</file>
