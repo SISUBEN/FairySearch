@@ -230,7 +230,7 @@ QTabBar::tab:!selected {
   </widget>
  </widget>
  <resources>
-  <include location="modules/assets/resources.qrc"/>
+  <include location="../modules/assets/resources.qrc"/>
  </resources>
  <connections/>
 </ui>
