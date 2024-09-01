@@ -94,7 +94,7 @@ class ProfileWindow(QWidget, Ui_Profile):
             )
         )
         self.onSearchHistory()
-        self.changeAvatar.clicked.connect(self.changeAvatar)
+        self.changeAvatar.clicked.connect(self.onChangeAvatar)
         
     def paintEvent(self, event):
         painter = QPainter(self)
@@ -105,7 +105,7 @@ class ProfileWindow(QWidget, Ui_Profile):
     def onSearchHistory(self):
         raise NotImplementedError
     
-    def changeAvatar(self):
+    def onChangeAvatar(self):
         raise NotImplementedError
     
     
