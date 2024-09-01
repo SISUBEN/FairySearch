@@ -13,13 +13,15 @@ from PySide6.QtGui import QPixmap, QPainter
 from app.modules.Ui_login import Ui_Form
 from app.modules.Ui_registor import Ui_Registor
 from app.modules.Ui_dialog import Ui_Dialog
-from app.modules.Ui_main import Ui_mainWindow
+from app.modules.Ui_main import Ui_MainWindow
+from app.modules.Ui_profile import Ui_Profile
 # Import resources, sqlite3 tools and hashlib
 import app.modules.assets.resources_rc
 from app.database.tools import DatabaseTool
 import hashlib
 # Initialize the application
 dbTool = DatabaseTool()
+LOGIN = None
 #TODO:move to lib
 class DialogWindow(QDialog, Ui_Dialog):
     def __init__(self, title: str ,text: str):
@@ -53,6 +55,7 @@ class LoginWindow(QWidget, Ui_Form):
                 ).hexdigest() == dbTool.query_user_password(username_input): 
                 
                 # self.msgBox("Login Success", f"Welcome! {self.username.text()}")
+                LOGIN = username_input
                 openDialog("登入成功", f"{self.username.text()}，欢迎")
             else:
                 openDialog("登入失败", "用户名或者密码错误\n请再试一次")
@@ -74,14 +77,39 @@ class LoginWindow(QWidget, Ui_Form):
         self.registerWindow = RegisterWindow()
         self.registerWindow.show()
 
-class ProfileWindow(QWidget):
+class ProfileWindow(QWidget, Ui_Profile):
     def __init__(self) -> None:
         super().__init__()
+        self.setupUi(self)
+        self.setWindowTitle("Profile")
+        self.username.setText(
+            self.username.text().replace(
+                "$username$", LOGIN
+            )
+        )
+        self.uid.setText(
+            self.uid.text().replace(
+                # select the first row of the first column of the table
+                "$uid$", dbTool.query_user_uid(LOGIN)[0]
+            )
+        )
+        self.onSearchHistory()
+        self.changeAvatar.clicked.connect(self.changeAvatar)
+        
+    def paintEvent(self, event):
+        painter = QPainter(self)
+        painter.drawRect(self.rect())
+        pixmap = QPixmap(":/images/images/profile.png")
+        painter.drawPixmap(self.rect(), pixmap)
+    
+    def onSearchHistory(self):
+        raise NotImplementedError
+    
+    def changeAvatar(self):
         raise NotImplementedError
     
     
-    
-class MainWindow(QWidget, Ui_mainWindow):
+class MainWindow(QWidget, Ui_MainWindow):
     def __init__(self) -> None:
         super().__init__()
         self.setupUi(self)

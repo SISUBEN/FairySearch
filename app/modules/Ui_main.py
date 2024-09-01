@@ -18,18 +18,18 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
 from PySide6.QtWidgets import (QApplication, QGridLayout, QHBoxLayout, QLineEdit,
     QPushButton, QScrollArea, QSizePolicy, QSpacerItem,
     QTabWidget, QVBoxLayout, QWidget)
-import resources_rc
+from .assets import resources_rc
 
-class Ui_mainWindow(object):
-    def setupUi(self, mainWindow):
-        if not mainWindow.objectName():
-            mainWindow.setObjectName(u"mainWindow")
-        mainWindow.resize(1341, 873)
-        mainWindow.setStyleSheet(u"QWidget#mainWindow {\n"
+class Ui_MainWindow(object):
+    def setupUi(self, MainWindow):
+        if not MainWindow.objectName():
+            MainWindow.setObjectName(u"MainWindow")
+        MainWindow.resize(1341, 873)
+        MainWindow.setStyleSheet(u"QWidget#mainWindow {\n"
 "	background-image: url(:/images/images/background.png);\n"
 "	background-size:cover;\n"
 "}")
-        self.verticalLayoutWidget_2 = QWidget(mainWindow)
+        self.verticalLayoutWidget_2 = QWidget(MainWindow)
         self.verticalLayoutWidget_2.setObjectName(u"verticalLayoutWidget_2")
         self.verticalLayoutWidget_2.setGeometry(QRect(70, 110, 1221, 701))
         self.verticalLayout_2 = QVBoxLayout(self.verticalLayoutWidget_2)
@@ -147,7 +147,7 @@ class Ui_mainWindow(object):
 
         self.verticalLayout_2.addLayout(self.horizontalLayout_2)
 
-        self.profile = QPushButton(mainWindow)
+        self.profile = QPushButton(MainWindow)
         self.profile.setObjectName(u"profile")
         self.profile.setEnabled(True)
         self.profile.setGeometry(QRect(1220, 30, 1091, 71))
@@ -156,19 +156,19 @@ class Ui_mainWindow(object):
 "	background-image: url(:/icons/icons/icons.png)\n"
 "}")
 
-        self.retranslateUi(mainWindow)
+        self.retranslateUi(MainWindow)
 
         self.tabWidget.setCurrentIndex(0)
 
 
-        QMetaObject.connectSlotsByName(mainWindow)
+        QMetaObject.connectSlotsByName(MainWindow)
     # setupUi
 
-    def retranslateUi(self, mainWindow):
-        mainWindow.setWindowTitle(QCoreApplication.translate("mainWindow", u"FairySearch", None))
-        self.lineEdit.setPlaceholderText(QCoreApplication.translate("mainWindow", u"\u641c\u7d22\u89c6\u9891", None))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), QCoreApplication.translate("mainWindow", u"Tab 1", None))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), QCoreApplication.translate("mainWindow", u"Tab 2", None))
+    def retranslateUi(self, MainWindow):
+        MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"FairySearch", None))
+        self.lineEdit.setPlaceholderText(QCoreApplication.translate("MainWindow", u"\u641c\u7d22\u89c6\u9891", None))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), QCoreApplication.translate("MainWindow", u"Tab 1", None))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), QCoreApplication.translate("MainWindow", u"Tab 2", None))
         self.profile.setText("")
     # retranslateUi
 

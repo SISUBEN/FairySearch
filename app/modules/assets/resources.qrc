@@ -4,6 +4,7 @@
     <file>images/hdd.png</file>
     <file>images/background.png</file>
     <file>images/reg.png</file>
+    <file>images/profile.png</file>
   </qresource>
   <qresource prefix="icons">
     <file>icons/icon.jpg</file>

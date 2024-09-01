@@ -42,6 +42,12 @@ class DatabaseTool:
                 "SELECT password FROM users WHERE username=?;",
                 (username,)
         ).fetchall()
+        
+    def query_user_uid(self, username: str) -> list:
+        return self.user_connect.execute(
+                "SELECT uid FROM users WHERE username=?;",
+                (username,)
+        ).fetchall()
     
     def init_videodb(self) -> None: # 创建视频数据库
         self.video_connect.execute(
