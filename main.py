@@ -17,10 +17,10 @@ from app.modules.Ui_main import Ui_MainWindow
 from app.modules.Ui_profile import Ui_Profile
 # Import resources, sqlite3 tools and hashlib
 import app.modules.assets.resources_rc
-from app.database.tools import DatabaseTool
+from app.database.tools import Database
 import hashlib
 # Initialize the application
-dbTool = DatabaseTool()
+db = Database
 LOGIN = None
 #TODO:move to lib
 class DialogWindow(QDialog, Ui_Dialog):
@@ -49,10 +49,10 @@ class LoginWindow(QWidget, Ui_Form):
     def login(self):
         username_input = self.username.text()
         password_input = self.password.text()
-        if dbTool.user_exists(self.username.text()):
+        if db.userdb.user_exists(self.username.text()):
             if hashlib.sha256(
                     password_input.encode()
-                ).hexdigest() == dbTool.query_user_password(username_input): 
+                ).hexdigest() == db.userdb.query_user_password(username_input): 
                 
                 # self.msgBox("Login Success", f"Welcome! {self.username.text()}")
                 LOGIN = username_input
@@ -90,7 +90,7 @@ class ProfileWindow(QWidget, Ui_Profile):
         self.uid.setText(
             self.uid.text().replace(
                 # select the first row of the first column of the table
-                "$uid$", dbTool.query_user_uid(LOGIN)[0]
+                "$uid$", db.userdb.query_user_uid(LOGIN)[0]
             )
         )
         self.onSearchHistory()
@@ -158,7 +158,7 @@ class RegisterWindow(QWidget, Ui_Registor):
         if self._username == "" or self.password_ipt == "" or self.password2_ipt == "": 
             openDialog(title="提示", text="请输入完整信息")
         elif self.password_ipt == self.password2_ipt:
-            dbTool.user_add(self._username, hashlib.sha256(self.password_ipt.encode()).hexdigest())
+            db.user_add(self._username, hashlib.sha256(self.password_ipt.encode()).hexdigest())
             openDialog(title="提示", text="注册成功")
             self.openMainWindow()
         else:
