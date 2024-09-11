@@ -2,8 +2,40 @@ import sqlite3
 from .config import Config
 
 class Database:
-    class Userdb():
+    class SearchHistorydb():
+        def __init__(self) -> None:
+            self.search_connect = sqlite3.connect(Config.search_history_db)
+            self.search_cur = self.search_connect.cursor()
+            self.init_searchdb()
         
+        def init_searchdb(self) -> None:
+            self.search_connect.execute(
+                """CREATE TABLE IF NOT EXISTS search_history (
+                    uid INTEGER ,
+                    username VARCHAR(32) NOT NULL,
+                    title VARCHAR(32) NOT NULL,
+                    time DATETIME NOT NULL,
+                );"""
+            )
+            self.search_connect.commit()
+            
+        def search_history_add(self, uid: int, username: str, title: str, time: str) -> None:
+            self.search_connect.execute(
+                "INSERT INTO search_history VALUES (?, ?, ?, ?);",
+                (uid, username, title, time)
+            )
+            self.search_connect.commit()
+        
+        def query_search_history(self, username: str) -> list:
+            return self.search_connect.execute(
+                    "SELECT title FROM search_history WHERE username=?;",
+                    (username,)
+            ).fetchall()
+            
+        def destroy_db(self, db_name: str) -> None:
+            self.search_connect.execute("DROP TABLE IF EXISTS ?;", (db_name,))
+            self.search_connect.commit()
+    class Userdb():
         def __init__(self) -> None:
             self.user_connect = sqlite3.connect(Config.videos_db)
             self.user_cur = self.user_connect.cursor()
@@ -55,7 +87,6 @@ class Database:
             self.video_cur = self.video_connect.cursor()
             self.init_videodb()
     
-    
         def init_videodb(self) -> None: # 创建视频数据库
             self.video_connect.execute(
                 """CREATE TABLE IF NOT EXISTS videos (
@@ -77,6 +108,5 @@ class Database:
         def __del__(self) -> None:
             self.video_connect.close()
 
-    
     userdb = Userdb()
     videodb = Videodb()
