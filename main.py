@@ -7,7 +7,6 @@ from PySide6.QtWidgets import (
 from PySide6.QtCore import (
     QCoreApplication
 )
-from PySide6.QtCore import Qt
 # Import Ui file from Qt Designer.
 from PySide6.QtGui import QPixmap, QPainter
 from app.modules.Ui_login import Ui_Form
@@ -17,7 +16,7 @@ from app.modules.Ui_main import Ui_MainWindow
 from app.modules.Ui_profile import Ui_Profile
 # Import resources, sqlite3 tools and hashlib
 import app.modules.assets.resources_rc
-from app.database.tools import Database
+from app.database.sqlite import Database
 import hashlib
 # Initialize the application
 db = Database
@@ -32,7 +31,8 @@ class DialogWindow(QDialog, Ui_Dialog):
 
 def openDialog(title: str, text: str):
     dialogWindow = DialogWindow(title, text)
-    dialogWindow.exec()    
+    dialogWindow.exec()
+ 
 class LoginWindow(QWidget, Ui_Form):
     def __init__(self):
         super().__init__()
@@ -112,6 +112,7 @@ class ProfileWindow(QWidget, Ui_Profile):
 class MainWindow(QWidget, Ui_MainWindow):
     def __init__(self) -> None:
         super().__init__()
+        self.window = None
         self.setupUi(self)
         self.setWindowTitle("Main Window")
         self.profile.clicked.connect(self.openProfile)
@@ -126,23 +127,17 @@ class MainWindow(QWidget, Ui_MainWindow):
         painter.drawPixmap(self.rect(), pixmap)
     
     def openProfile(self):
-        # self.profileWindow = ProfileWindow()
-        # self.profileWindow.show()
-        raise NotImplementedError
+        self.profileWindow = ProfileWindow()
+        self.profileWindow.show()
     
     def search(self):
         raise NotImplementedError
-        
         
 class RegisterWindow(QWidget, Ui_Registor):
     def __init__(self) -> None:
         super().__init__()
         self.setupUi(self)
         self.setWindowTitle("Register")
-        # background = QPixmap(":/images/images/reg.png")
-        # palette = QPalette()
-        # palette.setBrush(QPalette.Window, QBrush(background))
-        # self.setPalette(palette)
         self.register_btn.clicked.connect(self.register)
     
     def paintEvent(self, event):
@@ -164,7 +159,6 @@ class RegisterWindow(QWidget, Ui_Registor):
         else:
             openDialog(title="提示", text="两次输入的密码不一致")
         
-
     def openMainWindow(self):
         self.close()
         self.mainWindow = MainWindow()
@@ -172,7 +166,6 @@ class RegisterWindow(QWidget, Ui_Registor):
 
 if __name__ == "__main__":
     app = QApplication([])
-    # apply_stylesheet(app, theme='dark_teal.xml')
     loginWindow = LoginWindow()
     loginWindow.show()
     app.exec()

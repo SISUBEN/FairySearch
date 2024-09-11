@@ -26,11 +26,19 @@ class Database:
             )
             self.search_connect.commit()
         
-        def query_search_history(self, username: str) -> list:
-            return self.search_connect.execute(
-                    "SELECT title FROM search_history WHERE username=?;",
-                    (username,)
-            ).fetchall()
+        def query_search_history(self, username: str, latest: int) -> list:
+            if latest == 0:                
+                return self.search_connect.execute(
+                        "SELECT title FROM search_history WHERE username=?;",
+                        (username,)
+                ).fetchall()
+            elif latest < 0 or isinstance(latest, int):
+                return TypeError
+            else:
+                return self.search_connect.execute(
+                        "SELECT title FROM search_history WHERE username=? ORDER BY time DESC LIMIT ?;",
+                        (username, latest)
+                ).fetchall()
             
         def destroy_db(self, db_name: str) -> None:
             self.search_connect.execute("DROP TABLE IF EXISTS ?;", (db_name,))

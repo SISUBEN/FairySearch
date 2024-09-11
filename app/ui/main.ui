@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1341</width>
-    <height>873</height>
+    <width>1338</width>
+    <height>892</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -213,7 +213,7 @@ QTabBar::tab:!selected {
    <property name="geometry">
     <rect>
      <x>1220</x>
-     <y>30</y>
+     <y>20</y>
      <width>1091</width>
      <height>71</height>
     </rect>
@@ -227,6 +227,34 @@ QTabBar::tab:!selected {
    <property name="text">
     <string/>
    </property>
+  </widget>
+  <widget class="QWidget" name="horizontalLayoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>70</x>
+     <y>20</y>
+     <width>1221</width>
+     <height>80</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout_3">
+    <item>
+     <widget class="QLabel" name="label">
+      <property name="font">
+       <font>
+        <pointsize>22</pointsize>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>Fairy Search Engine</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignmentFlag::AlignCenter</set>
+      </property>
+     </widget>
+    </item>
+   </layout>
   </widget>
  </widget>
  <resources>

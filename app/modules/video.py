@@ -1,64 +1,91 @@
-import sys
-from PySide6.QtCore import Qt, QUrl
-from PySide6.QtWidgets import QApplication, QMainWindow, QWidget, QGridLayout, QPushButton, QFileDialog, QVBoxLayout
-from PySide6.QtMultimedia import QMediaPlayer, QAudioOutput
-from PySide6.QtMultimediaWidgets import QVideoWidget
-
-class VideoPlayer(QWidget):
-    def __init__(self, parent=None):
-        super(VideoPlayer, self).__init__(parent)
-        self.media_player = QMediaPlayer(self)
-        self.video_widget = QVideoWidget(self)
-        self.audio_output = QAudioOutput(self)
-
-        self.media_player.setAudioOutput(self.audio_output)
-        self.media_player.setVideoOutput(self.video_widget)
-
-        self.layout = QVBoxLayout()
-        self.layout.addWidget(self.video_widget)
-        self.setLayout(self.layout)
-
-        self.video_widget.setMinimumSize(160, 90)
-
-    def load_video(self, file_path):
-        self.media_player.setSource(QUrl.fromLocalFile(file_path))
-        self.media_player.play()
-
-class MainWindow(QMainWindow):
+from PySide6.QtWidgets import QApplication, QMainWindow, QWidget, QVBoxLayout, QLabel, QPushButton, QHBoxLayout
+from PySide6.QtCore import Qt
+class PagedWindow(QMainWindow):
     def __init__(self):
-        super(MainWindow, self).__init__()
+        super().__init__()
+        
+        self.setWindowTitle("翻页效果示例")
+
+        # 当前页码
+        self.current_page = 0
+        
+        # 设置中央窗口部件
         self.central_widget = QWidget()
         self.setCentralWidget(self.central_widget)
-        self.grid_layout = QGridLayout(self.central_widget)
-        self.video_players = []
-        for i in range(4):
-            row = []
-            for j in range(4):
-                player = VideoPlayer(self)
-                self.grid_layout.addWidget(player, i, j)
-                row.append(player)
-            self.video_players.append(row)
+        
+        # 主布局
+        self.main_layout = QVBoxLayout(self.central_widget)
 
-        self.load_button = QPushButton("Load Videos")
-        self.load_button.clicked.connect(self.load_videos)
-        self.grid_layout.addWidget(self.load_button, 4, 0, 1, 4, alignment=Qt.AlignCenter)
+        # 显示内容的布局（每页的内容）
+        self.content_layout = QVBoxLayout()
 
-    def load_videos(self):
-        file_dialog = QFileDialog()
-        file_dialog.setFileMode(QFileDialog.ExistingFiles)
-        file_dialog.setNameFilter("Videos (*.mp4 *.avi *.mkv)")
+        # 添加翻页按钮
+        self.page_buttons_layout = QHBoxLayout()
+        self.prev_button = QPushButton("上一页")
+        self.next_button = QPushButton("下一页")
+        self.page_buttons_layout.addWidget(self.prev_button)
+        self.page_buttons_layout.addWidget(self.next_button)
 
-        if file_dialog.exec():
-            file_paths = file_dialog.selectedFiles()
-            index = 0
-            for i in range(4):
-                for j in range(4):
-                    if index < len(file_paths):
-                        self.video_players[i][j].load_video(file_paths[index])
-                        index += 1
+        # 连接翻页按钮的信号
+        self.prev_button.clicked.connect(self.prev_page)
+        self.next_button.clicked.connect(self.next_page)
 
-if __name__ == '__main__':
-    app = QApplication(sys.argv)
-    window = MainWindow()
+        # 添加内容布局和翻页按钮到主布局
+        self.main_layout.addLayout(self.content_layout)
+        self.main_layout.addLayout(self.page_buttons_layout)
+
+        # 初始化第一页的内容
+        self.load_page(self.current_page)
+
+    def load_page(self, page_number):
+        """加载指定页码的内容"""
+        # 清空当前的内容
+        self.clear_layout(self.content_layout)
+
+        # 根据页码加载不同的内容
+        if page_number == 0:
+            label = QLabel("这是第一页的内容")
+        elif page_number == 1:
+            label = QLabel("这是第二页的内容")
+        elif page_number == 2:
+            label = QLabel("这是第三页的内容")
+        else:
+            label = QLabel("这是默认页内容")
+
+        # 添加内容到布局
+        label.setAlignment(Qt.AlignCenter)
+        self.content_layout.addWidget(label)
+
+        # 更新按钮状态
+        self.update_buttons()
+
+    def clear_layout(self, layout):
+        """清空布局中的所有控件"""
+        while layout.count():
+            child = layout.takeAt(0)
+            if child.widget():
+                child.widget().deleteLater()
+
+    def prev_page(self):
+        """跳转到上一页"""
+        if self.current_page > 0:
+            self.current_page -= 1
+            self.load_page(self.current_page)
+
+    def next_page(self):
+        """跳转到下一页"""
+        self.current_page += 1
+        self.load_page(self.current_page)
+
+    def update_buttons(self):
+        """更新按钮的状态，禁用无效的翻页按钮"""
+        self.prev_button.setEnabled(self.current_page > 0)
+        self.next_button.setEnabled(self.current_page < 2)  # 假设有 3 页
+
+if __name__ == "__main__":
+    app = QApplication([])
+
+    window = PagedWindow()
     window.show()
-    sys.exit(app.exec())
+
+    app.exec()
