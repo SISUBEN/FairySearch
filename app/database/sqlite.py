@@ -1,12 +1,17 @@
 import sqlite3
 from .config import Config
+import decimal
 
 class Database:
+
     class SearchHistorydb():
         def __init__(self) -> None:
             self.search_connect = sqlite3.connect(Config.search_history_db)
             self.search_cur = self.search_connect.cursor()
             self.init_searchdb()
+        
+        def __del__(self):
+            self.search_connect.close()
         
         def init_searchdb(self) -> None:
             self.search_connect.execute(
@@ -43,6 +48,7 @@ class Database:
         def destroy_db(self, db_name: str) -> None:
             self.search_connect.execute("DROP TABLE IF EXISTS ?;", (db_name,))
             self.search_connect.commit()
+            
     class Userdb():
         def __init__(self) -> None:
             self.user_connect = sqlite3.connect(Config.videos_db)
@@ -89,6 +95,7 @@ class Database:
             
         def __del__(self) -> None:
             self.user_connect.close()
+
     class Videodb():
         def __init__(self) -> None:
             self.video_connect = sqlite3.connect(Config.videos_db)
@@ -101,9 +108,23 @@ class Database:
                     video_id INTEGER PRIMARY KEY,
                     video_name VARCHAR(20),
                     video_cover_path TEXT,
-                    video_time_sec INTEGER,
+                    video_time_sec DOUBLE,
                     video_type VARCHAR(5)
                 );"""
+            )
+            self.video_connect.commit()
+        
+        def video_add(
+            self, 
+            video_id: int,
+            video_name: str,
+            video_time_sec: float,
+            video_type: str,
+            video_cover_path: str = Config.DEFAULT_COVER
+        ):
+            self.video_connect.execute(
+                "INSERT INTO videos VALUES (?, ?, ?, ?, ?);",
+                (video_id, video_name, video_cover_path, video_time_sec, video_type)
             )
             self.video_connect.commit()
         
