@@ -1,6 +1,5 @@
 import sqlite3
 from .config import Config
-import decimal
 
 class Database:
 
@@ -109,22 +108,24 @@ class Database:
                     video_name VARCHAR(20),
                     video_cover_path TEXT,
                     video_time_sec DOUBLE,
-                    video_type VARCHAR(5)
+                    video_type VARCHAR(5),
+                    video_tags VARCHAR(20)
                 );"""
             )
             self.video_connect.commit()
         
         def video_add(
             self, 
-            video_id: int,
             video_name: str,
             video_time_sec: float,
             video_type: str,
+            video_tags: list,
             video_cover_path: str = Config.DEFAULT_COVER
         ):
+            tags = ",".join(video_tags)
             self.video_connect.execute(
                 "INSERT INTO videos VALUES (?, ?, ?, ?, ?);",
-                (video_id, video_name, video_cover_path, video_time_sec, video_type)
+                (video_name, video_cover_path, video_time_sec, tags, video_type)
             )
             self.video_connect.commit()
         
