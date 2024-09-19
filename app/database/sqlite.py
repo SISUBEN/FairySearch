@@ -1,5 +1,5 @@
 import sqlite3
-from config import *
+from .config import *
 
 class Database:
     class SearchHistorydb():
@@ -39,7 +39,7 @@ class Database:
                 ).fetchall()
             
         def destroy_db(self, db_name: str) -> None:
-            self.search_connect.execute(DESTROY_SH, (db_name,))
+            self.search_connect.execute(f"DROP TABLE IF EXISTS {db_name};")
             self.search_connect.commit()
             
     class Userdb():
@@ -56,29 +56,29 @@ class Database:
         
         def user_add(self, username: str, password: str) -> None: # 添加用户
             self.user_connect.execute(
-                "INSERT INTO users VALUES (?, ?);",
+                USER_ADD,
                 (username, password)
             )
             self.user_connect.commit()
     
         def user_exists(self, username: str) -> bool | tuple: # 用户是否存在
             return self.user_connect.execute(
-            "SELECT * FROM users WHERE username=?;", (username,)
+            USER_QUERY, (username,)
             ).fetchone() is not None # 如果查询结果为空，则返回None，否则返回查询结果
     
         def destroy_db(self, db_name: str) -> None:
-            self.user_connect.execute("DROP TABLE IF EXISTS ?;", (db_name,))
+            self.user_connect.execute(f"DROP TABLE IF EXISTS {db_name};")
             self.user_connect.commit()
         
         def query_user_password(self, username: str) -> list:
             return self.user_connect.execute(
-                    "SELECT password FROM users WHERE username=?;",
+                    USER_QUERY_PWD,
                     (username,)
             ).fetchall()
             
         def query_user_uid(self, username: str) -> list:
             return self.user_connect.execute(
-                    "SELECT uid FROM users WHERE username=?;",
+                    USER_QUERY_UID,
                     (username,)
             ).fetchall()
             
@@ -93,15 +93,7 @@ class Database:
     
         def init_videodb(self) -> None: # 创建视频数据库
             self.video_connect.execute(
-                """CREATE TABLE IF NOT EXISTS videos (
-                    video_id INTEGER PRIMARY KEY,
-                    video_title VARCHAR(20),
-                    video_cover_path TEXT,
-                    video_time_sec FLAOT,
-                    video_type VARCHAR(20),
-                    video_tags VARCHAR(20),
-                    video_desc TEXT
-                );"""
+                INIT_VIDEO_DB
             )
             self.video_connect.commit()
         
@@ -116,26 +108,27 @@ class Database:
         ):
             if self.video_query(video_title):
                 return
-            elif len(video_title) > TITLE_MAX_LEN or \
-            len(video_type) > TITLE_MAX_LEN or \
-            len(video_tags) > TAG_MAX_LEN or \
-            len(video_desc) > DESC_MAX_LEN:
-                
+            elif len(video_title) > TITLE_MAX_LEN:    
                 return
             tags = ",".join(video_tags)
             types = ",".join(video_type)
             self.video_connect.execute(
-                "INSERT INTO videos VALUES (?, ?, ?, ?, ?);",
-                (video_title, video_cover_path, video_time_sec, tags, types)
+                VIDEO_ADD,
+                (video_title, video_cover_path, video_time_sec, types, tags, video_desc)
             )
             self.video_connect.commit()
         
         def video_query(self, video_id: int) -> list:
             return self.video_connect.execute(
-                    "SELECT * FROM videos WHERE video_id=?;",
+                    VIDEO_QUERY,
                     (video_id,)
             ).fetchall()
     
+        def destroy_db(self, db_name: str) -> None:
+            self.video_connect.execute(f"DROP TABLE IF EXISTS {db_name};")
+            # self.video_connect.execute(f"ALTER TABLE {db_name} AUTO_INCREMENT=1")
+            self.video_connect.commit()
+            
         def __del__(self) -> None:
             self.video_connect.close()
 

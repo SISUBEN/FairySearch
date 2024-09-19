@@ -126,7 +126,7 @@ class MainWindow(QWidget, Ui_MainWindow):
     def paintEvent(self, event):
         painter = QPainter(self)
         painter.drawRect(self.rect())
-        pixmap = QPixmap(":/images/images/main.png")
+        pixmap = QPixmap(":/images/images/background.png")
         painter.drawPixmap(self.rect(), pixmap)
 
     def openProfile(self):
@@ -157,7 +157,7 @@ class RegisterWindow(QWidget, Ui_Registor):
         if self._username == "" or self.password_ipt == "" or self.password2_ipt == "":
             openDialog(title="提示", text="请输入完整信息")
         elif self.password_ipt == self.password2_ipt:
-            db.user_add(
+            db.userdb.user_add(
                 self._username, hashlib.sha256(self.password_ipt.encode()).hexdigest()
             )
             openDialog(title="提示", text="注册成功")
