@@ -21,7 +21,7 @@ import hashlib
 
 # Initialize the application
 db = Database
-LOGIN = None
+LOGIN = None #TODO: use token to save login status
 
 
 # TODO:move to lib
