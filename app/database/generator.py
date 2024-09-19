@@ -12,7 +12,7 @@ name_list = [
     "《崩坏：星穹铁道》走近星穹——「飞霄：如何练就西瓜般的腱子肉」",
     "《崩坏：星穹铁道》千星纪游PV：「飞镝追星」",
 ]
-video_type = [
+video_tags = [
     "游戏",
     "手机游戏",
     "崩坏：星穹铁道",
@@ -26,8 +26,9 @@ video_type = [
 
 for i in range(6):
     video_db.video_add(
-        name=name_list[random.randint(0, len(name_list) - 1)],
-        type=video_type[random.randint(0, len(video_type) - 1)],
-        url="",
-        author="米哈游",
+        video_title=name_list[random.randint(0, len(name_list) - 1)],
+        video_type=["二次元",],
+        video_tags=video_tags,
+        video_time_sec=random.uniform(3.,5.),
+        video_cover_path="./covers/default.png"
     )

@@ -1,11 +1,10 @@
 import sqlite3
-from .config import Config
+from config import *
 
 class Database:
-
     class SearchHistorydb():
         def __init__(self) -> None:
-            self.search_connect = sqlite3.connect(Config.search_history_db)
+            self.search_connect = sqlite3.connect(SH_DB)
             self.search_cur = self.search_connect.cursor()
             self.init_searchdb()
         
@@ -14,18 +13,13 @@ class Database:
         
         def init_searchdb(self) -> None:
             self.search_connect.execute(
-                """CREATE TABLE IF NOT EXISTS search_history (
-                    uid INTEGER ,
-                    username VARCHAR(32) NOT NULL,
-                    title VARCHAR(32) NOT NULL,
-                    time DATETIME NOT NULL,
-                );"""
+                INIT_SH_DB
             )
             self.search_connect.commit()
             
         def search_history_add(self, uid: int, username: str, title: str, time: str) -> None:
             self.search_connect.execute(
-                "INSERT INTO search_history VALUES (?, ?, ?, ?);",
+                SH_ADD,
                 (uid, username, title, time)
             )
             self.search_connect.commit()
@@ -33,34 +27,30 @@ class Database:
         def query_search_history(self, username: str, latest: int) -> list:
             if latest == 0:                
                 return self.search_connect.execute(
-                        "SELECT title FROM search_history WHERE username=?;",
+                        QUERY_SH,
                         (username,)
                 ).fetchall()
             elif latest < 0 or isinstance(latest, int):
                 return TypeError
             else:
                 return self.search_connect.execute(
-                        "SELECT title FROM search_history WHERE username=? ORDER BY time DESC LIMIT ?;",
+                        FILTE_SH,
                         (username, latest)
                 ).fetchall()
             
         def destroy_db(self, db_name: str) -> None:
-            self.search_connect.execute("DROP TABLE IF EXISTS ?;", (db_name,))
+            self.search_connect.execute(DESTROY_SH, (db_name,))
             self.search_connect.commit()
             
     class Userdb():
         def __init__(self) -> None:
-            self.user_connect = sqlite3.connect(Config.videos_db)
+            self.user_connect = sqlite3.connect(USER_DB)
             self.user_cur = self.user_connect.cursor()
             self.init_userdb()
     
         def init_userdb(self) -> None:
             self.user_connect.execute(
-                """CREATE TABLE IF NOT EXISTS users (
-                    uid INTEGER PRIMARY KEY AUTOINCREMENT,
-                    username VARCHAR(32) NOT NULL,
-                    password VARCHAR(32) NOT NULL
-                );"""
+                INIT_USER_DB
             )
             self.user_connect.commit()
         
@@ -97,7 +87,7 @@ class Database:
 
     class Videodb():
         def __init__(self) -> None:
-            self.video_connect = sqlite3.connect(Config.videos_db)
+            self.video_connect = sqlite3.connect(VIDEO_DB)
             self.video_cur = self.video_connect.cursor()
             self.init_videodb()
     
@@ -105,27 +95,38 @@ class Database:
             self.video_connect.execute(
                 """CREATE TABLE IF NOT EXISTS videos (
                     video_id INTEGER PRIMARY KEY,
-                    video_name VARCHAR(20),
+                    video_title VARCHAR(20),
                     video_cover_path TEXT,
-                    video_time_sec DOUBLE,
-                    video_type VARCHAR(5),
-                    video_tags VARCHAR(20)
+                    video_time_sec FLAOT,
+                    video_type VARCHAR(20),
+                    video_tags VARCHAR(20),
+                    video_desc TEXT
                 );"""
             )
             self.video_connect.commit()
         
         def video_add(
             self, 
-            video_name: str,
+            video_title: str,
             video_time_sec: float,
             video_type: str,
             video_tags: list,
-            video_cover_path: str = Config.DEFAULT_COVER
+            video_desc: str,
+            video_cover_path: str = DEFAULT_COVER
         ):
+            if self.video_query(video_title):
+                return
+            elif len(video_title) > TITLE_MAX_LEN or \
+            len(video_type) > TITLE_MAX_LEN or \
+            len(video_tags) > TAG_MAX_LEN or \
+            len(video_desc) > DESC_MAX_LEN:
+                
+                return
             tags = ",".join(video_tags)
+            types = ",".join(video_type)
             self.video_connect.execute(
                 "INSERT INTO videos VALUES (?, ?, ?, ?, ?);",
-                (video_name, video_cover_path, video_time_sec, tags, video_type)
+                (video_title, video_cover_path, video_time_sec, tags, types)
             )
             self.video_connect.commit()
         
