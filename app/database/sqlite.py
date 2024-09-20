@@ -118,10 +118,21 @@ class Database:
             )
             self.video_connect.commit()
         
+        def count_videos(self) -> int:
+            return int(self.video_connect.execute(
+                "SELECT COUNT(*) FROM video"
+            ).fetchone()[0])
+        
         def video_query(self, video_id: int) -> list:
             return self.video_connect.execute(
                     VIDEO_QUERY,
                     (video_id,)
+            ).fetchall()
+            
+        def query_videos_by_page(self, page: int, page_size: int) -> list:
+            return self.video_connect.execute(
+                VIDEO_QUERY_BY_PAGE,
+                (page, page_size)
             ).fetchall()
     
         def destroy_db(self, db_name: str) -> None:

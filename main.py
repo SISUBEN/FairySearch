@@ -3,6 +3,7 @@ from PySide6.QtWidgets import (
     QApplication,
     QWidget,
     QDialog,
+    QLabel,
 )
 from PySide6.QtCore import QCoreApplication
 
@@ -119,15 +120,75 @@ class MainWindow(QWidget, Ui_MainWindow):
         self.setupUi(self)
         self.setWindowTitle("Main Window")
         self.profile.clicked.connect(self.openProfile)
+        self.current_page: int = 1
+        self.total_pages: int = db.videodb.count_videos()
         # when content in lineEdit changed, call search function
-        self.lineEdit.textChanged.connect(self.search)
+        self.search_box.returnPressed.connect(self.search)
         # TODO: add page of tabWeight
+        self.prev_page_btn.clicked.connect(self.prevPage)
+        self.next_page_btn.clicked.connect(self.nextPage)
+        # 按下回车跳转到对应页数
+        self.page_num.returnPressed.connect(self.gotoPage)
 
-    def paintEvent(self, event):
-        painter = QPainter(self)
-        painter.drawRect(self.rect())
-        pixmap = QPixmap(":/images/images/background.png")
-        painter.drawPixmap(self.rect(), pixmap)
+    def clearLayout(self, layout):
+        """清空布局中的所有控件"""
+        while layout.count():
+            child = layout.takeAt(0)
+            if child.widget():
+                child.widget().deleteLater()
+        
+    def loadPage(self, page_num):
+        """加载指定页码的内容"""
+        # 清空当前的内容
+        self.clearLayout(self.gridLayout_3)
+        # label = QLabel("这是第一页的内容")
+        # self.gridLayout_3.addWidget(label)
+        # 获取指定页码的内容
+        videos = db.videodb.query_videos_by_page(page_num, 10)
+        # 将内容添加到布局中
+        for i, video in enumerate(videos):
+            # 创建一个QLabel来显示视频信息
+            label = QLabel(video[1])
+            # 设置标签的样式
+            label.setStyleSheet("font-size: 20px; color: white;")
+            # 将标签添加到布局中
+            self.gridLayout_3.addWidget(label, i, 0)
+            # 创建一个QLabel来显示视频封面
+            cover_label = QLabel()
+            # 设置标签的样式
+            cover_label.setStyleSheet("border: 1px solid black;")
+            # 加载视频封面图片
+            cover_label.setPixmap(QPixmap(video[2]))
+            # 将标签添加到布局中
+            self.gridLayout_3.addWidget(cover_label, i, 1)
+
+    def prevPage(self):
+        """上一页"""
+        if self.current_page > 1:
+            self.current_page -= 1
+            self.loadPage(self.current_page)
+            self.updateButtons()
+
+    def nextPage(self):
+        """下一页"""
+        if self.current_page < self.total_pages:
+            self.current_page += 1
+            self.loadPage(self.current_page)
+            self.updateButtons()
+    
+    def gotoPage(self):
+        """跳转到指定页数"""
+        page_num = int(self.page_num.text())
+        if 1 <= page_num <= self.total_pages:
+            self.current_page = page_num
+            self.loadPage(self.current_page)
+            self.updateButtons()
+        
+    def updateButtons(self):
+        """更新按钮的状态，禁用无效的翻页按钮"""
+        self.prev_page_btn.setEnabled(self.current_page > 0)
+        self.next_page_btn.setEnabled(self.current_page < self.total_pages)
+        
 
     def openProfile(self):
         self.profileWindow = ProfileWindow()
@@ -135,6 +196,12 @@ class MainWindow(QWidget, Ui_MainWindow):
 
     def search(self):
         raise NotImplementedError
+    
+    def paintEvent(self, event):
+        painter = QPainter(self)
+        painter.drawRect(self.rect())
+        pixmap = QPixmap(":/images/images/background.png")
+        painter.drawPixmap(self.rect(), pixmap)
 
 
 class RegisterWindow(QWidget, Ui_Registor):

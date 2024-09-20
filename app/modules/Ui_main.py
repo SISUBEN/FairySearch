@@ -15,18 +15,18 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QGridLayout, QHBoxLayout, QLineEdit,
-    QPushButton, QScrollArea, QSizePolicy, QSpacerItem,
-    QTabWidget, QVBoxLayout, QWidget)
+from PySide6.QtWidgets import (QApplication, QGridLayout, QHBoxLayout, QLabel,
+    QLineEdit, QPushButton, QScrollArea, QSizePolicy,
+    QSpacerItem, QTabWidget, QVBoxLayout, QWidget)
 from .assets import resources_rc
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(1341, 873)
+        MainWindow.resize(1338, 901)
         MainWindow.setStyleSheet(u"QWidget#mainWindow {\n"
-"	background-image: url(:/images/images/background.png);\n"
+"	background-image:url(:/images/images/background.png);\n"
 "	background-size:cover;\n"
 "}")
         self.verticalLayoutWidget_2 = QWidget(MainWindow)
@@ -39,10 +39,10 @@ class Ui_MainWindow(object):
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.horizontalLayout = QHBoxLayout()
         self.horizontalLayout.setObjectName(u"horizontalLayout")
-        self.lineEdit = QLineEdit(self.verticalLayoutWidget_2)
-        self.lineEdit.setObjectName(u"lineEdit")
-        self.lineEdit.setMinimumSize(QSize(240, 60))
-        self.lineEdit.setStyleSheet(u"QLineEdit {\n"
+        self.search_box = QLineEdit(self.verticalLayoutWidget_2)
+        self.search_box.setObjectName(u"search_box")
+        self.search_box.setMinimumSize(QSize(240, 60))
+        self.search_box.setStyleSheet(u"QLineEdit {\n"
 "    background-color: rgb(13, 13, 13);\n"
 "    /*color: rgb(41, 41, 41);*/\n"
 "	color: white;\n"
@@ -56,7 +56,7 @@ class Ui_MainWindow(object):
 "    font-size: 16px;\n"
 "}")
 
-        self.horizontalLayout.addWidget(self.lineEdit)
+        self.horizontalLayout.addWidget(self.search_box)
 
 
         self.verticalLayout.addLayout(self.horizontalLayout)
@@ -150,11 +150,93 @@ class Ui_MainWindow(object):
         self.profile = QPushButton(MainWindow)
         self.profile.setObjectName(u"profile")
         self.profile.setEnabled(True)
-        self.profile.setGeometry(QRect(1220, 30, 1091, 71))
+        self.profile.setGeometry(QRect(1220, 20, 1091, 71))
         self.profile.setStyleSheet(u"QPushButton#profile {\n"
 "	background: transparent;\n"
 "	background-image: url(:/icons/icons/icons.png)\n"
 "}")
+        self.horizontalLayoutWidget = QWidget(MainWindow)
+        self.horizontalLayoutWidget.setObjectName(u"horizontalLayoutWidget")
+        self.horizontalLayoutWidget.setGeometry(QRect(70, 20, 1221, 80))
+        self.horizontalLayout_3 = QHBoxLayout(self.horizontalLayoutWidget)
+        self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
+        self.horizontalLayout_3.setContentsMargins(0, 0, 0, 0)
+        self.label = QLabel(self.horizontalLayoutWidget)
+        self.label.setObjectName(u"label")
+        font = QFont()
+        font.setPointSize(22)
+        font.setBold(True)
+        self.label.setFont(font)
+        self.label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
+        self.horizontalLayout_3.addWidget(self.label)
+
+        self.horizontalLayoutWidget_2 = QWidget(MainWindow)
+        self.horizontalLayoutWidget_2.setObjectName(u"horizontalLayoutWidget_2")
+        self.horizontalLayoutWidget_2.setGeometry(QRect(570, 830, 216, 61))
+        self.horizontalLayout_4 = QHBoxLayout(self.horizontalLayoutWidget_2)
+        self.horizontalLayout_4.setObjectName(u"horizontalLayout_4")
+        self.horizontalLayout_4.setContentsMargins(0, 0, 0, 0)
+        self.prev_page_btn = QPushButton(self.horizontalLayoutWidget_2)
+        self.prev_page_btn.setObjectName(u"prev_page_btn")
+        self.prev_page_btn.setMaximumSize(QSize(60, 50))
+        self.prev_page_btn.setStyleSheet(u"QPushButton {\n"
+"    background-color: rgb(0, 0, 0);\n"
+"    color: white;\n"
+"    border: 3px solid #262626;\n"
+"    height: 50px;\n"
+"    width: 500px;\n"
+"    border-radius: 25px;\n"
+"}\n"
+"QPushButton:pressed {\n"
+"    background-color: #a6c100;\n"
+"    color: black;\n"
+"    border: 5px solid #a6c100;\n"
+"}")
+
+        self.horizontalLayout_4.addWidget(self.prev_page_btn)
+
+        self.label_2 = QLabel(self.horizontalLayoutWidget_2)
+        self.label_2.setObjectName(u"label_2")
+        self.label_2.setMaximumSize(QSize(20, 16777215))
+        font1 = QFont()
+        font1.setPointSize(16)
+        self.label_2.setFont(font1)
+
+        self.horizontalLayout_4.addWidget(self.label_2)
+
+        self.page_num = QLineEdit(self.horizontalLayoutWidget_2)
+        self.page_num.setObjectName(u"page_num")
+        self.page_num.setMaximumSize(QSize(30, 16777215))
+
+        self.horizontalLayout_4.addWidget(self.page_num)
+
+        self.label_3 = QLabel(self.horizontalLayoutWidget_2)
+        self.label_3.setObjectName(u"label_3")
+        self.label_3.setMaximumSize(QSize(20, 16777215))
+        self.label_3.setFont(font1)
+
+        self.horizontalLayout_4.addWidget(self.label_3)
+
+        self.next_page_btn = QPushButton(self.horizontalLayoutWidget_2)
+        self.next_page_btn.setObjectName(u"next_page_btn")
+        self.next_page_btn.setMaximumSize(QSize(60, 50))
+        self.next_page_btn.setStyleSheet(u"QPushButton {\n"
+"    background-color: rgb(0, 0, 0);\n"
+"    color: white;\n"
+"    border: 3px solid #262626;\n"
+"    height: 50px;\n"
+"    width: 500px;\n"
+"    border-radius: 25px;\n"
+"}\n"
+"QPushButton:pressed {\n"
+"    background-color: #a6c100;\n"
+"    color: black;\n"
+"    border: 5px solid #a6c100;\n"
+"}")
+
+        self.horizontalLayout_4.addWidget(self.next_page_btn)
+
 
         self.retranslateUi(MainWindow)
 
@@ -166,9 +248,14 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"FairySearch", None))
-        self.lineEdit.setPlaceholderText(QCoreApplication.translate("MainWindow", u"\u641c\u7d22\u89c6\u9891", None))
+        self.search_box.setPlaceholderText(QCoreApplication.translate("MainWindow", u"\u641c\u7d22\u89c6\u9891", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), QCoreApplication.translate("MainWindow", u"Tab 1", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), QCoreApplication.translate("MainWindow", u"Tab 2", None))
         self.profile.setText("")
+        self.label.setText(QCoreApplication.translate("MainWindow", u"Fairy Search Engine", None))
+        self.prev_page_btn.setText(QCoreApplication.translate("MainWindow", u"\u4e0a\u4e00\u9875", None))
+        self.label_2.setText(QCoreApplication.translate("MainWindow", u"\u7b2c", None))
+        self.label_3.setText(QCoreApplication.translate("MainWindow", u"\u9875", None))
+        self.next_page_btn.setText(QCoreApplication.translate("MainWindow", u"\u4e0b\u4e00\u9875", None))
     # retranslateUi
 

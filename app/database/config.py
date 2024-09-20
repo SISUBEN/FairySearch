@@ -46,3 +46,6 @@ INIT_VIDEO_DB = """CREATE TABLE IF NOT EXISTS videos (
                 );"""
 VIDEO_ADD = "INSERT INTO videos (video_title, video_cover_path, video_time_sec, video_type, video_tags, video_desc) VALUES (?, ?, ?, ?, ?, ?);"
 VIDEO_QUERY = "SELECT * FROM videos WHERE video_id=?;"
+VIDEO_QUERY_BY_PAGE = """
+    SELECT * FROM videos ORDER BY video_id DESC LIMIT ?,?;
+"""
