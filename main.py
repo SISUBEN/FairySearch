@@ -60,6 +60,7 @@ class LoginWindow(QWidget, Ui_Form):
         painter.drawPixmap(self.rect(), pixmap)
 
     def login(self):
+        global LOGIN
         username_input = self.username.text()
         password_input = self.password.text()
         logger.info(f"username: {username_input}, password: {password_input}")
@@ -77,7 +78,6 @@ class LoginWindow(QWidget, Ui_Form):
             if hashlib.sha256(
                 password_input.encode()
             ).hexdigest() == db.userdb.query_user_password(username_input)[0][0]:
-                
                 LOGIN = username_input
                 logger.success(f"User {username_input} login successfully")
                 openDialog("登入成功", f"{self.username.text()}，欢迎")
@@ -110,12 +110,13 @@ class ProfileWindow(QWidget, Ui_Profile):
         super().__init__()
         self.setupUi(self)
         self.setWindowTitle("Profile")
+        logger.debug(f"var -> LOGIN => {LOGIN}")
         self.username.setText(self.username.text().replace("$username$", LOGIN))
         self.uid.setText(
             self.uid.text().replace(
                 # select the first row of the first column of the table
                 "$uid$",
-                db.userdb.query_user_uid(LOGIN)[0],
+                db.userdb.query_user_uid(LOGIN)[0][0],
             )
         )
         logger.debug(f"client -> userdb [GET] db.userdb.query_user_uid(LOGIN)[0] => {db.userdb.query_user_uid(LOGIN)[0]}")
@@ -141,7 +142,7 @@ class MainWindow(QWidget, Ui_MainWindow):
         self.window = None
         self.setupUi(self)
         self.setWindowTitle("Main Window")
-        self.profile.clicked.connect(self.openProfile)
+        self.profile_btn.clicked.connect(self.openProfile)
         self.current_page: int = 1
         self.total_pages: int = db.videodb.count_videos()
         # when content in lineEdit changed, call search function
@@ -264,7 +265,14 @@ class RegisterWindow(QWidget, Ui_Registor):
 
 
 if __name__ == "__main__":
-    app = QApplication([])
-    loginWindow = LoginWindow()
-    loginWindow.show()
-    app.exec()
+    try:
+        app = QApplication([])
+        loginWindow = LoginWindow()
+        loginWindow.show()
+        app.exec()
+    except Exception as err:
+        logger.critical(f"An error occurred while the program was running: {err}")
+        app.shutdown()
+    except KeyboardInterrupt:
+        logger.error("The program was interrupted by the user")
+        app.shutdown()

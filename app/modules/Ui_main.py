@@ -150,7 +150,7 @@ class Ui_MainWindow(object):
         self.profile = QPushButton(MainWindow)
         self.profile.setObjectName(u"profile")
         self.profile.setEnabled(True)
-        self.profile.setGeometry(QRect(1220, 20, 1091, 71))
+        self.profile.setGeometry(QRect(1200, 20, 1111, 71))
         self.profile.setStyleSheet(u"QPushButton#profile {\n"
 "	background: transparent;\n"
 "	background-image: url(:/icons/icons/icons.png);\n"
@@ -241,6 +241,12 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_4.addWidget(self.next_page_btn)
 
+        self.profile_btn = QPushButton(MainWindow)
+        self.profile_btn.setObjectName(u"profile_btn")
+        self.profile_btn.setGeometry(QRect(1210, 20, 81, 81))
+        self.profile_btn.setStyleSheet(u"QPushButton#profile_btn {\n"
+"	background: transparent;\n"
+"}")
 
         self.retranslateUi(MainWindow)
 
@@ -262,5 +268,6 @@ class Ui_MainWindow(object):
         self.page_num.setText(QCoreApplication.translate("MainWindow", u"1", None))
         self.label_3.setText(QCoreApplication.translate("MainWindow", u"\u9875", None))
         self.next_page_btn.setText(QCoreApplication.translate("MainWindow", u"\u4e0b\u4e00\u9875", None))
+        self.profile_btn.setText("")
     # retranslateUi
 

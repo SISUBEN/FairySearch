@@ -23,7 +23,7 @@
    </size>
   </property>
   <property name="focusPolicy">
-   <enum>Qt::NoFocus</enum>
+   <enum>Qt::FocusPolicy::NoFocus</enum>
   </property>
   <property name="acceptDrops">
    <bool>false</bool>
@@ -47,7 +47,7 @@
    </property>
    <layout class="QGridLayout" name="gridLayout">
     <property name="sizeConstraint">
-     <enum>QLayout::SetMinAndMaxSize</enum>
+     <enum>QLayout::SizeConstraint::SetMinAndMaxSize</enum>
     </property>
     <item row="0" column="0">
      <widget class="QLabel" name="label_4">
@@ -71,10 +71,10 @@
        <string>欢迎访问H.D.D System</string>
       </property>
       <property name="textFormat">
-       <enum>Qt::RichText</enum>
+       <enum>Qt::TextFormat::RichText</enum>
       </property>
       <property name="alignment">
-       <set>Qt::AlignCenter</set>
+       <set>Qt::AlignmentFlag::AlignCenter</set>
       </property>
      </widget>
     </item>
@@ -85,7 +85,7 @@
         <item>
          <spacer name="horizontalSpacer_5">
           <property name="orientation">
-           <enum>Qt::Horizontal</enum>
+           <enum>Qt::Orientation::Horizontal</enum>
           </property>
           <property name="sizeHint" stdset="0">
            <size>
@@ -110,7 +110,7 @@
            <string>用户名：</string>
           </property>
           <property name="alignment">
-           <set>Qt::AlignCenter</set>
+           <set>Qt::AlignmentFlag::AlignCenter</set>
           </property>
          </widget>
         </item>
@@ -139,7 +139,7 @@ QLineEdit::placeholderText {
         <item>
          <spacer name="horizontalSpacer_4">
           <property name="orientation">
-           <enum>Qt::Horizontal</enum>
+           <enum>Qt::Orientation::Horizontal</enum>
           </property>
           <property name="sizeHint" stdset="0">
            <size>
@@ -154,7 +154,7 @@ QLineEdit::placeholderText {
       <item>
        <spacer name="horizontalSpacer">
         <property name="orientation">
-         <enum>Qt::Horizontal</enum>
+         <enum>Qt::Orientation::Horizontal</enum>
         </property>
         <property name="sizeHint" stdset="0">
          <size>
@@ -169,7 +169,7 @@ QLineEdit::placeholderText {
         <item>
          <spacer name="horizontalSpacer_6">
           <property name="orientation">
-           <enum>Qt::Horizontal</enum>
+           <enum>Qt::Orientation::Horizontal</enum>
           </property>
           <property name="sizeHint" stdset="0">
            <size>
@@ -194,7 +194,7 @@ QLineEdit::placeholderText {
            <string>密    码：</string>
           </property>
           <property name="alignment">
-           <set>Qt::AlignCenter</set>
+           <set>Qt::AlignmentFlag::AlignCenter</set>
           </property>
          </widget>
         </item>
@@ -231,7 +231,7 @@ QLineEdit::placeholderText {
            <string/>
           </property>
           <property name="echoMode">
-           <enum>QLineEdit::Password</enum>
+           <enum>QLineEdit::EchoMode::Password</enum>
           </property>
           <property name="placeholderText">
            <string>请输入密码</string>
@@ -241,7 +241,7 @@ QLineEdit::placeholderText {
         <item>
          <spacer name="horizontalSpacer_3">
           <property name="orientation">
-           <enum>Qt::Horizontal</enum>
+           <enum>Qt::Orientation::Horizontal</enum>
           </property>
           <property name="sizeHint" stdset="0">
            <size>
@@ -256,7 +256,7 @@ QLineEdit::placeholderText {
       <item>
        <spacer name="horizontalSpacer_2">
         <property name="orientation">
-         <enum>Qt::Horizontal</enum>
+         <enum>Qt::Orientation::Horizontal</enum>
         </property>
         <property name="sizeHint" stdset="0">
          <size>
@@ -387,10 +387,10 @@ QPushButton#forget_password:hover {
   </widget>
  </widget>
  <resources>
-  <include location="modules/assets/resources.qrc"/>
-  <include location="modules/assets/resources.qrc"/>
-  <include location="modules/assets/resources.qrc"/>
-  <include location="modules/assets/resources.qrc"/>
+  <include location="../modules/assets/resources.qrc"/>
+  <include location="../modules/assets/resources.qrc"/>
+  <include location="../modules/assets/resources.qrc"/>
+  <include location="../modules/assets/resources.qrc"/>
  </resources>
  <connections/>
 </ui>

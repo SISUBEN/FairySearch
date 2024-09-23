@@ -212,9 +212,9 @@ QTabBar::tab:!selected {
    </property>
    <property name="geometry">
     <rect>
-     <x>1220</x>
+     <x>1200</x>
      <y>20</y>
-     <width>1091</width>
+     <width>1111</width>
      <height>71</height>
     </rect>
    </property>
@@ -380,6 +380,24 @@ QPushButton:pressed {
      </widget>
     </item>
    </layout>
+  </widget>
+  <widget class="QPushButton" name="profile_btn">
+   <property name="geometry">
+    <rect>
+     <x>1210</x>
+     <y>20</y>
+     <width>81</width>
+     <height>81</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton#profile_btn {
+	background: transparent;
+}</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
   </widget>
  </widget>
  <resources>
