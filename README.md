@@ -2,8 +2,10 @@ Fairy Search Engine
 --------------
 FairySearch 是一个免费的视频搜索引擎，它通过分析用户的浏览数据和喜欢推荐视频。
 ## How to use / 如何使用
+> ⚠️使用本程序前请确保本地环境是完整版Python 3.8+
 
 ## Usage / 使用方法
+
 
 ## Function / 功能
 - 登入☑️

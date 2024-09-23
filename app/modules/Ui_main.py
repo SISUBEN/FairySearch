@@ -24,7 +24,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(1338, 901)
+        MainWindow.resize(1353, 901)
         MainWindow.setStyleSheet(u"QWidget#mainWindow {\n"
 "	background-image:url(:/images/images/background.png);\n"
 "	background-size:cover;\n"
@@ -153,7 +153,8 @@ class Ui_MainWindow(object):
         self.profile.setGeometry(QRect(1220, 20, 1091, 71))
         self.profile.setStyleSheet(u"QPushButton#profile {\n"
 "	background: transparent;\n"
-"	background-image: url(:/icons/icons/icons.png)\n"
+"	background-image: url(:/icons/icons/icons.png);\n"
+"	z-index: 999;\n"
 "}")
         self.horizontalLayoutWidget = QWidget(MainWindow)
         self.horizontalLayoutWidget.setObjectName(u"horizontalLayoutWidget")

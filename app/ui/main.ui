@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1338</width>
+    <width>1353</width>
     <height>901</height>
    </rect>
   </property>
@@ -221,7 +221,8 @@ QTabBar::tab:!selected {
    <property name="styleSheet">
     <string notr="true">QPushButton#profile {
 	background: transparent;
-	background-image: url(:/icons/icons/icons.png)
+	background-image: url(:/icons/icons/icons.png);
+	z-index: 999;
 }</string>
    </property>
    <property name="text">

@@ -190,6 +190,8 @@ class MainWindow(QWidget, Ui_MainWindow):
             self.current_page -= 1
             self.loadPage(self.current_page)
             self.updateButtons()
+            # 更新页码显示
+            self.page_num.setText(str(self.current_page))
 
     def nextPage(self):
         """下一页"""
@@ -197,6 +199,7 @@ class MainWindow(QWidget, Ui_MainWindow):
             self.current_page += 1
             self.loadPage(self.current_page)
             self.updateButtons()
+            self.page_num.setText(str(self.current_page))
     
     def gotoPage(self):
         """跳转到指定页数"""
@@ -224,13 +227,11 @@ class MainWindow(QWidget, Ui_MainWindow):
         painter.drawRect(self.rect())
         pixmap = QPixmap(":/images/images/background.png")
         painter.drawPixmap(self.rect(), pixmap)
-
-
 class RegisterWindow(QWidget, Ui_Registor):
     def __init__(self) -> None:
         super().__init__()
         self.setupUi(self)
-        self.setWindowTitle("Register")
+        self.setWindowTitle("注册")
         self.register_btn.clicked.connect(self.register)
 
     def paintEvent(self, event):
@@ -243,7 +244,9 @@ class RegisterWindow(QWidget, Ui_Registor):
         self._username = self.username.text()
         self.password_ipt = self.password.text()
         self.password2_ipt = self.password_2.text()
-        if self._username == "" or self.password_ipt == "" or self.password2_ipt == "":
+        if db.userdb.user_exists(self._username):
+            openDialog(title="提示", text="用户名已存在")
+        elif self._username == "" or self.password_ipt == "" or self.password2_ipt == "":
             openDialog(title="提示", text="请输入完整信息")
         elif self.password_ipt == self.password2_ipt:
             db.userdb.user_add(
