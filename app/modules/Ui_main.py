@@ -202,6 +202,8 @@ class Ui_MainWindow(object):
         font1 = QFont()
         font1.setPointSize(16)
         self.label_2.setFont(font1)
+        self.label_2.setStyleSheet(u"color: white;\n"
+"")
 
         self.horizontalLayout_4.addWidget(self.label_2)
 
@@ -215,6 +217,7 @@ class Ui_MainWindow(object):
         self.label_3.setObjectName(u"label_3")
         self.label_3.setMaximumSize(QSize(20, 16777215))
         self.label_3.setFont(font1)
+        self.label_3.setStyleSheet(u"color: white;")
 
         self.horizontalLayout_4.addWidget(self.label_3)
 
@@ -255,6 +258,7 @@ class Ui_MainWindow(object):
         self.label.setText(QCoreApplication.translate("MainWindow", u"Fairy Search Engine", None))
         self.prev_page_btn.setText(QCoreApplication.translate("MainWindow", u"\u4e0a\u4e00\u9875", None))
         self.label_2.setText(QCoreApplication.translate("MainWindow", u"\u7b2c", None))
+        self.page_num.setText(QCoreApplication.translate("MainWindow", u"1", None))
         self.label_3.setText(QCoreApplication.translate("MainWindow", u"\u9875", None))
         self.next_page_btn.setText(QCoreApplication.translate("MainWindow", u"\u4e0b\u4e00\u9875", None))
     # retranslateUi

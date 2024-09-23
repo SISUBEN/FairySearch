@@ -36,6 +36,20 @@ MANIFEST
 pip-log.txt
 pip-delete-this-directory.txt
 
+# Logs
+logs/
+log/
+Logs/
+Log/
+*.log
+*.log.*
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+
+# dev script
+start.py
+
 # Unit test / coverage reports
 htmlcov/
 .tox/

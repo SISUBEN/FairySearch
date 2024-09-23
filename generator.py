@@ -1,9 +1,11 @@
-import sqlite
+import app.database.sqlite as sqlite
 import random
+import hashlib
 # sh_db = sqlite.Database.SearchHistorydb()
-video_db = sqlite.Database.Videodb()
-# user_db = sqlite.Database.Userdb()
-video_db.init_videodb()
+# video_db = sqlite.Database.Videodb()
+user_db = sqlite.Database.Userdb()
+# video_db.init_videodb()
+user_db.init_userdb()
 name_list = [
     # "《崩坏：星穹铁道》飞霄角色PV——「君莫笑」",
     # "全网首发！揭秘狐人英雄的真面目——《崩坏：星穹铁道》星间纪实",
@@ -35,12 +37,16 @@ video_tags = [
 #         video_time_sec=random.uniform(3.,5.),
 #         video_cover_path="./covers/default.png"
 #     )
-for i in range(3):
-    video_db.video_add(
-        video_title=name_list[random.randint(0, len(name_list) - 1)],
-        video_type=["二次元",],
-        video_tags=video_tags,
-        video_desc="崩坏：星穹铁道",
-        video_time_sec=random.uniform(3.,5.),
-        video_cover_path="./covers/default.png"
-    )
+# for i in range(3):
+#     video_db.video_add(
+#         video_title=name_list[random.randint(0, len(name_list) - 1)],
+#         video_type=["二次元",],
+#         video_tags=video_tags,
+#         video_desc="崩坏：星穹铁道",
+#         video_time_sec=random.uniform(3.,5.),
+#         video_cover_path="./covers/default.png"
+#     )
+user_db.user_add(
+    username="admin",
+    password=hashlib.sha256("admin".encode()).hexdigest(),
+)

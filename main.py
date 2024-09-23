@@ -6,7 +6,6 @@ from PySide6.QtWidgets import (
     QLabel,
 )
 from PySide6.QtCore import QCoreApplication
-
 # Import Ui file from Qt Designer.
 from PySide6.QtGui import QPixmap, QPainter
 from app.modules.Ui_login import Ui_Form
@@ -15,16 +14,24 @@ from app.modules.Ui_dialog import Ui_Dialog
 from app.modules.Ui_main import Ui_MainWindow
 from app.modules.Ui_profile import Ui_Profile
 
-# Import resources, sqlite3 tools and hashlib
+# Import resources, sqlite3 tools, hashlib and loguru
 import app.modules.assets.resources_rc
 from app.database.sqlite import Database
 import hashlib
-
+from loguru import logger
 # Initialize the application
 db = Database
 LOGIN = None #TODO: use token to save login status
-
-
+# logger.add(
+#     "logs/main_{time}.log",
+#     rotation="1 MB",
+#     retention="10 days",
+#     level="WARNING",
+#     encoding='utf-8',
+#     backtrace=True,
+#     diagnose=True,
+# )
+logger.success("Fairy Search initialize successfully")
 # TODO:move to lib
 class DialogWindow(QDialog, Ui_Dialog):
     def __init__(self, title: str, text: str):
@@ -55,17 +62,31 @@ class LoginWindow(QWidget, Ui_Form):
     def login(self):
         username_input = self.username.text()
         password_input = self.password.text()
+        logger.info(f"username: {username_input}, password: {password_input}")
+        logger.debug(f"client -> userdb [GET] db.userdb.user_exists(self.username.text()) => {db.userdb.user_exists(self.username.text())}")
         if db.userdb.user_exists(self.username.text()):
+            logger.info(f"User {username_input} is trying to login")
+            logger.debug(f"""client -> userdb [GET] hashlib.sha256(
+                password_input.encode()
+            ).hexdigest() == db.userdb.query_user_password(username_input) => {hashlib.sha256(
+                password_input.encode()
+            ).hexdigest() == db.userdb.query_user_password(username_input)}\ninputed password: {hashlib.sha256(
+                password_input.encode()
+            ).hexdigest()}\nhashed password: {db.userdb.query_user_password(username_input)}""")
+            
             if hashlib.sha256(
                 password_input.encode()
-            ).hexdigest() == db.userdb.query_user_password(username_input):
-
-                # self.msgBox("Login Success", f"Welcome! {self.username.text()}")
+            ).hexdigest() == db.userdb.query_user_password(username_input)[0][0]:
+                
                 LOGIN = username_input
+                logger.success(f"User {username_input} login successfully")
                 openDialog("登入成功", f"{self.username.text()}，欢迎")
+                self.openMainWindow()
             else:
+                logger.info(f"User {username_input} login failed")
                 openDialog("登入失败", "用户名或者密码错误\n请再试一次")
         else:
+            logger.info(f"User {username_input} is not exists")
             openDialog("登入失败", "用户不存在")
 
     def register(self):
@@ -97,6 +118,7 @@ class ProfileWindow(QWidget, Ui_Profile):
                 db.userdb.query_user_uid(LOGIN)[0],
             )
         )
+        logger.debug(f"client -> userdb [GET] db.userdb.query_user_uid(LOGIN)[0] => {db.userdb.query_user_uid(LOGIN)[0]}")
         self.onSearchHistory()
         self.changeAvatar.clicked.connect(self.onChangeAvatar)
 

@@ -307,6 +307,10 @@ QPushButton:pressed {
         <pointsize>16</pointsize>
        </font>
       </property>
+      <property name="styleSheet">
+       <string notr="true">color: white;
+</string>
+      </property>
       <property name="text">
        <string>第</string>
       </property>
@@ -319,6 +323,9 @@ QPushButton:pressed {
         <width>30</width>
         <height>16777215</height>
        </size>
+      </property>
+      <property name="text">
+       <string>1</string>
       </property>
      </widget>
     </item>
@@ -334,6 +341,9 @@ QPushButton:pressed {
        <font>
         <pointsize>16</pointsize>
        </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: white;</string>
       </property>
       <property name="text">
        <string>页</string>

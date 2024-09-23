@@ -1,9 +1,12 @@
 # db addr
-VIDEO_DB: str = "./videos.db"
-USER_DB: str = "./users.db"
-SH_DB: str = "./search_history.db"
+# 请使用启动脚本启动main.py
+# 否则路径可能会出错
+# 或者请使用绝对路径
+VIDEO_DB: str = "./app/database/videos.db"
+USER_DB: str = "./app/database/users.db"
+SH_DB: str = "./app/database/search_history.db"
 # default
-DEFAULT_COVER = "./covers/default.png"
+DEFAULT_COVER = "./app/database/covers/default.png"
 # max value
 TYPE_MAX_LEN = 50
 TITLE_MAX_LEN = 50

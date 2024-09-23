@@ -120,7 +120,7 @@ class Database:
         
         def count_videos(self) -> int:
             return int(self.video_connect.execute(
-                "SELECT COUNT(*) FROM video"
+                "SELECT COUNT(*) FROM videos"
             ).fetchone()[0])
         
         def video_query(self, video_id: int) -> list:
