@@ -37,7 +37,7 @@
      <x>460</x>
      <y>540</y>
      <width>528</width>
-     <height>261</height>
+     <height>295</height>
     </rect>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -87,7 +87,7 @@ QLineEdit::placeholderText {
        <string/>
       </property>
       <property name="echoMode">
-       <enum>QLineEdit::Password</enum>
+       <enum>QLineEdit::EchoMode::Password</enum>
       </property>
       <property name="placeholderText">
        <string>请输入密码</string>
@@ -115,7 +115,7 @@ QLineEdit::placeholderText {
        <string/>
       </property>
       <property name="echoMode">
-       <enum>QLineEdit::Password</enum>
+       <enum>QLineEdit::EchoMode::Password</enum>
       </property>
       <property name="placeholderText">
        <string>请再次输入密码</string>
@@ -172,12 +172,40 @@ QPushButton:pressed {
       </item>
      </layout>
     </item>
+    <item>
+     <widget class="QPushButton" name="back">
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton#back {
+	color: #1a0dab;
+	color: white;
+	background-color:transparent;
+}
+QPushButton#back:pressed {
+	color: #681DA8;
+	background-color:transparent;
+}
+QPushButton#back:hover {
+	text-decoration: underline;
+	background-color:transparent;
+}</string>
+      </property>
+      <property name="text">
+       <string>返回</string>
+      </property>
+     </widget>
+    </item>
    </layout>
   </widget>
  </widget>
  <resources>
-  <include location="modules/assets/resources.qrc"/>
-  <include location="modules/assets/resources.qrc"/>
+  <include location="../modules/assets/resources.qrc"/>
+  <include location="../modules/assets/resources.qrc"/>
  </resources>
  <connections/>
 </ui>

@@ -234,6 +234,7 @@ class RegisterWindow(QWidget, Ui_Registor):
         self.setupUi(self)
         self.setWindowTitle("注册")
         self.register_btn.clicked.connect(self.register)
+        self.back.clicked.connect(self.openMainWindow)
 
     def paintEvent(self, event):
         painter = QPainter(self)
@@ -257,7 +258,7 @@ class RegisterWindow(QWidget, Ui_Registor):
             self.openMainWindow()
         else:
             openDialog(title="提示", text="两次输入的密码不一致")
-
+            
     def openMainWindow(self):
         self.close()
         self.mainWindow = MainWindow()
