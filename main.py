@@ -6,6 +6,7 @@ from PySide6.QtWidgets import (
     QLabel,
 )
 from PySide6.QtCore import QCoreApplication
+
 # Import Ui file from Qt Designer.
 from PySide6.QtGui import QPixmap, QPainter
 from app.modules.Ui_login import Ui_Form
@@ -19,9 +20,10 @@ import app.modules.assets.resources_rc
 from app.database.sqlite import Database
 import hashlib
 from loguru import logger
+
 # Initialize the application
 db = Database
-LOGIN = None #TODO: use token to save login status
+LOGIN = None  # TODO: use token to save login status
 # logger.add(
 #     "logs/main_{time}.log",
 #     rotation="1 MB",
@@ -32,6 +34,8 @@ LOGIN = None #TODO: use token to save login status
 #     diagnose=True,
 # )
 logger.success("Fairy Search initialize successfully")
+
+
 # TODO:move to lib
 class DialogWindow(QDialog, Ui_Dialog):
     def __init__(self, title: str, text: str):
@@ -64,20 +68,25 @@ class LoginWindow(QWidget, Ui_Form):
         username_input = self.username.text()
         password_input = self.password.text()
         logger.info(f"username: {username_input}, password: {password_input}")
-        logger.debug(f"client -> userdb [GET] db.userdb.user_exists(self.username.text()) => {db.userdb.user_exists(self.username.text())}")
+        logger.debug(
+            f"client -> userdb [GET] db.userdb.user_exists(self.username.text()) => {db.userdb.user_exists(self.username.text())}"
+        )
         if db.userdb.user_exists(self.username.text()):
             logger.info(f"User {username_input} is trying to login")
-            logger.debug(f"""client -> userdb [GET] hashlib.sha256(
+            logger.debug(
+                f"""client -> userdb [GET] hashlib.sha256(
                 password_input.encode()
             ).hexdigest() == db.userdb.query_user_password(username_input) => {hashlib.sha256(
                 password_input.encode()
             ).hexdigest() == db.userdb.query_user_password(username_input)}\ninputed password: {hashlib.sha256(
                 password_input.encode()
-            ).hexdigest()}\nhashed password: {db.userdb.query_user_password(username_input)}""")
-            
-            if hashlib.sha256(
-                password_input.encode()
-            ).hexdigest() == db.userdb.query_user_password(username_input)[0][0]:
+            ).hexdigest()}\nhashed password: {db.userdb.query_user_password(username_input)}"""
+            )
+
+            if (
+                hashlib.sha256(password_input.encode()).hexdigest()
+                == db.userdb.query_user_password(username_input)[0][0]
+            ):
                 LOGIN = username_input
                 logger.success(f"User {username_input} login successfully")
                 openDialog("登入成功", f"{self.username.text()}，欢迎")
@@ -119,7 +128,9 @@ class ProfileWindow(QWidget, Ui_Profile):
                 db.userdb.query_user_uid(LOGIN)[0][0],
             )
         )
-        logger.debug(f"client -> userdb [GET] db.userdb.query_user_uid(LOGIN)[0] => {db.userdb.query_user_uid(LOGIN)[0]}")
+        logger.debug(
+            f"client -> userdb [GET] db.userdb.query_user_uid(LOGIN)[0] => {db.userdb.query_user_uid(LOGIN)[0]}"
+        )
         self.onSearchHistory()
         self.changeAvatar.clicked.connect(self.onChangeAvatar)
 
@@ -159,7 +170,7 @@ class MainWindow(QWidget, Ui_MainWindow):
             child = layout.takeAt(0)
             if child.widget():
                 child.widget().deleteLater()
-        
+
     def loadPage(self, page_num):
         """加载指定页码的内容"""
         # 清空当前的内容
@@ -201,7 +212,7 @@ class MainWindow(QWidget, Ui_MainWindow):
             self.loadPage(self.current_page)
             self.updateButtons()
             self.page_num.setText(str(self.current_page))
-    
+
     def gotoPage(self):
         """跳转到指定页数"""
         page_num = int(self.page_num.text())
@@ -209,12 +220,11 @@ class MainWindow(QWidget, Ui_MainWindow):
             self.current_page = page_num
             self.loadPage(self.current_page)
             self.updateButtons()
-        
+
     def updateButtons(self):
         """更新按钮的状态，禁用无效的翻页按钮"""
         self.prev_page_btn.setEnabled(self.current_page > 0)
         self.next_page_btn.setEnabled(self.current_page < self.total_pages)
-        
 
     def openProfile(self):
         self.profileWindow = ProfileWindow()
@@ -222,12 +232,14 @@ class MainWindow(QWidget, Ui_MainWindow):
 
     def search(self):
         raise NotImplementedError
-    
+
     def paintEvent(self, event):
         painter = QPainter(self)
         painter.drawRect(self.rect())
         pixmap = QPixmap(":/images/images/background.png")
         painter.drawPixmap(self.rect(), pixmap)
+
+
 class RegisterWindow(QWidget, Ui_Registor):
     def __init__(self) -> None:
         super().__init__()
@@ -248,7 +260,9 @@ class RegisterWindow(QWidget, Ui_Registor):
         self.password2_ipt = self.password_2.text()
         if db.userdb.user_exists(self._username):
             openDialog(title="提示", text="用户名已存在")
-        elif self._username == "" or self.password_ipt == "" or self.password2_ipt == "":
+        elif (
+            self._username == "" or self.password_ipt == "" or self.password2_ipt == ""
+        ):
             openDialog(title="提示", text="请输入完整信息")
         elif self.password_ipt == self.password2_ipt:
             db.userdb.user_add(
@@ -258,7 +272,7 @@ class RegisterWindow(QWidget, Ui_Registor):
             self.openMainWindow()
         else:
             openDialog(title="提示", text="两次输入的密码不一致")
-            
+
     def openMainWindow(self):
         self.close()
         self.mainWindow = MainWindow()

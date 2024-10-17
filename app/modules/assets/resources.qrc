@@ -12,6 +12,9 @@
     <file>icons/user.png</file>
     <file>icons/icons.png</file>
   </qresource>
+  <qresource prefix="covers">
+    <file>covers/default.png</file>
+  </qresource>
   <qresource prefix="font">
     <file>font/HarmonySans_black.ttf</file>
   </qresource>
