@@ -30,8 +30,8 @@ class Ui_Form(object):
         Form.setFocusPolicy(Qt.NoFocus)
         Form.setAcceptDrops(False)
         Form.setStyleSheet(u"QWidget#Form {\n"
-"	background-image: url(:/images/images/background.png)\n"
-"}")
+        "	background-image: url(:/images/images/background.png)\n"
+        "}")
         self.layoutWidget = QWidget(Form)
         self.layoutWidget.setObjectName(u"layoutWidget")
         self.layoutWidget.setGeometry(QRect(260, 120, 791, 641))

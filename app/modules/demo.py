@@ -9,13 +9,14 @@ from PySide6.QtWidgets import (
     QGridLayout,
     QSizePolicy,
 )
-from PySide6.QtGui import QPixmap
+
+from PySide6.QtGui import QPixmap, QPainter
 from PySide6.QtCore import Qt
 import sys
 
-
+# 模板类
 class ItemWidget(QWidget):
-    def __init__(self, cover_image_path, title, *args, **kwargs):
+    def __init__(self, cover_image_path: str, title: str, *args, **kwargs):
         super(ItemWidget, self).__init__(*args, **kwargs)
         layout = QVBoxLayout()
 
@@ -63,7 +64,11 @@ class MainWindow(QWidget):
     def __init__(self):
         super(MainWindow, self).__init__()
         self.setWindowTitle("Videos")
-
+        if not self.objectName():
+            self.setObjectName(u"Form")
+        self.setStyleSheet(u"QWidget#Form {\n"
+        "	background-image: url(:./assets/images/background.png)\n"
+        "}")
         # 主布局
         main_layout = QVBoxLayout(self)
 
@@ -71,7 +76,7 @@ class MainWindow(QWidget):
         self.stacked_widget = QStackedWidget(self)
 
         # 这里模拟了大量的数据，但我们只在需要时加载
-        self.pages_data = [
+        self.pages_data: list[dict] = [
             [
                 {"cover": "./assets/covers/default.png", "title": "Item 1"},
                 {"cover": "./assets/covers/default.png", "title": "Item 2"},
@@ -108,35 +113,35 @@ class MainWindow(QWidget):
         button_layout = QHBoxLayout()
         self.prev_button = QPushButton("上一页", self)
         self.next_button = QPushButton("下一页", self)
-        self.prev_button.setStyleSheet(u"QPushButton {\n"
-        "    background-color: rgb(0, 0, 0);\n"
-        "    color: white;\n"
-        "    border: 3px solid #262626;\n"
-        "    height: 50px;\n"
-        "    width: 500px;\n"
-        "    border-radius: 25px;\n"
-        "}\n"
-        "QPushButton:pressed {\n"
-        "    background-color: #a6c100;\n"
-        "    color: black;\n"
-        "    border: 5px solid #a6c100;\n"
+        self.prev_button.setStyleSheet(u"QPushButton {\n"\
+        "    background-color: rgb(0, 0, 0);\n"\
+        "    color: white;\n"\
+        "    border: 3px solid #262626;\n"\
+        "    height: 50px;\n"\
+        "    width: 500px;\n"\
+        "    border-radius: 25px;\n"\
+        "}\n"\
+        "QPushButton:pressed {\n"\
+        "    background-color: #a6c100;\n"\
+        "    color: black;\n"\
+        "    border: 5px solid #a6c100;\n"\
         "}")
-        self.next_button.setStyleSheet(u"QPushButton {\n"
-        "    background-color: rgb(0, 0, 0);\n"
-        "    color: white;\n"
-        "    border: 3px solid #262626;\n"
-        "    height: 50px;\n"
-        "    width: 500px;\n"
-        "    border-radius: 25px;\n"
-        "}\n"
-        "QPushButton:pressed {\n"
-        "    background-color: #a6c100;\n"
-        "    color: black;\n"
-        "    border: 5px solid #a6c100;\n"
+        self.next_button.setStyleSheet(u"QPushButton {\n"\
+        "    background-color: rgb(0, 0, 0);\n"\
+        "    color: white;\n"\
+        "    border: 3px solid #262626;\n"\
+        "    height: 50px;\n"\
+        "    width: 500px;\n"\
+        "    border-radius: 25px;\n"\
+        "}\n"\
+        "QPushButton:pressed {\n"\
+        "    background-color: #a6c100;\n"\
+        "    color: black;\n"\
+        "    border: 5px solid #a6c100;\n"\
         "}")
-         
+        
         # bind button click events
-        self.prev_button.clicked.connect(self.show_previous_page)
+        self.prev_button.clicked.connect(self.show_prev_page)
         self.next_button.clicked.connect(self.show_next_page)
 
         # add buttons to layout
@@ -147,8 +152,14 @@ class MainWindow(QWidget):
         self.current_page = 0
         self.update_buttons()
 
+    def paintEvent(self, event):
+        painter = QPainter(self)
+        painter.drawRect(self.rect())
+        pixmap = QPixmap(":./assets/images/background.png")
+        painter.drawPixmap(self.rect(), pixmap)
+        
     # Lazy loading 
-    def load_page(self, page_index):
+    def load_page(self, page_index: int) -> None:
         if page_index not in self.page_cache:
             if 0 <= page_index < len(self.pages_data):
                 page = PageWidget(self.pages_data[page_index])
@@ -156,19 +167,19 @@ class MainWindow(QWidget):
                 self.page_cache[page_index] = page  # 缓存加载过的页面
         self.stacked_widget.setCurrentIndex(page_index)
 
-    def show_previous_page(self):
+    def show_prev_page(self) -> None:
         if self.current_page > 0:
             self.current_page -= 1
             self.load_page(self.current_page)  # 加载当前页
             self.update_buttons()
 
-    def show_next_page(self):
+    def show_next_page(self) -> None:
         if self.current_page < len(self.pages_data) - 1:
             self.current_page += 1
             self.load_page(self.current_page)  # 加载下一页
             self.update_buttons()
 
-    def update_buttons(self):
+    def update_buttons(self) -> None:
         self.prev_button.setEnabled(self.current_page > 0)
         self.next_button.setEnabled(self.current_page < len(self.pages_data) - 1)
 
