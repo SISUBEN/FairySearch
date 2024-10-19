@@ -82,7 +82,8 @@ class MainWindow(
         self.update_buttons()
 
     def show_user_profile(self):
-        pass
+        profileWindow = ProfileWindow()
+        profileWindow.show()
 
     # Lazy loading
     def load_page(self, page_index: int) -> None:
@@ -187,7 +188,7 @@ class ProfileWindow(QWidget, Ui_Profile):
             self.uid.text().replace(
                 # select the first row of the first column of the table
                 "$uid$",
-                db.userdb.query_user_uid(LOGIN)[0][0],
+                str(db.userdb.query_user_uid(LOGIN)[0][0]),
             )
         )
         logger.debug(
@@ -203,10 +204,10 @@ class ProfileWindow(QWidget, Ui_Profile):
         painter.drawPixmap(self.rect(), pixmap)
 
     def onSearchHistory(self):
-        raise NotImplementedError
+        pass
 
     def onChangeAvatar(self):
-        raise NotImplementedError
+        pass
 
 # this class has been decprecated, but im not sure what will happen after remove 
 # class MainWindow(QWidget, Ui_MainWindow):
