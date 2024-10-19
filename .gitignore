@@ -170,6 +170,9 @@ cython_debug/
 # VS Code Runner
 tempCodeRunnerFile.py
 
+# VS WS
+*.code-workspace
+
 # VS Code
 .vscode/
 

@@ -10,7 +10,7 @@ from PySide6.QtWidgets import (
     QSizePolicy,
     QLineEdit
 )
-from PySide6.QtGui import QPixmap, QPainter
+from PySide6.QtGui import QPixmap, QPainter, QIntValidator
 # import PySide6.QtGui as QtGui
 from PySide6.QtCore import Qt
 import sys
@@ -160,6 +160,7 @@ class MainWindow(QWidget):
         self.label2.setStyleSheet("color: white;weight: bold;font-size: 16px;")
         self.page_number.setFixedSize(50, 50)
         self.page_number.setStyleSheet("color: white;weight: bold;font-size: 16px;")
+        self.page_number.setValidator(QIntValidator(1, len(self.pages_data), self))
         self.page_number.setText(str(self.current_page + 1))
         # bind button click events
         self.prev_button.clicked.connect(self.show_prev_page)
@@ -167,8 +168,7 @@ class MainWindow(QWidget):
         # self.page_number.returnPressed.connect(self.jump_to_page)
         self.page_number.editingFinished.connect(self.jump_to_page)
 
-        # add buttons to layout
-        
+        # add buttons to layout     
         button_layout.addWidget(self.prev_button)
         button_layout.addWidget(self.label)
         button_layout.addWidget(self.page_number)
