@@ -19,8 +19,10 @@ from PySide6.QtWidgets import (QApplication, QLabel, QListView, QPushButton,
     QSizePolicy, QWidget)
 from .assets import resources_rc
 
+
+
 class Ui_Profile(object):
-    def setupUi(self, Profile):
+    def setupUi(self, Profile, username: str, uid: str):
         if not Profile.objectName():
             Profile.setObjectName(u"Profile")
         Profile.resize(1053, 601)
@@ -72,15 +74,14 @@ class Ui_Profile(object):
 "	background: transparent\n"
 "}")
 
-        self.retranslateUi(Profile)
-
+        self.retranslateUi(Profile, username, uid)
         QMetaObject.connectSlotsByName(Profile)
     # setupUi
 
-    def retranslateUi(self, Profile):
+    def retranslateUi(self, Profile, username: str, uid: str):
         Profile.setWindowTitle(QCoreApplication.translate("Profile", u"Profile", None))
-        self.username.setText(QCoreApplication.translate("Profile", u"$username$", None))
-        self.uid.setText(QCoreApplication.translate("Profile", u"UID: $uid$", None))
+        self.username.setText(QCoreApplication.translate("Profile", f"{username}", None))
+        self.uid.setText(QCoreApplication.translate("Profile", f"UID: {uid}", None))
         self.username_3.setText(QCoreApplication.translate("Profile", u"\u641c\u7d22\u5386\u53f2\uff1a", None))
         self.changeAvatar.setText("")
     # retranslateUi
