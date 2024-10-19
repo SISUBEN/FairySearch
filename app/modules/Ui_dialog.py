@@ -26,8 +26,11 @@ class Ui_Dialog(object):
         Dialog.resize(601, 542)
         Dialog.setMinimumSize(QSize(0, 0))
         Dialog.setMaximumSize(QSize(16777215, 16777215))
+#         Dialog.setStyleSheet(u"QDialog#Dialog {\n"
+# "	background-image: url(:/images/images/background.png);\n"
+# "}")
         Dialog.setStyleSheet(u"QDialog#Dialog {\n"
-"	background-image: url(:/images/images/background.png);\n"
+"	background-image: url(:/images/background.png);\n"
 "}")
         self.layoutWidget = QWidget(Dialog)
         self.layoutWidget.setObjectName(u"layoutWidget")
