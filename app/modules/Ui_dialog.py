@@ -30,7 +30,7 @@ class Ui_Dialog(object):
 # "	background-image: url(:/images/images/background.png);\n"
 # "}")
         Dialog.setStyleSheet(u"QDialog#Dialog {\n"
-"	background-image: url(:/images/background.png);\n"
+"	background-image: url(:/images/images/background.png);\n"
 "}")
         self.layoutWidget = QWidget(Dialog)
         self.layoutWidget.setObjectName(u"layoutWidget")

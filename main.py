@@ -12,7 +12,9 @@ from PySide6.QtGui import QPixmap, QPainter
 from app.modules.Ui_login import Ui_Form
 from app.modules.Ui_registor import Ui_Registor
 from app.modules.Ui_dialog import Ui_Dialog
-from app.modules.Ui_main import Ui_MainWindow
+
+# from app.modules.Ui_main_deprecated import Ui_MainWindow
+from app.modules.Ui_main import Ui_MainWindow, ItemWidget, PageWidget
 from app.modules.Ui_profile import Ui_Profile
 
 # Import resources, sqlite3 tools, hashlib and loguru
@@ -48,6 +50,66 @@ class DialogWindow(QDialog, Ui_Dialog):
 def openDialog(title: str, text: str):
     dialogWindow = DialogWindow(title, text)
     dialogWindow.exec()
+
+
+class MainWindow(
+    QWidget,
+    Ui_MainWindow,
+):
+    def __init__(self):
+        super().__init__()
+        self.setupUi(self)
+        # bind button click events
+        self.prev_button.clicked.connect(self.show_prev_page)
+        self.next_button.clicked.connect(self.show_next_page)
+        self.page_number.editingFinished.connect(self.jump_to_page)
+        self.user_profile_btn.clicked.connect(self.show_user_profile)
+        self.update_buttons()
+
+    def paintEvent(self, event):
+        painter = QPainter(self)
+        painter.drawRect(self.rect())
+        pixmap = QPixmap(f"{self.bg_image_path}")
+        # pixmap = QPixmap(":/images/background.png")
+        painter.drawPixmap(self.rect(), pixmap)
+
+    def jump_to_page(self) -> None:
+        page_num = int(self.page_number.text())
+        if page_num < 0 or page_num < len(self.pages_data) - 1:
+            return
+        self.current_page = page_num - 1
+        self.load_page(self.current_page)
+        self.update_buttons()
+
+    def show_user_profile(self):
+        pass
+
+    # Lazy loading
+    def load_page(self, page_index: int) -> None:
+        if page_index not in self.page_cache:
+            if 0 <= page_index < len(self.pages_data):
+                page = PageWidget(self.pages_data[page_index])
+                self.stacked_widget.addWidget(page)
+                self.page_cache[page_index] = page  # 缓存加载过的页面
+        self.stacked_widget.setCurrentIndex(page_index)
+
+    def show_prev_page(self) -> None:
+        if self.current_page > 0:
+            self.current_page -= 1
+            self.page_number.setText(str(self.current_page + 1))
+            self.load_page(self.current_page)  # 加载当前页
+            self.update_buttons()
+
+    def show_next_page(self) -> None:
+        if self.current_page < len(self.pages_data) - 1:
+            self.current_page += 1
+            self.page_number.setText(str(self.current_page + 1))
+            self.load_page(self.current_page)  # 加载下一页
+            self.update_buttons()
+
+    def update_buttons(self) -> None:
+        self.prev_button.setEnabled(self.current_page > 0)
+        self.next_button.setEnabled(self.current_page < len(self.pages_data) - 1)
 
 
 class LoginWindow(QWidget, Ui_Form):
@@ -146,99 +208,98 @@ class ProfileWindow(QWidget, Ui_Profile):
     def onChangeAvatar(self):
         raise NotImplementedError
 
+# this class has been decprecated, but im not sure what will happen after remove 
+# class MainWindow(QWidget, Ui_MainWindow):
+#     def __init__(self) -> None:
+#         super().__init__()
+#         self.window = None
+#         self.setupUi(self)
+#         self.setWindowTitle("Main Window")
+#         self.profile_btn.clicked.connect(self.openProfile)
+#         self.current_page: int = 1
+#         self.total_pages: int = db.videodb.count_videos()
+#         # when content in lineEdit changed, call search function
+#         self.search_box.returnPressed.connect(self.search)
+#         # TODO: add page of tabWeight
+#         self.prev_page_btn.clicked.connect(self.prevPage)
+#         self.next_page_btn.clicked.connect(self.nextPage)
+#         # 按下回车跳转到对应页数
+#         self.page_num.returnPressed.connect(self.gotoPage)
 
-class MainWindow(QWidget, Ui_MainWindow):
-    def __init__(self) -> None:
-        super().__init__()
-        self.window = None
-        self.setupUi(self)
-        self.setWindowTitle("Main Window")
-        self.profile_btn.clicked.connect(self.openProfile)
-        self.current_page: int = 1
-        self.total_pages: int = db.videodb.count_videos()
-        # when content in lineEdit changed, call search function
-        self.search_box.returnPressed.connect(self.search)
-        # TODO: add page of tabWeight
-        self.prev_page_btn.clicked.connect(self.prevPage)
-        self.next_page_btn.clicked.connect(self.nextPage)
-        # 按下回车跳转到对应页数
-        self.page_num.returnPressed.connect(self.gotoPage)
+#     def clearLayout(self, layout):
+#         """清空布局中的所有控件"""
+#         while layout.count():
+#             child = layout.takeAt(0)
+#             if child.widget():
+#                 child.widget().deleteLater()
 
-    def clearLayout(self, layout):
-        """清空布局中的所有控件"""
-        while layout.count():
-            child = layout.takeAt(0)
-            if child.widget():
-                child.widget().deleteLater()
+#     def loadPage(self, page_num):
+#         """加载指定页码的内容"""
+#         # 清空当前的内容
+#         self.clearLayout(self.gridLayout_3)
+#         # label = QLabel("这是第一页的内容")
+#         # self.gridLayout_3.addWidget(label)
+#         # 获取指定页码的内容
+#         videos = db.videodb.query_videos_by_page(page_num, 10)
+#         # 将内容添加到布局中
+#         for i, video in enumerate(videos):
+#             # 创建一个QLabel来显示视频信息
+#             label = QLabel(video[1])
+#             # 设置标签的样式
+#             label.setStyleSheet("font-size: 20px; color: white;")
+#             # 将标签添加到布局中
+#             self.gridLayout_3.addWidget(label, i, 0)
+#             # 创建一个QLabel来显示视频封面
+#             cover_label = QLabel()
+#             # 设置标签的样式
+#             cover_label.setStyleSheet("border: 1px solid black;")
+#             # 加载视频封面图片
+#             cover_label.setPixmap(QPixmap(video[2]))
+#             # 将标签添加到布局中
+#             self.gridLayout_3.addWidget(cover_label, i, 1)
 
-    def loadPage(self, page_num):
-        """加载指定页码的内容"""
-        # 清空当前的内容
-        self.clearLayout(self.gridLayout_3)
-        # label = QLabel("这是第一页的内容")
-        # self.gridLayout_3.addWidget(label)
-        # 获取指定页码的内容
-        videos = db.videodb.query_videos_by_page(page_num, 10)
-        # 将内容添加到布局中
-        for i, video in enumerate(videos):
-            # 创建一个QLabel来显示视频信息
-            label = QLabel(video[1])
-            # 设置标签的样式
-            label.setStyleSheet("font-size: 20px; color: white;")
-            # 将标签添加到布局中
-            self.gridLayout_3.addWidget(label, i, 0)
-            # 创建一个QLabel来显示视频封面
-            cover_label = QLabel()
-            # 设置标签的样式
-            cover_label.setStyleSheet("border: 1px solid black;")
-            # 加载视频封面图片
-            cover_label.setPixmap(QPixmap(video[2]))
-            # 将标签添加到布局中
-            self.gridLayout_3.addWidget(cover_label, i, 1)
+#     def prevPage(self):
+#         """上一页"""
+#         if self.current_page > 1:
+#             self.current_page -= 1
+#             self.loadPage(self.current_page)
+#             self.updateButtons()
+#             # 更新页码显示
+#             self.page_num.setText(str(self.current_page))
 
-    def prevPage(self):
-        """上一页"""
-        if self.current_page > 1:
-            self.current_page -= 1
-            self.loadPage(self.current_page)
-            self.updateButtons()
-            # 更新页码显示
-            self.page_num.setText(str(self.current_page))
+#     def nextPage(self):
+#         """下一页"""
+#         if self.current_page < self.total_pages:
+#             self.current_page += 1
+#             self.loadPage(self.current_page)
+#             self.updateButtons()
+#             self.page_num.setText(str(self.current_page))
 
-    def nextPage(self):
-        """下一页"""
-        if self.current_page < self.total_pages:
-            self.current_page += 1
-            self.loadPage(self.current_page)
-            self.updateButtons()
-            self.page_num.setText(str(self.current_page))
+#     def gotoPage(self):
+#         """跳转到指定页数"""
+#         page_num = int(self.page_num.text())
+#         if 1 <= page_num <= self.total_pages:
+#             self.current_page = page_num
+#             self.loadPage(self.current_page)
+#             self.updateButtons()
 
-    def gotoPage(self):
-        """跳转到指定页数"""
-        page_num = int(self.page_num.text())
-        if 1 <= page_num <= self.total_pages:
-            self.current_page = page_num
-            self.loadPage(self.current_page)
-            self.updateButtons()
+#     def updateButtons(self):
+#         """更新按钮的状态，禁用无效的翻页按钮"""
+#         self.prev_page_btn.setEnabled(self.current_page > 0)
+#         self.next_page_btn.setEnabled(self.current_page < self.total_pages)
 
-    def updateButtons(self):
-        """更新按钮的状态，禁用无效的翻页按钮"""
-        self.prev_page_btn.setEnabled(self.current_page > 0)
-        self.next_page_btn.setEnabled(self.current_page < self.total_pages)
+#     def openProfile(self):
+#         self.profileWindow = ProfileWindow()
+#         self.profileWindow.show()
 
-    def openProfile(self):
-        self.profileWindow = ProfileWindow()
-        self.profileWindow.show()
+#     def search(self):
+#         raise NotImplementedError
 
-    def search(self):
-        raise NotImplementedError
-
-    def paintEvent(self, event):
-        painter = QPainter(self)
-        painter.drawRect(self.rect())
-        pixmap = QPixmap(":/images/images/background.png")
-        painter.drawPixmap(self.rect(), pixmap)
-
+#     def paintEvent(self, event):
+#         painter = QPainter(self)
+#         painter.drawRect(self.rect())
+#         pixmap = QPixmap(":/images/images/background.png")
+#         painter.drawPixmap(self.rect(), pixmap)
 
 class RegisterWindow(QWidget, Ui_Registor):
     def __init__(self) -> None:
