@@ -17,7 +17,7 @@ from app.modules.Ui_profile import Ui_Profile
 
 # Import resources, sqlite3 tools, hashlib and loguru
 import app.modules.assets.resources_rc
-from app.database.sqlite import Database
+from app.database.queries import Database
 import hashlib
 from loguru import logger
 
