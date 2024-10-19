@@ -52,4 +52,5 @@ VIDEO_QUERY = "SELECT * FROM videos WHERE video_id=?;"
 VIDEO_QUERY_BY_PAGE = """
     SELECT * FROM videos ORDER BY video_id DESC LIMIT ?,?;
 """
+
 VIDEO_COUNT = "SELECT COUNT(*) FROM videos"

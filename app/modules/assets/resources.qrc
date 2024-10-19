@@ -11,6 +11,8 @@
     <file>icons/hdd.ico</file>
     <file>icons/user.png</file>
     <file>icons/icons.png</file>
+    <file>icons/user.svg</file>
+    <file>icons/user_x48.svg</file>
   </qresource>
   <qresource prefix="covers">
     <file>covers/default.png</file>
