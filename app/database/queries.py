@@ -17,6 +17,11 @@ class Database:
             )
             self.search_connect.commit()
             
+        def get_total_historys(self, username: str) -> int:
+            return self.search_connect.execute(
+                COUNT_SH, (username,)
+            ).fetchone()[0]
+        
         def search_history_add(self, uid: int, username: str, title: str, time: str) -> None:
             self.search_connect.execute(
                 SH_ADD,
@@ -24,19 +29,12 @@ class Database:
             )
             self.search_connect.commit()
         
-        def query_search_history(self, username: str, latest: int) -> list:
-            if latest == 0:                
-                return self.search_connect.execute(
-                        QUERY_SH,
-                        (username,)
-                ).fetchall()
-            elif latest < 0 or isinstance(latest, int):
-                return TypeError
-            else:
-                return self.search_connect.execute(
-                        FILTE_SH,
-                        (username, latest)
-                ).fetchall()
+        def query_search_history(self, username: str, page_size: int, page_num: int) -> list:
+            offset = (page_num - 1) * page_size
+            return self.search_connect.execute(
+                FILTE_SH, (username, offset, page_size)
+            ).fetchall()
+            
             
         def destroy_db(self, db_name: str) -> None:
             self.search_connect.execute(f"DROP TABLE IF EXISTS {db_name};")
@@ -145,3 +143,4 @@ class Database:
 
     userdb = Userdb()
     videodb = Videodb()
+    searchHisdb = SearchHistorydb()

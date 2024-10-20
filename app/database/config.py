@@ -24,8 +24,9 @@ INIT_SH_DB = """CREATE TABLE IF NOT EXISTS search_history (
                     FOREIGN KEY (userid) REFERENCES users(uid)
                 );"""
 QUERY_SH = "SELECT title FROM search_history WHERE username=?;"
+COUNT_SH = "SELECT COUNT(*) FROM search_history WHERE username=?;"
 FILTE_SH = (
-    "SELECT title FROM search_history WHERE username=? ORDER BY time DESC LIMIT ?;"
+    "SELECT title, timestamp, duration FROM search_history WHERE username=? ORDER BY time DESC LIMIT ? OFFSET ?;"
 )
 SH_ADD = "INSERT INTO search_history (uid, username ,title, time) VALUES (?, ?, ?, ?);"
 # user

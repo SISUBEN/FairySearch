@@ -29,6 +29,22 @@ class Ui_Profile(object):
 "	background-image: url(:/images/images/profile.png);\n"
 "	background-size:cover;\n"
 "}")
+        self.link_like_btn = QPushButton(Profile)
+        self.changeAvatar.setObjectName(u"link_like_btn")
+        self.link_like_btn.setStyleSheet(u"QPushButton#link_like_btn {\n"
+        "	color: #1a0dab;\n"
+        "	color: white;\n"
+        "	background-color:transparent;\n"
+        "}\n"
+        "QPushButton#link_like_btn:pressed {\n"
+        "	color: #681DA8;\n"
+        "	background-color:transparent;\n"
+        "}\n"
+        "QPushButton#link_like_btn:hover {\n"
+        "	text-decoration: underline;\n"
+        "	background-color:transparent;\n"
+        "}")
+        
         self.username = QLabel(Profile)
         self.username.setObjectName(u"username")
         self.username.setGeometry(QRect(140, 410, 151, 41))

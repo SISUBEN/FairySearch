@@ -3,6 +3,7 @@ from PySide6.QtWidgets import (
     QApplication,
     QWidget,
     QDialog,
+    QPushButton
 )
 from PySide6.QtCore import QCoreApplication
 from PySide6.QtGui import QPixmap, QPainter
@@ -15,6 +16,7 @@ from app.modules.Ui_main import Ui_MainWindow, ItemWidget, PageWidget
 from app.modules.Ui_profile import Ui_Profile
 
 # Import resources, utils and libs
+import uuid
 import app.modules.assets.resources_rc
 from app.database.queries import Database
 from app.utils.crypto import CryptoHasher
@@ -152,7 +154,7 @@ class LoginWindow(QWidget, Ui_Form):
         painter.drawPixmap(self.rect(), pixmap)
 
     def login(self) -> None:
-        global LOGIN
+        global LOGIN, LOGIN_UID
         username_input = self.username.text()
         password_input = self.password.text()
         if db.userdb.user_exists(self.username.text()):
@@ -161,6 +163,8 @@ class LoginWindow(QWidget, Ui_Form):
                 == db.userdb.query_user_password(username_input)[0][0]
             ):
                 LOGIN = username_input
+                LOGIN_UID = str(db.userdb.query_user_uid(LOGIN)[0][0])
+                logger.debug(f"var -> LOGIN => {LOGIN}\n\t=> LOGIN_UID => {LOGIN_UID}")
                 openDialog("登入成功", f"{self.username.text()}，欢迎")
                 self.openMainWindow()
             else:
@@ -188,31 +192,63 @@ class ProfileWindow(QWidget, Ui_Profile):
         super().__init__()
         _uid = str(db.userdb.query_user_uid(LOGIN)[0][0])
         self.setupUi(self, LOGIN, _uid)
+        
         # disable zoom
         self.setFixedSize(self.width(), self.height())
         self.setWindowTitle("Profile")
         logger.debug(f"var -> LOGIN => {LOGIN}")
         logger.debug(
-            f"client -> userdb [GET] db.userdb.query_user_uid(LOGIN)[0] => {db.userdb.query_user_uid(LOGIN)[0]}"
+            f"client -> userdb [GET] db.userdb.query_user_uid(LOGIN)[0][0] => {db.userdb.query_user_uid(LOGIN)[0][0]}"
         )
         # init search history
         self.tableWidget.setHorizontalHeaderLabels(["标题", "浏览时间", "时长"])
-        
         # bind slot
         self.onSearchHistory()
         self.changeAvatar.clicked.connect(self.onChangeAvatar)
 
+    def linkCreator(self, content: str, target: callable) -> None:
+        self.link_like_btn = QPushButton(self)
+        link_id = str(uuid.uuid4())
+        self.changeAvatar.setObjectName(f"link_like_btn_{link_id}")
+        self.link_like_btn.setStyleSheet("QPushButton#link_like_btn_"+link_id+" {" 
+        "	color: #1a0dab;\n"
+        "	color: white;\n"
+        "	background-color:transparent;\n"
+        "}\n"
+        f"QPushButton#link_like_btn_"+link_id+":pressed {\n"
+        "	color: #681DA8;\n"
+        "	background-color:transparent;\n"
+        "}\n"
+        "QPushButton#link_like_btn_"+link_id+":hover {\n"
+        "	text-decoration: underline;\n"
+        "	background-color:transparent;\n"
+        "}")
+        self.link_like_btn.setText(content)
+        self.link_like_btn.clicked.connect(target)
+    
     def paintEvent(self, event) -> None:
         painter = QPainter(self)
         painter.drawRect(self.rect())
         pixmap = QPixmap(":/images/images/profile.png")
         painter.drawPixmap(self.rect(), pixmap)
     
-    def addSearchHistory(self, item: ItemWidget) -> None:
-        pass
+    def addSearchHistory(self, title: str, time: str, duration: str) -> None:
+        # rowCount = self.tableWidget.rowCount()
+        self.tableWidget.insertRow(0)
+        self.tableWidget.setItem(title, time, duration)
+        
     
     def onSearchHistory(self) -> None:
-        pass
+        page_number = 1
+        page_size = 10
+        while True:
+            results = db.searchHisdb.query_search_history(LOGIN, page_number, page_size)
+            if not results:
+                break
+            for row in results:
+                title, timestamp, duration = row
+                self.addSearchHistory(title, timestamp, duration)
+            page_number += 1
 
     def onChangeAvatar(self) -> None:
         pass
