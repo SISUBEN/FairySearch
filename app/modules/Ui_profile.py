@@ -19,13 +19,12 @@ from PySide6.QtWidgets import (QApplication, QLabel, QListView, QPushButton,
     QSizePolicy, QWidget)
 from .assets import resources_rc
 
-
-
 class Ui_Profile(object):
-    def setupUi(self, Profile, username: str, uid: str):
+    def setupUi(self, Profile, username, uid):
         if not Profile.objectName():
             Profile.setObjectName(u"Profile")
         Profile.resize(1053, 601)
+        Profile.setMinimumSize(QSize(1053, 601))
         Profile.setStyleSheet(u"QWidget#Profile {\n"
 "	background-image: url(:/images/images/profile.png);\n"
 "	background-size:cover;\n"
@@ -75,10 +74,11 @@ class Ui_Profile(object):
 "}")
 
         self.retranslateUi(Profile, username, uid)
+
         QMetaObject.connectSlotsByName(Profile)
     # setupUi
 
-    def retranslateUi(self, Profile, username: str, uid: str):
+    def retranslateUi(self, Profile, username, uid):
         Profile.setWindowTitle(QCoreApplication.translate("Profile", u"Profile", None))
         self.username.setText(QCoreApplication.translate("Profile", f"{username}", None))
         self.uid.setText(QCoreApplication.translate("Profile", f"UID: {uid}", None))

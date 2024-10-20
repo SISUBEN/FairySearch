@@ -21,6 +21,3 @@ class Username(RegExr):
     def __init__(self):
         super().__init__(r'^[a-zA-Z][a-zA-Z0-9_]{4,15}$')
         
-# 匹配正则表达式
-email = Email()
-print(email.validate('example@example.com'))

@@ -3,7 +3,6 @@ from PySide6.QtWidgets import (
     QApplication,
     QWidget,
     QDialog,
-    QLabel,
 )
 from PySide6.QtCore import QCoreApplication
 # Import Ui file from Qt Designer.
@@ -54,7 +53,6 @@ class DialogWindow(QDialog, Ui_Dialog):
         self.label.setText(QCoreApplication.translate(
             "Dialog", f"{text}", None))
 
-
 def openDialog(title: str, text: str):
     dialogWindow = DialogWindow(title, text)
     dialogWindow.exec()
@@ -90,8 +88,8 @@ class MainWindow(
         self.update_buttons()
 
     def show_user_profile(self):
-        profileWindow = ProfileWindow()
-        profileWindow.show()
+        self.profileWindow = ProfileWindow()
+        self.profileWindow.show()
 
     # Lazy loading
     def load_page(self, page_index: int) -> None:
@@ -128,6 +126,7 @@ class LoginWindow(QWidget, Ui_Form):
         self.setupUi(self)
         self.login_btn.clicked.connect(self.login)
         self.register_2.clicked.connect(self.register)
+        self.password.editingFinished.connect(self.login)
 
     def paintEvent(self, event):
         painter = QPainter(self)
@@ -139,35 +138,17 @@ class LoginWindow(QWidget, Ui_Form):
         global LOGIN
         username_input = self.username.text()
         password_input = self.password.text()
-        logger.info(f"username: {username_input}, password: {password_input}")
-        logger.debug(
-            f"client -> userdb [GET] db.userdb.user_exists(self.username.text()) => {db.userdb.user_exists(self.username.text())}"
-        )
         if db.userdb.user_exists(self.username.text()):
-            logger.info(f"User {username_input} is trying to login")
-            logger.debug(
-                f"""client -> userdb [GET] hashlib.sha256(
-                password_input.encode()
-            ).hexdigest() == db.userdb.query_user_password(username_input) => {cryptor.encrypt_sha256(
-                password_input
-            ) == db.userdb.query_user_password(username_input)}\ninputed password: {cryptor.encrypt_sha256(
-                password_input
-            )}\nhashed password: {db.userdb.query_user_password(username_input)}"""
-            )
-
             if (
                 cryptor.encrypt_sha256(password_input)
                 == db.userdb.query_user_password(username_input)[0][0]
             ):
                 LOGIN = username_input
-                logger.success(f"User {username_input} login successfully")
                 openDialog("登入成功", f"{self.username.text()}，欢迎")
                 self.openMainWindow()
             else:
-                logger.info(f"User {username_input} login failed")
                 openDialog("登入失败", "用户名或者密码错误\n请再试一次")
         else:
-            logger.info(f"User {username_input} is not exists")
             openDialog("登入失败", "用户不存在")
 
     def register(self):
@@ -185,22 +166,15 @@ class LoginWindow(QWidget, Ui_Form):
         self.registerWindow = RegisterWindow()
         self.registerWindow.show()
 
-
 class ProfileWindow(QWidget, Ui_Profile):
     def __init__(self) -> None:
         super().__init__()
         _uid = str(db.userdb.query_user_uid(LOGIN)[0][0])
         self.setupUi(self, LOGIN, _uid)
+        # disable zoom
+        self.setFixedSize(self.width(), self.height())
         self.setWindowTitle("Profile")
         logger.debug(f"var -> LOGIN => {LOGIN}")
-        # self.username.setText(self.username.text().replace("$username$", LOGIN))
-        # self.uid.setText(
-        #     self.uid.text().replace(
-        #         # select the first row of the first column of the table
-        #         "$uid$",
-        #         str(db.userdb.query_user_uid(LOGIN)[0][0]),
-        #     )
-        # )
         logger.debug(
             f"client -> userdb [GET] db.userdb.query_user_uid(LOGIN)[0] => {db.userdb.query_user_uid(LOGIN)[0]}"
         )
