@@ -186,7 +186,11 @@ class ProfileWindow(QWidget, Ui_Profile):
         painter.drawRect(self.rect())
         pixmap = QPixmap(":/images/images/profile.png")
         painter.drawPixmap(self.rect(), pixmap)
-
+    
+    def addSearchHistory(self, item: ItemWidget) -> None:
+        self.search_history.addWidget(item)
+        self.search_history.update()
+    
     def onSearchHistory(self):
         pass
 
