@@ -178,3 +178,7 @@ tempCodeRunnerFile.py
 
 # backup files
 *.bak
+
+# test
+test/
+tests/
