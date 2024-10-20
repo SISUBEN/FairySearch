@@ -16,10 +16,12 @@ TAG_MAX_LEN = 50
 RESET_ID = "alter table ? AUTO_INCREMENT=1;"
 # search history
 INIT_SH_DB = """CREATE TABLE IF NOT EXISTS search_history (
-                    uid INTEGER ,
-                    username VARCHAR(32) NOT NULL,
+                    uuid VARCHAR(32) PRIMARY KEY,
+                    userid INTEGER NOT NULL,
                     title VARCHAR(32) NOT NULL,
-                    time DATETIME NOT NULL,
+                    timestamp INTEGER NOT NULL,
+                    duration INTEGER NOT NULL,
+                    FOREIGN KEY (userid) REFERENCES users(uid)
                 );"""
 QUERY_SH = "SELECT title FROM search_history WHERE username=?;"
 FILTE_SH = (

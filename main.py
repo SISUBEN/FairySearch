@@ -195,6 +195,10 @@ class ProfileWindow(QWidget, Ui_Profile):
         logger.debug(
             f"client -> userdb [GET] db.userdb.query_user_uid(LOGIN)[0] => {db.userdb.query_user_uid(LOGIN)[0]}"
         )
+        # init search history
+        self.tableWidget.setHorizontalHeaderLabels(["标题", "浏览时间", "时长"])
+        
+        # bind slot
         self.onSearchHistory()
         self.changeAvatar.clicked.connect(self.onChangeAvatar)
 
@@ -205,8 +209,7 @@ class ProfileWindow(QWidget, Ui_Profile):
         painter.drawPixmap(self.rect(), pixmap)
     
     def addSearchHistory(self, item: ItemWidget) -> None:
-        self.search_history.addWidget(item)
-        self.search_history.update()
+        pass
     
     def onSearchHistory(self) -> None:
         pass

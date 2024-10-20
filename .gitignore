@@ -182,3 +182,8 @@ tempCodeRunnerFile.py
 # test
 test/
 tests/
+
+# Deprecated
+*_deprecated.py
+*_deprecated/
+deprecated/
