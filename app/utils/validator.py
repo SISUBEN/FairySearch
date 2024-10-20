@@ -4,7 +4,7 @@ class RegExr:
     def __init__(self, regex):
         self.regex = regex
 
-    def validate(self, value):
+    def validate(self, value) -> bool:
         if re.match(self.regex, value):
             return True
         return False

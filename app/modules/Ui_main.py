@@ -64,7 +64,7 @@ class PageWidget(QWidget):
 
 
 class Ui_MainWindow(object):
-    def setupUi(self, MainWin):
+    def setupUi(self, MainWin, pages_data = []):
         # super(Ui_MainWindow, self).__init__()
         if not MainWin.objectName():
             MainWin.setObjectName("Form")
@@ -91,32 +91,7 @@ class Ui_MainWindow(object):
         # 翻页内容部分
         self.stacked_widget = QStackedWidget(self)
 
-        self.pages_data: list[dict] = [
-            [
-                {"cover": self.def_cover_path, "title": "Item 1"},
-                {"cover": self.def_cover_path, "title": "Item 2"},
-                {"cover": self.def_cover_path, "title": "Item 3"},
-                {"cover": self.def_cover_path, "title": "Item 4"},
-                {"cover": self.def_cover_path, "title": "Item 5"},
-                {"cover": self.def_cover_path, "title": "Item 6"},
-            ],
-            [
-                {"cover": self.def_cover_path, "title": "Item 7"},
-                {"cover": self.def_cover_path, "title": "Item 8"},
-                {"cover": self.def_cover_path, "title": "Item 9"},
-                {"cover": self.def_cover_path, "title": "Item 10"},
-                {"cover": self.def_cover_path, "title": "Item 11"},
-                {"cover": self.def_cover_path, "title": "Item 12"},
-            ],
-            [
-                {"cover": self.def_cover_path, "title": "Item 13"},
-                {"cover": self.def_cover_path, "title": "Item 14"},
-                {"cover": self.def_cover_path, "title": "Item 15"},
-                {"cover": self.def_cover_path, "title": "Item 16"},
-                {"cover": self.def_cover_path, "title": "Item 17"},
-                {"cover": self.def_cover_path, "title": "Item 18"},
-            ],
-        ]
+        self.pages_data: list[dict] = pages_data
 
         self.page_cache = {}  # 用于缓存已经加载过的页面
 

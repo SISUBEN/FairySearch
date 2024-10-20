@@ -100,22 +100,6 @@
     <string>搜索历史：</string>
    </property>
   </widget>
-  <widget class="QListView" name="search_history">
-   <property name="geometry">
-    <rect>
-     <x>360</x>
-     <y>121</y>
-     <width>611</width>
-     <height>401</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QListView #search_history {
-	background-color: rgb(46, 46, 46);
-	color: rgb(46, 46, 46);
-}</string>
-   </property>
-  </widget>
   <widget class="QPushButton" name="changeAvatar">
    <property name="geometry">
     <rect>
@@ -132,6 +116,16 @@
    </property>
    <property name="text">
     <string/>
+   </property>
+  </widget>
+  <widget class="QTableWidget" name="tableWidget">
+   <property name="geometry">
+    <rect>
+     <x>365</x>
+     <y>121</y>
+     <width>601</width>
+     <height>401</height>
+    </rect>
    </property>
   </widget>
  </widget>

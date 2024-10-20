@@ -5,13 +5,12 @@ from PySide6.QtWidgets import (
     QDialog,
 )
 from PySide6.QtCore import QCoreApplication
-# Import Ui file from Qt Designer.
 from PySide6.QtGui import QPixmap, QPainter
+# Import Ui file from Qt Designer.
+
 from app.modules.Ui_login import Ui_Form
 from app.modules.Ui_registor import Ui_Registor
 from app.modules.Ui_dialog import Ui_Dialog
-
-# from app.modules.Ui_main_deprecated import Ui_MainWindow
 from app.modules.Ui_main import Ui_MainWindow, ItemWidget, PageWidget
 from app.modules.Ui_profile import Ui_Profile
 
@@ -23,7 +22,6 @@ from app.utils.validator import (
     Password, Username
 )
 from loguru import logger
-
 
 # Initialize the application
 db = Database
@@ -45,7 +43,7 @@ logger.success("Fairy Search initialize successfully")
 
 # TODO:move to lib
 class DialogWindow(QDialog, Ui_Dialog):
-    def __init__(self, title: str, text: str):
+    def __init__(self, title: str, text: str) -> None:
         super().__init__()
         self.setupUi(self)
         self.setWindowTitle(QCoreApplication.translate(
@@ -53,7 +51,7 @@ class DialogWindow(QDialog, Ui_Dialog):
         self.label.setText(QCoreApplication.translate(
             "Dialog", f"{text}", None))
 
-def openDialog(title: str, text: str):
+def openDialog(title: str, text: str) -> None:
     dialogWindow = DialogWindow(title, text)
     dialogWindow.exec()
 
@@ -62,17 +60,36 @@ class MainWindow(
     QWidget,
     Ui_MainWindow,
 ):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
-        self.setupUi(self)
+        self.bg_image_path = ":/images/images/background.png"  # using QRC path
+        self.def_cover_path = ":/covers/covers/default.png"  # using QRC path
+        self.pages_data = [
+            [
+                {"cover": self.def_cover_path, "title": "Item 1"},
+                {"cover": self.def_cover_path, "title": "Item 2"},
+                {"cover": self.def_cover_path, "title": "Item 3"},
+                {"cover": self.def_cover_path, "title": "Item 4"},
+                {"cover": self.def_cover_path, "title": "Item 5"},
+                {"cover": self.def_cover_path, "title": "Item 6"},
+            ],
+        ]
+        self.setupUi(self, self.pages_data)
+        
         # bind button click events
         self.prev_button.clicked.connect(self.show_prev_page)
         self.next_button.clicked.connect(self.show_next_page)
         self.page_number.editingFinished.connect(self.jump_to_page)
         self.user_profile_btn.clicked.connect(self.show_user_profile)
         self.update_buttons()
+        
+    def append_page(self, *items_data: list) -> None:
+        for data in items_data:
+            self.pages_data.append(data)
+            self.load_page(len(self.pages_data) - 1)
+            self.update_buttons()
 
-    def paintEvent(self, event):
+    def paintEvent(self, event) -> None:
         painter = QPainter(self)
         painter.drawRect(self.rect())
         pixmap = QPixmap(f"{self.bg_image_path}")
@@ -87,7 +104,7 @@ class MainWindow(
         self.load_page(self.current_page)
         self.update_buttons()
 
-    def show_user_profile(self):
+    def show_user_profile(self) -> None:
         self.profileWindow = ProfileWindow()
         self.profileWindow.show()
 
@@ -121,20 +138,20 @@ class MainWindow(
 
 
 class LoginWindow(QWidget, Ui_Form):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
         self.setupUi(self)
         self.login_btn.clicked.connect(self.login)
         self.register_2.clicked.connect(self.register)
         self.password.editingFinished.connect(self.login)
 
-    def paintEvent(self, event):
+    def paintEvent(self, event) -> None:
         painter = QPainter(self)
         painter.drawRect(self.rect())
         pixmap = QPixmap(":/images/images/background.png")
         painter.drawPixmap(self.rect(), pixmap)
 
-    def login(self):
+    def login(self) -> None:
         global LOGIN
         username_input = self.username.text()
         password_input = self.password.text()
@@ -151,17 +168,17 @@ class LoginWindow(QWidget, Ui_Form):
         else:
             openDialog("登入失败", "用户不存在")
 
-    def register(self):
+    def register(self) -> None:
         self.close()
         self.registerWindow = RegisterWindow()
         self.registerWindow.show()
 
-    def openMainWindow(self):
+    def openMainWindow(self) -> None:
         self.close()
         self.mainWindow = MainWindow()
         self.mainWindow.show()
 
-    def openRegisterWindow(self):
+    def openRegisterWindow(self) -> None:
         self.close()
         self.registerWindow = RegisterWindow()
         self.registerWindow.show()
@@ -181,7 +198,7 @@ class ProfileWindow(QWidget, Ui_Profile):
         self.onSearchHistory()
         self.changeAvatar.clicked.connect(self.onChangeAvatar)
 
-    def paintEvent(self, event):
+    def paintEvent(self, event) -> None:
         painter = QPainter(self)
         painter.drawRect(self.rect())
         pixmap = QPixmap(":/images/images/profile.png")
@@ -191,10 +208,10 @@ class ProfileWindow(QWidget, Ui_Profile):
         self.search_history.addWidget(item)
         self.search_history.update()
     
-    def onSearchHistory(self):
+    def onSearchHistory(self) -> None:
         pass
 
-    def onChangeAvatar(self):
+    def onChangeAvatar(self) -> None:
         pass
 
 
@@ -231,7 +248,7 @@ class RegisterWindow(QWidget, Ui_Registor):
         else:
             openDialog(title="提示", text="两次输入的密码不一致")
 
-    def openMainWindow(self):
+    def openMainWindow(self) -> None:
         self.close()
         self.mainWindow = MainWindow()
         self.mainWindow.show()

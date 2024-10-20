@@ -15,8 +15,8 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QLabel, QListView, QPushButton,
-    QSizePolicy, QWidget)
+from PySide6.QtWidgets import (QApplication, QHeaderView, QLabel, QPushButton,
+    QSizePolicy, QTableWidget, QTableWidgetItem, QWidget)
 from .assets import resources_rc
 
 class Ui_Profile(object):
@@ -59,19 +59,15 @@ class Ui_Profile(object):
 "	color: white;\n"
 "\n"
 "}")
-        self.search_history = QListView(Profile)
-        self.search_history.setObjectName(u"search_history")
-        self.search_history.setGeometry(QRect(360, 121, 611, 401))
-        self.search_history.setStyleSheet(u"QListView #search_history {\n"
-"	background-color: rgb(46, 46, 46);\n"
-"	color: rgb(46, 46, 46);\n"
-"}")
         self.changeAvatar = QPushButton(Profile)
         self.changeAvatar.setObjectName(u"changeAvatar")
         self.changeAvatar.setGeometry(QRect(80, 410, 41, 41))
         self.changeAvatar.setStyleSheet(u"QPushButton {\n"
 "	background: transparent\n"
 "}")
+        self.tableWidget = QTableWidget(Profile)
+        self.tableWidget.setObjectName(u"tableWidget")
+        self.tableWidget.setGeometry(QRect(365, 121, 601, 401))
 
         self.retranslateUi(Profile, username, uid)
 
