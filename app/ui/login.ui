@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1279</width>
-    <height>846</height>
+    <width>1246</width>
+    <height>1075</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -33,7 +33,10 @@
   </property>
   <property name="styleSheet">
    <string notr="true">QWidget#Form {
-	background-image: url(:/images/images/background.png)
+	background-image: url(:/images/images/background.png);
+    width:100%;
+    height:100%;
+	background-size:100% 100%,
 }</string>
   </property>
   <widget class="QWidget" name="layoutWidget">
@@ -42,43 +45,54 @@
      <x>260</x>
      <y>120</y>
      <width>791</width>
-     <height>641</height>
+     <height>791</height>
     </rect>
    </property>
    <layout class="QGridLayout" name="gridLayout">
     <property name="sizeConstraint">
      <enum>QLayout::SizeConstraint::SetMinAndMaxSize</enum>
     </property>
-    <item row="0" column="0">
-     <widget class="QLabel" name="label_4">
-      <property name="maximumSize">
+    <item row="3" column="0">
+     <spacer name="horizontalSpacer_7">
+      <property name="orientation">
+       <enum>Qt::Orientation::Horizontal</enum>
+      </property>
+      <property name="sizeType">
+       <enum>QSizePolicy::Policy::MinimumExpanding</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
        <size>
-        <width>16777215</width>
-        <height>150</height>
+        <width>40</width>
+        <height>10</height>
        </size>
       </property>
-      <property name="font">
-       <font>
-        <family>Consolas</family>
-        <pointsize>40</pointsize>
-        <bold>true</bold>
-       </font>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">color: white;</string>
-      </property>
-      <property name="text">
-       <string>欢迎访问H.D.D System</string>
-      </property>
-      <property name="textFormat">
-       <enum>Qt::TextFormat::RichText</enum>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignmentFlag::AlignCenter</set>
-      </property>
-     </widget>
+     </spacer>
     </item>
     <item row="1" column="0">
+     <layout class="QHBoxLayout" name="horizontalLayout_5">
+      <property name="sizeConstraint">
+       <enum>QLayout::SizeConstraint::SetFixedSize</enum>
+      </property>
+      <item>
+       <widget class="QLabel" name="label_3">
+        <property name="maximumSize">
+         <size>
+          <width>256</width>
+          <height>256</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-image: url(:/icons/icons/hdd.ico) no-repeat center center;
+</string>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item row="6" column="0">
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout">
@@ -310,6 +324,19 @@ QPushButton:pressed {
        </layout>
       </item>
       <item>
+       <spacer name="horizontalSpacer_8">
+        <property name="orientation">
+         <enum>Qt::Orientation::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
        <layout class="QHBoxLayout" name="horizontalLayout_4">
         <item>
          <widget class="QPushButton" name="register_2">
@@ -382,6 +409,35 @@ QPushButton#forget_password:hover {
        </layout>
       </item>
      </layout>
+    </item>
+    <item row="2" column="0">
+     <widget class="QLabel" name="label_4">
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>120</height>
+       </size>
+      </property>
+      <property name="font">
+       <font>
+        <family>Consolas</family>
+        <pointsize>40</pointsize>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: white;</string>
+      </property>
+      <property name="text">
+       <string>欢迎访问H.D.D System</string>
+      </property>
+      <property name="textFormat">
+       <enum>Qt::TextFormat::RichText</enum>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignmentFlag::AlignCenter</set>
+      </property>
+     </widget>
     </item>
    </layout>
   </widget>

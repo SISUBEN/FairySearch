@@ -13,6 +13,7 @@
     <file>icons/icons.png</file>
     <file>icons/user.svg</file>
     <file>icons/user_x48.svg</file>
+    <file>icons/icon.ico</file>
   </qresource>
   <qresource prefix="covers">
     <file>covers/default.png</file>

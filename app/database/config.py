@@ -16,19 +16,20 @@ TAG_MAX_LEN = 50
 RESET_ID = "alter table ? AUTO_INCREMENT=1;"
 # search history
 INIT_SH_DB = """CREATE TABLE IF NOT EXISTS search_history (
-                    uuid VARCHAR(32) PRIMARY KEY,
+                    uuid CHAR(33) PRIMARY KEY,
                     userid INTEGER NOT NULL,
                     title VARCHAR(32) NOT NULL,
                     timestamp INTEGER NOT NULL,
                     duration INTEGER NOT NULL,
                     FOREIGN KEY (userid) REFERENCES users(uid)
                 );"""
-QUERY_SH = "SELECT title FROM search_history WHERE username=?;"
-COUNT_SH = "SELECT COUNT(*) FROM search_history WHERE username=?;"
+QUERY_SH = "SELECT title FROM search_history WHERE userid=?;"
+COUNT_SH = "SELECT COUNT(*) FROM search_history WHERE userid=?;"
 FILTE_SH = (
-    "SELECT title, timestamp, duration FROM search_history WHERE username=? ORDER BY time DESC LIMIT ? OFFSET ?;"
+    "SELECT title, timestamp, duration FROM search_history WHERE userid=? ORDER BY timestamp DESC LIMIT ? OFFSET ?;"
 )
-SH_ADD = "INSERT INTO search_history (uid, username ,title, time) VALUES (?, ?, ?, ?);"
+FILTE_SH_ALL = "SELECT title, timestamp, duration FROM search_history WHERE userid=? ORDER BY timestamp"
+SH_ADD = "INSERT INTO search_history (uuid, userid ,title, timestamp, duration) VALUES (?, ?, ?, ?, ?);"
 # user
 INIT_USER_DB = """CREATE TABLE IF NOT EXISTS users (
                     uid INTEGER PRIMARY KEY AUTOINCREMENT,

@@ -30,7 +30,7 @@ class Ui_Profile(object):
 "	background-size:cover;\n"
 "}")
         self.link_like_btn = QPushButton(Profile)
-        self.changeAvatar.setObjectName(u"link_like_btn")
+        self.link_like_btn.setObjectName(u"link_like_btn")
         self.link_like_btn.setStyleSheet(u"QPushButton#link_like_btn {\n"
         "	color: #1a0dab;\n"
         "	color: white;\n"

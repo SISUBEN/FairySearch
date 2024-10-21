@@ -182,6 +182,7 @@ tempCodeRunnerFile.py
 # test
 test/
 tests/
+*test.py
 
 # Deprecated
 *_deprecated.py

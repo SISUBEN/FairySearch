@@ -3,10 +3,12 @@ from PySide6.QtWidgets import (
     QApplication,
     QWidget,
     QDialog,
-    QPushButton
+    QPushButton,
+    QTableWidgetItem,
+    QTableWidget
 )
 from PySide6.QtCore import QCoreApplication
-from PySide6.QtGui import QPixmap, QPainter
+from PySide6.QtGui import QPixmap, QPainter, QIcon
 # Import Ui file from Qt Designer.
 
 from app.modules.Ui_login import Ui_Form
@@ -16,20 +18,25 @@ from app.modules.Ui_main import Ui_MainWindow, ItemWidget, PageWidget
 from app.modules.Ui_profile import Ui_Profile
 
 # Import resources, utils and libs
-import uuid
+import time
 import app.modules.assets.resources_rc
 from app.database.queries import Database
 from app.utils.crypto import CryptoHasher
-from app.utils.validator import (
-    Password, Username
-)
+from app.utils.time import TimeKeeper
+from app.utils.validator import Password, Username
+from app.helper.widgetHelper import WidgetHelper
+
 from loguru import logger
 
 # Initialize the application
 db = Database
+widget_helper = WidgetHelper()
 passwd_val = Password()
 usrname_val = Username()
-cryptor = CryptoHasher
+cryptor = CryptoHasher()
+timekeeper = TimeKeeper() 
+
+
 LOGIN = None  # TODO: use token to save login status
 # logger.add(
 #     "logs/main_{time}.log",
@@ -143,6 +150,8 @@ class LoginWindow(QWidget, Ui_Form):
     def __init__(self) -> None:
         super().__init__()
         self.setupUi(self)
+        self.setWindowTitle("登录")
+        
         self.login_btn.clicked.connect(self.login)
         self.register_2.clicked.connect(self.register)
         self.password.editingFinished.connect(self.login)
@@ -155,11 +164,12 @@ class LoginWindow(QWidget, Ui_Form):
 
     def login(self) -> None:
         global LOGIN, LOGIN_UID
-        username_input = self.username.text()
-        password_input = self.password.text()
+        username_input: str = self.username.text()
+        password_input: str = self.password.text()
         if db.userdb.user_exists(self.username.text()):
+            logger.debug(f"password type: {type(password_input)}\n\t=> {password_input}")
             if (
-                cryptor.encrypt_sha256(password_input)
+                cryptor.encrypt_sha256(string=password_input)
                 == db.userdb.query_user_password(username_input)[0][0]
             ):
                 LOGIN = username_input
@@ -201,58 +211,41 @@ class ProfileWindow(QWidget, Ui_Profile):
             f"client -> userdb [GET] db.userdb.query_user_uid(LOGIN)[0][0] => {db.userdb.query_user_uid(LOGIN)[0][0]}"
         )
         # init search history
-        self.tableWidget.setHorizontalHeaderLabels(["标题", "浏览时间", "时长"])
+        # self.tableWidget.horizontalHeader
+        # self.tableWidget.verticalHeaderItem
+        self.tableWidget.setRowCount(3)
+        self.tableWidget.setHorizontalHeaderLabels(["浏览时间", "标题", "时长"])
+        self.tableWidget.setEditTriggers(QTableWidget.NoEditTriggers)
         # bind slot
         self.onSearchHistory()
         self.changeAvatar.clicked.connect(self.onChangeAvatar)
 
-    def linkCreator(self, content: str, target: callable) -> None:
-        self.link_like_btn = QPushButton(self)
-        link_id = str(uuid.uuid4())
-        self.changeAvatar.setObjectName(f"link_like_btn_{link_id}")
-        self.link_like_btn.setStyleSheet("QPushButton#link_like_btn_"+link_id+" {" 
-        "	color: #1a0dab;\n"
-        "	color: white;\n"
-        "	background-color:transparent;\n"
-        "}\n"
-        f"QPushButton#link_like_btn_"+link_id+":pressed {\n"
-        "	color: #681DA8;\n"
-        "	background-color:transparent;\n"
-        "}\n"
-        "QPushButton#link_like_btn_"+link_id+":hover {\n"
-        "	text-decoration: underline;\n"
-        "	background-color:transparent;\n"
-        "}")
-        self.link_like_btn.setText(content)
-        self.link_like_btn.clicked.connect(target)
-    
     def paintEvent(self, event) -> None:
         painter = QPainter(self)
         painter.drawRect(self.rect())
         pixmap = QPixmap(":/images/images/profile.png")
         painter.drawPixmap(self.rect(), pixmap)
     
-    def addSearchHistory(self, title: str, time: str, duration: str) -> None:
+    def addSearchHistory(self, title: str, time: int, duration: str) -> None:
         # rowCount = self.tableWidget.rowCount()
         self.tableWidget.insertRow(0)
-        self.tableWidget.setItem(title, time, duration)
-        
+        link = widget_helper.creatLink(content=title, target=self.onSearchHistory)
+        # self.tableWidget.setItem(time, link, duration)
+        formatted_time = timekeeper.datetime(time)
+        self.tableWidget.setItem(0, 1, QTableWidgetItem(formatted_time))
+        self.tableWidget.setCellWidget(0, 2, link)
+        self.tableWidget.setItem(0, 3, QTableWidgetItem(duration))
     
+    @timekeeper.timer
     def onSearchHistory(self) -> None:
-        page_number = 1
-        page_size = 10
-        while True:
-            results = db.searchHisdb.query_search_history(LOGIN, page_number, page_size)
-            if not results:
-                break
-            for row in results:
-                title, timestamp, duration = row
-                self.addSearchHistory(title, timestamp, duration)
-            page_number += 1
+        results = db.searchHisdb.query_search_history_all(LOGIN_UID)
+        for row in results:
+            title, timestamp, duration = row
+            self.addSearchHistory(title, timestamp, duration)
+            logger.debug(f"record: {row} has been added")
 
     def onChangeAvatar(self) -> None:
-        pass
-
+        ...
 
 class RegisterWindow(QWidget, Ui_Registor):
     def __init__(self) -> None:
@@ -296,6 +289,7 @@ class RegisterWindow(QWidget, Ui_Registor):
 if __name__ == "__main__":
     try:
         app = QApplication([])
+        app.setWindowIcon(QIcon(":/icons/icons/icon.ico"))
         loginWindow = LoginWindow()
         loginWindow.show()
         app.exec()
