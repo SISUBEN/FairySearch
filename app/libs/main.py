@@ -1,0 +1,84 @@
+from app.modules.Ui_main import Ui_MainWindow, ItemWidget, PageWidget
+from app.libs.profile import ProfileWindow
+from app.__init__ import *
+
+
+class MainWindow(
+    QWidget,
+    Ui_MainWindow,
+):
+    def __init__(self) -> None:
+        super().__init__()
+        self.bg_image_path = ":/images/images/background.png"  # using QRC path
+        self.def_cover_path = ":/covers/covers/default.png"  # using QRC path
+        self.pages_data = [
+            [
+                {"cover": self.def_cover_path, "title": "Item 1"},
+                {"cover": self.def_cover_path, "title": "Item 2"},
+                {"cover": self.def_cover_path, "title": "Item 3"},
+                {"cover": self.def_cover_path, "title": "Item 4"},
+                {"cover": self.def_cover_path, "title": "Item 5"},
+                {"cover": self.def_cover_path, "title": "Item 6"},
+            ],
+        ]
+        self.setupUi(self, self.pages_data)
+        
+        # bind button click events
+        self.prev_button.clicked.connect(self.show_prev_page)
+        self.next_button.clicked.connect(self.show_next_page)
+        self.page_number.editingFinished.connect(self.jump_to_page)
+        self.user_profile_btn.clicked.connect(self.show_user_profile)
+        self.update_buttons()
+        
+    def append_page(self, *items_data: list) -> None:
+        for data in items_data:
+            self.pages_data.append(data)
+            self.load_page(len(self.pages_data) - 1)
+            self.update_buttons()
+
+    def paintEvent(self, event) -> None:
+        painter = QPainter(self)
+        painter.drawRect(self.rect())
+        pixmap = QPixmap(f"{self.bg_image_path}")
+        # pixmap = QPixmap(":/images/background.png")
+        painter.drawPixmap(self.rect(), pixmap)
+
+    def jump_to_page(self) -> None:
+        page_num = int(self.page_number.text())
+        if page_num < 0 or page_num < len(self.pages_data) - 1:
+            return
+        self.current_page = page_num - 1
+        self.load_page(self.current_page)
+        self.update_buttons()
+
+    def show_user_profile(self) -> None:
+        self.profileWindow = ProfileWindow()
+        self.profileWindow.show()
+
+    # Lazy loading
+    def load_page(self, page_index: int) -> None:
+        if page_index not in self.page_cache:
+            if 0 <= page_index < len(self.pages_data):
+                page = PageWidget(self.pages_data[page_index])
+                self.stacked_widget.addWidget(page)
+                self.page_cache[page_index] = page  # 缓存加载过的页面
+        self.stacked_widget.setCurrentIndex(page_index)
+
+    def show_prev_page(self) -> None:
+        if self.current_page > 0:
+            self.current_page -= 1
+            self.page_number.setText(str(self.current_page + 1))
+            self.load_page(self.current_page)  # 加载当前页
+            self.update_buttons()
+
+    def show_next_page(self) -> None:
+        if self.current_page < len(self.pages_data) - 1:
+            self.current_page += 1
+            self.page_number.setText(str(self.current_page + 1))
+            self.load_page(self.current_page)  # 加载下一页
+            self.update_buttons()
+
+    def update_buttons(self) -> None:
+        self.prev_button.setEnabled(self.current_page > 0)
+        self.next_button.setEnabled(
+            self.current_page < len(self.pages_data) - 1)

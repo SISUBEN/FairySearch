@@ -188,3 +188,4 @@ tests/
 *_deprecated.py
 *_deprecated/
 deprecated/
+*_de.py
