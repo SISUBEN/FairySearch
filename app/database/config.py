@@ -2,11 +2,11 @@
 # 请使用启动脚本启动main.py
 # 否则路径可能会出错
 # 或者请使用绝对路径
-VIDEO_DB: str = "./app/database/videos.db"
-USER_DB: str = "./app/database/users.db"
-SH_DB: str = "./app/database/search_history.db"
+VIDEO_DB: str = "./database/videos.db"
+USER_DB: str = "./database/users.db"
+SH_DB: str = "./database/search_history.db"
 # default
-DEFAULT_COVER = "./app/database/covers/default.png"
+DEFAULT_COVER = "./database/covers/default.png"
 # max value
 TYPE_MAX_LEN = 50
 TITLE_MAX_LEN = 50

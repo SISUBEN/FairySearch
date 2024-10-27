@@ -6,6 +6,7 @@ if __name__ == "__main__":
         app = QApplication([])
         app.setWindowIcon(QIcon(":/icons/icons/icon.ico"))
         loginWindow = LoginWindow()
+        # logger.hr("Start", level=1)
         loginWindow.show()
         app.exec()
     except Exception as err:

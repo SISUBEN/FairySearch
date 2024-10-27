@@ -41,7 +41,7 @@ class LoginWindow(QWidget, Ui_Form):
             ):
                 LOGIN = username_input
                 LOGIN_UID = str(db.userdb.query_user_uid(LOGIN)[0][0])
-                logger.debug(f"var -> LOGIN => {LOGIN}\n\t=> LOGIN_UID => {LOGIN_UID}")
+                logger.debug(f"login: {LOGIN}\n\tlogin uid: {LOGIN_UID}")
                 openDialog("登入成功", f"{self.username.text()}，欢迎")
                 self.openMainWindow()
             else:
