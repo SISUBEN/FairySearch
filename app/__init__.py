@@ -9,4 +9,5 @@ from PySide6.QtWidgets import (
 )
 from PySide6.QtCore import QCoreApplication
 from PySide6.QtGui import QPixmap, QPainter, QIcon
-from loguru import logger
+# from loguru import logger
+from app.modules.logger.logger import logger

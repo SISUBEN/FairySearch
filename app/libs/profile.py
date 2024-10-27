@@ -16,6 +16,7 @@ class ProfileWindow(QWidget, Ui_Profile):
     def __init__(self) -> None:
         super().__init__()
         _uid = str(db.userdb.query_user_uid(LOGIN)[0][0])
+        logger.info(f"login user uid:{_uid}")
         self.setupUi(self, LOGIN, _uid)
         
         # disable zoom

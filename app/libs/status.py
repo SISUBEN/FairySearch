@@ -1,5 +1,4 @@
 from app.database.queries import Database
-from app.libs.expection import NoLoginError
 db = Database
 
 class Status:
@@ -21,7 +20,7 @@ class Status:
             str: uid
         """
         if self.__login is None:
-            raise NoLoginError
+            return
         return db.userdb.query_user_uid(self.__login)
     
     def __str__(self) -> str:
