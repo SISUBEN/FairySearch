@@ -61,21 +61,21 @@ class MainWindow(
             if 0 <= page_index < len(self.pages_data):
                 page = PageWidget(self.pages_data[page_index])
                 self.stacked_widget.addWidget(page)
-                self.page_cache[page_index] = page  # 缓存加载过的页面
+                self.page_cache[page_index] = page  # cecha page
         self.stacked_widget.setCurrentIndex(page_index)
 
     def show_prev_page(self) -> None:
         if self.current_page > 0:
             self.current_page -= 1
             self.page_number.setText(str(self.current_page + 1))
-            self.load_page(self.current_page)  # 加载当前页
+            self.load_page(self.current_page)  # load prev page
             self.update_buttons()
 
     def show_next_page(self) -> None:
         if self.current_page < len(self.pages_data) - 1:
             self.current_page += 1
             self.page_number.setText(str(self.current_page + 1))
-            self.load_page(self.current_page)  # 加载下一页
+            self.load_page(self.current_page)  # load next page 
             self.update_buttons()
 
     def update_buttons(self) -> None:

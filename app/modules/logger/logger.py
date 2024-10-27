@@ -1,29 +1,3 @@
-# import datetime
-# import logging
-# import os
-# import sys
-
-# from rich.console import Console
-# from rich.highlighter import NullHighlighter
-# from rich.logging import RichHandler
-# from rich.rule import Rule
-# from rich.logging import RichHandler
-
-# # Logger init
-# logger_debug = False
-# logger = logging.getLogger(__name__)
-# logger.setLevel(logging.DEBUG if logger_debug else logging.INFO)
-# file_formatter = logging.Formatter(
-#     fmt="%(asctime)s [%(levelname)s] %(message)s",
-#     datefmt="%Y-%m-%d %H:%M:%S",
-# )
-# console_formatter = logging.Formatter(
-#     fmt="%(asctime)s │ %(message)s", datefmt="%Y-%m-%d %H:%M:%S"
-# )
-# # cd to root
-# os.chdir(os.path.join(os.path.dirname(__file__), "../../"))
-# script_name = os.path.splitext(os.path.basename(sys.argv[0]))[0]
-# logger.info("Logger") 
 import datetime
 import logging
 import os
@@ -36,35 +10,35 @@ from rich.rule import Rule
 from rich.logging import RichHandler
 
 # Logger init
-logger_debug = False
+logger_debug = True
+
 logger = logging.getLogger(__name__)
+root_dir = os.path.abspath(os.path.join(os.getcwd(), "../../../"))
+file = logging.FileHandler(f"{root_dir}\log.txt", encoding="utf-8")
 logger.setLevel(logging.DEBUG if logger_debug else logging.INFO)
 file_formatter = logging.Formatter(
-    fmt="%(asctime)s [%(levelname)s] %(message)s",
-    datefmt="%Y-%m-%d %H:%M:%S",
+    fmt="%(asctime)s [%(levelname)s] %(message)s", datefmt="%Y-%m-%d %H:%M:%S"
 )
-console_formatter = logging.Formatter(
-    fmt="%(asctime)s │ %(message)s", datefmt="%Y-%m-%d %H:%M:%S"
-)
+console_formatter = logging.Formatter(fmt="| %(message)s", datefmt="%Y-%m-%d %H:%M:%S")
+file.setFormatter(file_formatter)
 # cd to root
-os.chdir(os.path.join(os.path.dirname(__file__), "../../"))
+os.chdir(root_dir)  # os.path.join(os.path.dirname(__file__), "../../../")
 script_name = os.path.splitext(os.path.basename(sys.argv[0]))[0]
 
-# 创建RichHandler对象
+# Creat RichHandler obj
 rich_handler = RichHandler(
     show_time=True,
     show_level=True,
     show_path=False,
     highlighter=NullHighlighter(),
 )
-
-# 将RichHandler对象添加到logger中
+rich_handler.setFormatter(console_formatter)
+# add RichHandler to logger
 logger.addHandler(rich_handler)
 
-# 设置日志格式
-rich_handler.setFormatter(console_formatter)
+# setting formatter
 
-# 记录日志
+
 def _set_file_logger(name=script_name):
     if "_" in name:
         name = name.split("_", 1)[0]
@@ -123,43 +97,31 @@ def set_file_logger(name=script_name):
     logger.log_file = log_file
 
 
-def hr(title, level=3):
-    title = str(title).upper()
-    if level == 1:
-        logger.rule(title, characters="═")
-        logger.info(title)
-    if level == 2:
-        logger.rule(title, characters="─")
-        logger.info(title)
-    if level == 3:
-        logger.info(f"[bold]<<< {title} >>>[/bold]", extra={"markup": True})
-    if level == 0:
-        logger.rule(characters="═")
-        logger.rule(title, characters=" ")
-        logger.rule(characters="═")
-
-
-def rule(title="", *, char="─", style="rule.line", end="\n", align="center"):
-    rule = Rule(title=title, characters=char, style=style, end=end, align=align)
-    print(rule)
-
 
 def attr(name, text):
     logger.info("[%s] %s" % (str(name), str(text)))
-
 
 def attr_align(name, text, front="", align=22):
     name = str(name).rjust(align)
     if front:
         name = front + name[len(front) :]
     logger.info("%s: %s" % (name, str(text)))
+    
+def head(name, level=0):
+    if level == 0:
+        print(Rule(name))
+    elif level == 1:
+        print(Rule(name, style="bold"))
+    elif level == 2:
+        print(Rule(name, style="bold red"))
+    elif level == 3:
+        print(Rule(name, style="bold red on white"))
 
 
-logger.hr = hr
+logger.head = head
 logger.attr = attr
 logger.attr_align = attr_align
 logger.set_file_logger = set_file_logger
-logger.rule = rule
 logger.log_file: str  # type: ignore
 
-# logger.hr("Logger") 
+# logger.hr("Logger")

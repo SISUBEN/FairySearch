@@ -13,14 +13,14 @@ class WidgetHelper(object):
         ...
 
     def creatLink(self, content: str, target: callable) -> QPushButton:
-        """创建一个类HTML超链接的按钮
+        """Create a link-like button
 
         Args:
-            content (str): 按钮显示的文本
-            target (callable): 按钮点击后执行的函数
+            content (str): the content of the button
+            target (callable): the function to be called when the button is clicked
 
         Returns:
-            QPushButton: 返回一个按钮
+            QPushButton: return a QPushButton object
         """
         self.link_like_btn = QPushButton()
         link_id = str(uuid.uuid4())

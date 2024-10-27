@@ -11,15 +11,6 @@ class RichFileHandler(RichHandler):
     ...
 
 class __logger(logging.Logger):
-    def rule(
-        self,
-        title: str = "",
-        *,
-        characters: str = "-",
-        style: str = "rule.line",
-        end: str = "\n",
-        align: str = "center",
-    ) -> None: ...
     def hr(
         self,
         title,

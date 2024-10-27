@@ -1,5 +1,5 @@
 import sqlite3
-from .config import *
+from .db_config import *
 from app.utils.crypto import CryptoHasher
 import time
 import uuid
@@ -54,6 +54,10 @@ class Database:
 
     class Userdb:
         def __init__(self) -> None:
+            import os
+            import sys
+            from app.modules.logger.logger import logger
+            logger.debug(f"is userdb exists: {os.path.exists(USER_DB)}\n\tcurrent work dir: {os.path.dirname(os.path.abspath(__file__))}")
             self.user_connect = sqlite3.connect(USER_DB)
             self.user_cur = self.user_connect.cursor()
             self.init_userdb()
