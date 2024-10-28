@@ -1,7 +1,4 @@
 # db addr
-# 请使用启动脚本启动main.py
-# 否则路径可能会出错
-# 或者请使用绝对路径
 import os
 from app.modules.logger.logger import logger
 
@@ -9,6 +6,7 @@ logger.debug(f"Current file dir: {os.getcwd()}")
 # VIDEO_DB: str = "./app/database/videos.db"
 # USER_DB: str = "./app/database/users.db"
 # SH_DB: str = "./app/database/search_history.db"
+# locate database path automatically
 current_dir = os.path.dirname(os.path.abspath(__file__))
 VIDEO_DB: str = os.path.join(current_dir, "videos.db")
 USER_DB: str = os.path.join(current_dir, "users.db")
@@ -43,12 +41,18 @@ SH_ADD = "INSERT INTO search_history (uuid, userid ,title, timestamp, duration) 
 INIT_USER_DB = """CREATE TABLE IF NOT EXISTS users (
                     uid INTEGER PRIMARY KEY AUTOINCREMENT,
                     username VARCHAR(32) NOT NULL,
-                    password VARCHAR(32) NOT NULL
+                    password VARCHAR(32) NOT NULL,
+                    token VARCHAR(32) NOT NULL
                 );"""
 USER_ADD = "INSERT INTO users (username, password) VALUES (?, ?);"
 USER_QUERY = "SELECT * FROM users WHERE username=?;"
 USER_QUERY_PWD = "SELECT password FROM users WHERE username=?;"
 USER_QUERY_UID = "SELECT uid FROM users WHERE username=?;"
+T_USER_ADD = "INSERT INTO users (username, password, token) VALUES (?, ?, ?);"
+T_USER_QUERY = "SELECT * FROM users WHERE token=?;"
+T_USER_QUERY_PWD = "SELECT password FROM users WHERE token=?;"
+T_USER_QUERY_UID = "SELECT uid FROM users WHERE token=?;"
+USER_QUERY_TOKEN = "SELECT token FROM users WHERE username=?;"
 DESTROY_TABLE = "DROP TABLE IF EXISTS ?;"
 # video
 INIT_VIDEO_DB = """CREATE TABLE IF NOT EXISTS videos (

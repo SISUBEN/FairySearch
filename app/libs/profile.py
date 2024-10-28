@@ -15,17 +15,11 @@ LOGIN_UID = status.get_login_uid()
 class ProfileWindow(QWidget, Ui_Profile):
     def __init__(self) -> None:
         super().__init__()
-        _uid = str(db.userdb.query_user_uid(LOGIN)[0][0])
-        logger.info(f"login user uid:{_uid}")
-        self.setupUi(self, LOGIN, _uid)
-        
+        logger.info(f"login user uid:{LOGIN_UID}")
+        self.setupUi(self, LOGIN, LOGIN_UID)
         # disable zoom
         self.setFixedSize(self.width(), self.height())
         self.setWindowTitle("Profile")
-        logger.debug(f"var -> LOGIN => {LOGIN}")
-        logger.debug(
-            f"client -> userdb [GET] db.userdb.query_user_uid(LOGIN)[0][0] => {db.userdb.query_user_uid(LOGIN)[0][0]}"
-        )
         # init search history
         # self.tableWidget.horizontalHeader
         # self.tableWidget.verticalHeaderItem

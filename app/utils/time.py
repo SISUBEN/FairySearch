@@ -1,6 +1,6 @@
 import time
 from datetime import datetime
-from loguru import logger
+from app.modules.logger.logger import logger
 from functools import wraps
 # Author: Vertin
 # Date: 1999
@@ -54,6 +54,6 @@ class TimeKeeper:
             start_time = time.time()
             result = func(*args, **kwargs)
             end_time = time.time()
-            print(f"Function '{func.__name__}' executed in {end_time - start_time:.4f} seconds")
+            logger.info(f"Function '{func.__name__}' executed in {end_time - start_time:.4f} seconds")
             return result
         return wrapper

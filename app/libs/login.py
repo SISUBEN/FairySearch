@@ -6,7 +6,9 @@ from app.utils.crypto import CryptoHasher
 from app.libs.register import RegisterWindow
 from app.libs.main import MainWindow
 from app.libs.dialog import openDialog
+from app.libs.status import Status
 
+status = Status
 db = Database
 cryptor = CryptoHasher()
 
@@ -28,20 +30,14 @@ class LoginWindow(QWidget, Ui_Form):
         painter.drawPixmap(self.rect(), pixmap)
 
     def login(self) -> None:
-        global LOGIN, LOGIN_UID
         username_input: str = self.username.text()
         password_input: str = self.password.text()
+        enctrypt: str = cryptor.sha256(password_input)
         if db.userdb.user_exists(self.username.text()):
-            logger.debug(
-                f"password type: {type(password_input)}\n\t=> {password_input}"
-            )
-            if (
-                cryptor.encrypt_sha256(string=password_input)
-                == db.userdb.query_user_password(username_input)[0][0]
-            ):
-                LOGIN = username_input
-                LOGIN_UID = str(db.userdb.query_user_uid(LOGIN)[0][0])
-                logger.debug(f"login: {LOGIN}\n\tlogin uid: {LOGIN_UID}")
+            if db.userdb.verify_user(username_input, enctrypt):
+                token = db.userdb.generate_token(enctrypt)
+                status.set_login()
+                logger.debug(f"token: {token}")
                 openDialog("登入成功", f"{self.username.text()}，欢迎")
                 self.openMainWindow()
             else:

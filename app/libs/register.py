@@ -33,9 +33,11 @@ class RegisterWindow(QWidget, Ui_Registor):
         if db.userdb.user_exists(self._username):
             openDialog(title="提示", text="用户名已存在")
         elif self.password_ipt == self.password2_ipt:
-            db.userdb.user_add(
-                self._username, cryptor.encrypt_sha256(self.password_ipt)
-            )
+            # db.userdb.user_add(
+            #     self._username, cryptor.sha256(self.password_ipt)
+            # )
+            # encyted = cryptor.sha256(self.password_ipt)
+            db.userdb.t_user_add(self._username, self.password_ipt)
             openDialog(title="提示", text="注册成功")
             self.openMainWindow()
         elif not usrname_val.validate(self._username):

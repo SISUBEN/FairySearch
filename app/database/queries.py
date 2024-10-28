@@ -66,25 +66,113 @@ class Database:
             self.user_connect.execute(INIT_USER_DB)
             self.user_connect.commit()
 
-        def user_add(self, username: str, password: str) -> None:  # 添加用户
+        def user_add(self, username: str, password: str) -> None:
             self.user_connect.execute(USER_ADD, (username, password))
             self.user_connect.commit()
 
-        def user_exists(self, username: str) -> bool | tuple:  # 用户是否存在
+        def t_user_add(self, username: str, password: str) -> str:
+            """Add user to database with token
+
+            Args:
+                username (str): username
+                password (str): password must be plain text
+            """
+            encrypted = cryptor.sha256(password)
+            token = self.generate_token(username, encrypted)
+            self.user_connect.execute(T_USER_ADD, (username, encrypted, token))
+            self.user_connect.commit()
+            return token
+            
+        def verify_token(self, token: str) -> bool:
+            """Verify token
+
+            Args:
+                token (str): token
+
+            Returns:
+                bool: is True if token is valid
+            """
+            return self.user_connect.execute(T_USER_QUERY, (token,)).fetchone() is not None
+
+        def get_token(self, username: str) -> str:
+            return self.user_connect.execute(T_USER_QUERY, (username,)).fetchone()[0]
+        
+        def generate_token(self, username: str, password: str) -> str:
+            """Generate token for user
+
+            Args:
+                username (str): username plain text
+                password (str): password cipher text
+
+            Raises:
+                Exception: if user not exists
+
+            Returns:
+                str[64]: token (a sha256 hash)
+            """
+            token = {
+                "username": username,
+                "pasword": password, 
+            }
+            token = str(token)
+            return cryptor.sha256(token)
+                
+        
+        def user_exists(self, username: str) -> bool:
+            """Check if user exists
+
+            Args:
+                username (str): username
+
+            Returns:
+                bool: is Ture if user exists
+            """
             return (
                 self.user_connect.execute(USER_QUERY, (username,)).fetchone()
                 is not None
-            )  # 如果查询结果为空，则返回None，否则返回查询结果
+            ) # if query result is not None, return True, else return result
+            
 
         def destroy_db(self, db_name: str) -> None:
             self.user_connect.execute(f"DROP TABLE IF EXISTS {db_name};")
             self.user_connect.commit()
 
         def query_user_password(self, username: str) -> list:
+            """Query user password by username
+
+            Args:
+                username (str): username
+
+            Returns:
+                list: result example: [('password',)]
+            """
             return self.user_connect.execute(USER_QUERY_PWD, (username,)).fetchall()
 
         def query_user_uid(self, username: str) -> list:
+            """Query user uid by username
+
+            Args:
+                username (str): username
+
+            Returns:
+                list: result example: [('uid',)]
+            """
             return self.user_connect.execute(USER_QUERY_UID, (username,)).fetchall()
+        
+        def verify_user(self, password: str, username: str) -> bool:
+            """Verfy user password
+
+            Args:
+                password (str): user password (encrypted)
+                username (str): username
+
+            Returns:
+                bool: True if password is correct, False otherwise
+            """
+            if self.user_exists(username):
+                return self.query_user_password(username)[0][0] == password
+            else:
+                return False
 
         def __del__(self) -> None:
             self.user_connect.close()
@@ -95,7 +183,7 @@ class Database:
             self.video_cur = self.video_connect.cursor()
             self.init_videodb()
 
-        def init_videodb(self) -> None:  # 创建视频数据库
+        def init_videodb(self) -> None:
             self.video_connect.execute(INIT_VIDEO_DB)
             self.video_connect.commit()
 
@@ -108,15 +196,15 @@ class Database:
             video_desc: str,
             video_cover_path: str = DEFAULT_COVER,
         ):
-            """添加视频信息到数据库
+            """add video to database
 
             Args:
-                video_title (str): 视频标题
-                video_time_sec (float): 视频时长
-                video_type (str): 视频类型
-                video_tags (list): 视频标签
-                video_desc (str): 视频描述
-                video_cover_path (str, optional): 视频封面路径（绝对或QRC路径）. Defaults to DEFAULT_COVER.
+                video_title (str): video title
+                video_time_sec (float): video time
+                video_type (str): video type
+                video_tags (list): video tags
+                video_desc (str): video description
+                video_cover_path (str, optional): path of video cover (qrc path). Defaults to DEFAULT_COVER.
             """
             if self.video_query(video_title):
                 return

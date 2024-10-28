@@ -75,7 +75,7 @@ class MainWindow(
         if self.current_page < len(self.pages_data) - 1:
             self.current_page += 1
             self.page_number.setText(str(self.current_page + 1))
-            self.load_page(self.current_page)  # load next page 
+            self.load_page(self.current_page)  # load next page
             self.update_buttons()
 
     def update_buttons(self) -> None:
