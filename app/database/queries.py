@@ -95,7 +95,16 @@ class Database:
             return self.user_connect.execute(T_USER_QUERY, (token,)).fetchone() is not None
 
         def get_token(self, username: str) -> str:
-            return self.user_connect.execute(T_USER_QUERY, (username,)).fetchone()[0]
+            """Get token by username
+
+            Args:
+                username (str): username
+
+            Returns:
+                str: token
+            """
+            return self.user_connect.execute(T_USER_QUERY, (username,)).fetchone()[0][0]
+        
         
         def generate_token(self, username: str, password: str) -> str:
             """Generate token for user
@@ -131,33 +140,55 @@ class Database:
                 self.user_connect.execute(USER_QUERY, (username,)).fetchone()
                 is not None
             ) # if query result is not None, return True, else return result
-            
+        
+        def query_username(self, token: str) -> list:
+            """query username by token
+
+            Args:
+                token (str): login token
+
+            Returns:
+                str: username
+            """
+            return self.user_connect.execute(T_USERNAME_QUERY, (token,)).fetchall()[0][0]
 
         def destroy_db(self, db_name: str) -> None:
             self.user_connect.execute(f"DROP TABLE IF EXISTS {db_name};")
             self.user_connect.commit()
 
-        def query_user_password(self, username: str) -> list:
+        def query_user_password(self, username: str) -> str:
             """Query user password by username
 
             Args:
                 username (str): username
 
             Returns:
-                list: result example: [('password',)]
+                str: user password
             """
-            return self.user_connect.execute(USER_QUERY_PWD, (username,)).fetchall()
+            logger.debug(f"self.user_connect.execute(USER_QUERY_PWD, (username,)).fetchall() = {self.user_connect.execute(USER_QUERY_PWD, (username,)).fetchall()}")
+            return self.user_connect.execute(USER_QUERY_PWD, (username,)).fetchall()[0][0]
 
-        def query_user_uid(self, username: str) -> list:
+        def query_user_uid(self, username: str) -> int:
             """Query user uid by username
 
             Args:
                 username (str): username
 
             Returns:
-                list: result example: [('uid',)]
+                int : user uid
             """
-            return self.user_connect.execute(USER_QUERY_UID, (username,)).fetchall()
+            return self.user_connect.execute(USER_QUERY_UID, (username,)).fetchall()[0][0]
+        
+        def query_uid(self, token: str) -> int:
+            """Query user uid by token
+
+            Args:
+                token (str): login token
+
+            Returns:
+                int: user uid
+            """
+            return self.user_connect.execute(T_USER_QUERY_UID, (token,)).fetchall()[0][0]
         
         def verify_user(self, password: str, username: str) -> bool:
             """Verfy user password
@@ -169,10 +200,10 @@ class Database:
             Returns:
                 bool: True if password is correct, False otherwise
             """
-            if self.user_exists(username):
-                return self.query_user_password(username)[0][0] == password
-            else:
-                return False
+            logger.debug(f"pwd: {password}, username: {username}")
+            logger.debug(f"Is user exists? => {self.user_exists(username)}")
+            logger.debug(f"self.user_connect.execute(USER_QUERY_PWD, (username,)).fetchall() = {self.user_connect.execute(USER_QUERY_PWD, (username,)).fetchall()}")
+            return self.query_user_password(username) == password
 
         def __del__(self) -> None:
             self.user_connect.close()

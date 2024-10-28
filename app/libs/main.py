@@ -1,5 +1,6 @@
 from app.modules.Ui_main import Ui_MainWindow, ItemWidget, PageWidget
 from app.libs.profile import ProfileWindow
+from app.libs.expection import NoLoginError
 from app.__init__ import *
 
 
@@ -7,8 +8,9 @@ class MainWindow(
     QWidget,
     Ui_MainWindow,
 ):
-    def __init__(self) -> None:
+    def __init__(self, token: str) -> None:
         super().__init__()
+        self.__token = token
         self.bg_image_path = ":/images/images/background.png"  # using QRC path
         self.def_cover_path = ":/covers/covers/default.png"  # using QRC path
         self.pages_data = [
@@ -52,8 +54,11 @@ class MainWindow(
         self.update_buttons()
 
     def show_user_profile(self) -> None:
-        self.profileWindow = ProfileWindow()
-        self.profileWindow.show()
+        if self.__token: # if user is logged in
+            self.profileWindow = ProfileWindow(self.__token)
+            self.profileWindow.show()
+        else:
+            raise NoLoginError
 
     # Lazy loading
     def load_page(self, page_index: int) -> None:

@@ -2,21 +2,19 @@ from app.__init__ import *
 from app.modules.Ui_profile import Ui_Profile
 from app.utils.time import TimeKeeper
 from app.database.queries import Database
-from app.libs.status import Status
 from app.helper.widgetHelper import WidgetHelper
-status = Status()
 timekeeper = TimeKeeper() 
 widget_helper = WidgetHelper()
 db = Database
 
-LOGIN = status.get_login()
-LOGIN_UID = status.get_login_uid()
-
 class ProfileWindow(QWidget, Ui_Profile):
-    def __init__(self) -> None:
+    def __init__(self, token: str) -> None:
         super().__init__()
-        logger.info(f"login user uid:{LOGIN_UID}")
-        self.setupUi(self, LOGIN, LOGIN_UID)
+        self.__token = token
+        self.__name = db.userdb.query_username(token)
+        self.__uid = db.userdb.query_uid(token)
+        # logger.info(f"login user uid:{LOGIN_UID}")
+        self.setupUi(self, self.__name, self.__uid)
         # disable zoom
         self.setFixedSize(self.width(), self.height())
         self.setWindowTitle("Profile")
@@ -48,7 +46,7 @@ class ProfileWindow(QWidget, Ui_Profile):
     
     @timekeeper.timer
     def onSearchHistory(self) -> None:
-        results = db.searchHisdb.query_search_history_all(LOGIN_UID)
+        results = db.searchHisdb.query_search_history_all(self.__uid)
         for row in results:
             title, timestamp, duration = row
             self.addSearchHistory(title, timestamp, duration)
