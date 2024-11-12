@@ -2,6 +2,7 @@ from app.__init__ import *
 from app.modules.Ui_profile import Ui_Profile
 from app.utils.time import TimeKeeper
 from app.database.queries import Database
+from PySide6.QtWidgets import QMessageBox
 from app.helper.widgetHelper import WidgetHelper
 timekeeper = TimeKeeper() 
 widget_helper = WidgetHelper()
@@ -21,35 +22,77 @@ class ProfileWindow(QWidget, Ui_Profile):
         # init search history
         # self.tableWidget.horizontalHeader
         # self.tableWidget.verticalHeaderItem
-        self.tableWidget.setRowCount(3)
-        self.tableWidget.setHorizontalHeaderLabels(["浏览时间", "标题", "时长"])
+        self.tableWidget.setColumnCount(4)
+        self.tableWidget.setHorizontalHeaderLabels(["浏览时间", "标题", "时长", "vid"])
+        self.tableWidget.setColumnHidden(4, True) # only for listener function
         self.tableWidget.setEditTriggers(QTableWidget.NoEditTriggers)
         # bind slot
         self.onSearchHistory()
         self.changeAvatar.clicked.connect(self.onChangeAvatar)
+        self.tableWidget.cellClicked.connect(self.onClickTitle)
+        
 
     def paintEvent(self, event) -> None:
         painter = QPainter(self)
         painter.drawRect(self.rect())
         pixmap = QPixmap(":/images/images/profile.png")
         painter.drawPixmap(self.rect(), pixmap)
+        
+    def onClickTitle(self, row, column):
+        # only column 2 is title
+        # still has some problem ....
+        # doesn't display any debug info
+        if column == 2:
+            title = self.tableWidget.item(row, column).text()  # get title
+            logger.debug(f"clicked title: {title}")    
     
-    def addSearchHistory(self, title: str, time: int, duration: str) -> None:
-        # rowCount = self.tableWidget.rowCount()
-        self.tableWidget.insertRow(0)
-        link = widget_helper.creatLink(content=title, target=self.onSearchHistory)
-        # self.tableWidget.setItem(time, link, duration)
-        formatted_time = timekeeper.datetime(time)
-        self.tableWidget.setItem(0, 1, QTableWidgetItem(formatted_time))
-        self.tableWidget.setCellWidget(0, 2, link)
-        self.tableWidget.setItem(0, 3, QTableWidgetItem(duration))
+    def addSearchHistory(self, title: str, duration: str, uuid: str, time: int = timekeeper.get_timestamp()) -> None:
+        """add search history to table
+        
+        Args:
+            title (str): search history title
+            duration (str): the duration of the video
+            uuid (str): the video uid
+            time (int, optional): browsing time. Defaults to timekeeper.get_timestamp().
+        """
+        # calc new row num
+        row_position = self.tableWidget.rowCount()
+        self.tableWidget.insertRow(row_position)
+
+        # add time
+        time_item = QTableWidgetItem(str(time))
+        time_item.setTextAlignment(Qt.AlignCenter)
+        self.tableWidget.setItem(row_position, 0, time_item)
+
+        # add title
+        # title_item = QTableWidgetItem(title)
+        title_item = widget_helper.creatLink(title, color="black")
+        # title_item.setTextAlignment(Qt.AlignCenter)
+        self.tableWidget.setCellWidget(row_position, 1, title_item)
+        
+        # add duration
+        duration_item = QTableWidgetItem(str(duration))
+        duration_item.setTextAlignment(Qt.AlignCenter)
+        self.tableWidget.setItem(row_position, 2, duration_item)
+        
+        # add uuid
+        vid_item = QTableWidgetItem(uuid)
+        vid_item.setTextAlignment(Qt.AlignCenter)
+        vid_item.setFlags(vid_item.flags() & ~Qt.ItemIsEditable) # disable edit
+        self.tableWidget.setItem(row_position, 3, vid_item) 
     
     @timekeeper.timer
     def onSearchHistory(self) -> None:
         results = db.searchHisdb.query_search_history_all(self.__uid)
+        # TODO: lazy load
         for row in results:
-            title, timestamp, duration = row
-            self.addSearchHistory(title, timestamp, duration)
+            title, timestamp, duration, uuid = row
+            self.addSearchHistory(
+                title=title,
+                time=timekeeper.datetime(timestamp), 
+                duration=duration, 
+                uuid=uuid
+            )
             logger.debug(f"record: {row} has been added")
 
     def onChangeAvatar(self) -> None:

@@ -1,6 +1,5 @@
 from app.__init__ import *
 from app.libs.login import LoginWindow
-from PySide6.QtCore import QtMsgType, qInstallMessageHandler
 import os
 
 if __name__ == "__main__":

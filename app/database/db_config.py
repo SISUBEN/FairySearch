@@ -3,15 +3,12 @@ import os
 from app.modules.logger.logger import logger
 
 logger.debug(f"Current file dir: {os.getcwd()}")
-# VIDEO_DB: str = "./app/database/videos.db"
-# USER_DB: str = "./app/database/users.db"
-# SH_DB: str = "./app/database/search_history.db"
+
 # locate database path automatically
 current_dir = os.path.dirname(os.path.abspath(__file__))
 VIDEO_DB: str = os.path.join(current_dir, "videos.db")
 USER_DB: str = os.path.join(current_dir, "users.db")
 SH_DB: str = os.path.join(current_dir, "search_history.db")
-logger.debug(f"Video DB: {VIDEO_DB}\nUser DB: {USER_DB}\nSearch History DB: {SH_DB}")
 # default
 DEFAULT_COVER =  os.path.join(current_dir, "covers", "default.png")
 # max value
@@ -35,7 +32,7 @@ COUNT_SH = "SELECT COUNT(*) FROM search_history WHERE userid=?;"
 FILTE_SH = (
     "SELECT title, timestamp, duration FROM search_history WHERE userid=? ORDER BY timestamp DESC LIMIT ? OFFSET ?;"
 )
-FILTE_SH_ALL = "SELECT title, timestamp, duration FROM search_history WHERE userid=? ORDER BY timestamp"
+FILTE_SH_ALL = "SELECT title, timestamp, duration, uuid FROM search_history WHERE userid=? ORDER BY timestamp"
 SH_ADD = "INSERT INTO search_history (uuid, userid ,title, timestamp, duration) VALUES (?, ?, ?, ?, ?);"
 # user
 INIT_USER_DB = """CREATE TABLE IF NOT EXISTS users (

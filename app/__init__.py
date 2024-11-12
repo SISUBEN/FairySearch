@@ -7,6 +7,7 @@ from PySide6.QtWidgets import (
     QTableWidgetItem,
     QTableWidget
 )
+from PySide6.QtCore import Qt
 from PySide6.QtCore import QCoreApplication
 from PySide6.QtGui import QPixmap, QPainter, QIcon
 # from loguru import logger
