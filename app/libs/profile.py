@@ -29,7 +29,8 @@ class ProfileWindow(QWidget, Ui_Profile):
         # bind slot
         self.onSearchHistory()
         self.changeAvatar.clicked.connect(self.onChangeAvatar)
-        self.tableWidget.cellClicked.connect(self.onClickTitle)
+        # self.tableWidget.cellClicked.connect(self.onClickTitle)s
+        # self.tableWidget.cellDoubleClicked.connect(self.onClickTitle)
         
 
     def paintEvent(self, event) -> None:
@@ -38,13 +39,8 @@ class ProfileWindow(QWidget, Ui_Profile):
         pixmap = QPixmap(":/images/images/profile.png")
         painter.drawPixmap(self.rect(), pixmap)
         
-    def onClickTitle(self, row, column):
-        # only column 2 is title
-        # still has some problem ....
-        # doesn't display any debug info
-        if column == 2:
-            title = self.tableWidget.item(row, column).text()  # get title
-            logger.debug(f"clicked title: {title}")    
+    def onClickTitle(self, vid):
+        logger.debug(f"to vid: {vid}")
     
     def addSearchHistory(self, title: str, duration: str, uuid: str, time: int = timekeeper.get_timestamp()) -> None:
         """add search history to table
@@ -67,6 +63,7 @@ class ProfileWindow(QWidget, Ui_Profile):
         # add title
         # title_item = QTableWidgetItem(title)
         title_item = widget_helper.creatLink(title, color="black")
+        title_item.clicked.connect(lambda _, v=uuid: self.onClickTitle(v))
         # title_item.setTextAlignment(Qt.AlignCenter)
         self.tableWidget.setCellWidget(row_position, 1, title_item)
         
