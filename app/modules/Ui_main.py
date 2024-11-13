@@ -11,57 +11,65 @@ from PySide6.QtWidgets import (
     QLineEdit,
 )
 from PySide6.QtGui import QPixmap, QPainter, QIntValidator, QIcon
-
+from PySide6.QtWidgets import QWidget
+from PySide6.QtCore import Signal, Qt
+from PySide6.QtGui import QMouseEvent
 # import PySide6.QtGui as QtGui
 from PySide6.QtCore import Qt, QSize
+from app.libs.main import onClickVideos
 from .assets import resources_rc
 
-
-# 模板类
+# template
 class ItemWidget(QWidget):
+    clicked = Signal() 
     def __init__(self, cover_image_path: str, title: str, *args, **kwargs):
         super(ItemWidget, self).__init__(*args, **kwargs)
         layout = QVBoxLayout()
 
-        # 封面图片
+        # cover
         self.cover_label = QLabel(self)
         pixmap = QPixmap(cover_image_path)
         self.cover_label.setPixmap(pixmap)
-        self.cover_label.setScaledContents(True)  # 自动缩放封面图片
+        self.cover_label.setScaledContents(True)  # zoom cover image
         layout.addWidget(self.cover_label)
 
-        # 允许封面图片在窗口中水平和垂直方向上自适应拉伸
+        # allowd to zoom cover image
         self.cover_label.setSizePolicy(
             QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         )
 
-        # 标题
+        # title
         self.title_label = QLabel(title, self)
         self.title_label.setStyleSheet("color: white;weight: bold;font-size: 16px;")
         self.title_label.setAlignment(Qt.AlignCenter)  # 标题居中
         layout.addWidget(self.title_label)
 
         self.setLayout(layout)
+        
+    def mousePressEvent(self, event: QMouseEvent):
+        if event.button() == Qt.LeftButton:
+            self.clicked.emit()  # Emit the custom clicked signal
+        super().mousePressEvent(event)
 
 
 class PageWidget(QWidget):
-    def __init__(self, items_data, *args, **kwargs):
+    def __init__(self, items_data = list, *args, **kwargs):
         super(PageWidget, self).__init__(*args, **kwargs)
         layout = QGridLayout()
-        # 将每个项目以3列的方式排列
+        # set grid layout
         for i, item_data in enumerate(items_data):
             item = ItemWidget(item_data["cover"], item_data["title"])
-            layout.addWidget(item, i // 3, i % 3)  # 3列布局
+            item.clicked.connect(lambda v=item_data["vid"]: onClickVideos(v))
+            layout.addWidget(item, i // 3, i % 3)  # 3x3
 
-            # 设置项目部件的大小策略，使其可以自动拉伸
+            # set item size
             item.setSizePolicy(
                 QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
             )
 
-        layout.setSpacing(10)  # 设置每个项目之间的间距
+        layout.setSpacing(10)  # set spacing between items
         layout.setContentsMargins(20, 45, 20, 20)
         self.setLayout(layout)
-
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWin, pages_data = []):
@@ -83,26 +91,18 @@ class Ui_MainWindow(object):
         #           ↓ start from 1
         # Pages: |0|1|2|3|...|n+1|
         self.current_page = 0
-
-        # 主布局
         self.main_layout = QVBoxLayout(self)
-        # 栏目布局
         self.bar_layout = QHBoxLayout()
-        # 翻页内容部分
+        # next pages btn layout
         self.stacked_widget = QStackedWidget(self)
-
         self.pages_data: list[dict] = pages_data
-
-        self.page_cache = {}  # 用于缓存已经加载过的页面
-
-        # 加载第一页
+        self.page_cache = {}  # cache videos page
+        # load frist page
         self.load_page(0)
         self.main_layout.addWidget(self.stacked_widget)
-
         # user profile btn
         self.user_profile_btn = QPushButton("", self)
-
-        # 翻页按钮布局
+        # next page btn
         self.button_layout = QHBoxLayout()
         self.prev_button = QPushButton("上一页", self)
         self.next_button = QPushButton("下一页", self)
@@ -149,12 +149,10 @@ class Ui_MainWindow(object):
         self.page_number.setText(str(self.current_page + 1))
         self.user_profile_btn.setIcon(QIcon(":/icons/icons/user_x48.svg"))
         self.user_profile_btn.setFixedSize(48, 48)
-        # 设置位置在窗口的右上角
+        # set button position
         self.user_profile_btn.move(self.user_profile_btn.width() - 10, 8)
         self.user_profile_btn.setStyleSheet("QPushButton { border: none; }")
         self.user_profile_btn.setIconSize(QSize(48, 48))
-
-
         # add buttons to layout
         self.button_layout.addWidget(self.prev_button)
         self.button_layout.addWidget(self.label)

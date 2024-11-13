@@ -1,7 +1,20 @@
+from app.libs.videoBrowser import VideoBrowser
+# to avoid circular import
+def onClickVideos(vid: int) -> None:
+    videosBrower = VideoBrowser(vid)
+    videosBrower.show()
+    # logger.debug(f"onClickVideos: {vid}")
+
 from app.modules.Ui_main import Ui_MainWindow, ItemWidget, PageWidget
 from app.libs.profile import ProfileWindow
 from app.libs.expection import NoLoginError
+from app.database.queries import Database
+from app.utils.time import TimeKeeper
 from app.__init__ import *
+# import pdb
+db = Database
+video_browser = VideoBrowser()
+
 
 
 class MainWindow(
@@ -13,18 +26,21 @@ class MainWindow(
         self.__token = token
         self.bg_image_path = ":/images/images/background.png"  # using QRC path
         self.def_cover_path = ":/covers/covers/default.png"  # using QRC path
-        self.pages_data = [
-            [
-                {"cover": self.def_cover_path, "title": "Item 1"},
-                {"cover": self.def_cover_path, "title": "Item 2"},
-                {"cover": self.def_cover_path, "title": "Item 3"},
-                {"cover": self.def_cover_path, "title": "Item 4"},
-                {"cover": self.def_cover_path, "title": "Item 5"},
-                {"cover": self.def_cover_path, "title": "Item 6"},
-            ],
-        ]
+        # self.pages_data = [
+        #     [
+        #         {"cover": self.def_cover_path, "title": "Item 1"},
+        #         {"cover": self.def_cover_path, "title": "Item 2"},
+        #         {"cover": self.def_cover_path, "title": "Item 3"},
+        #         {"cover": self.def_cover_path, "title": "Item 4"},
+        #         {"cover": self.def_cover_path, "title": "Item 5"},
+        #         {"cover": self.def_cover_path, "title": "Item 6"},
+        #     ],
+        # ]
+        self.pages_data = self.get_videos()
+        logger.debug(f"pages_data: {self.pages_data}, type: {type(self.pages_data)}")
+        # pdb.set_trace()
         self.setupUi(self, self.pages_data)
-        
+
         # bind button click events
         self.prev_button.clicked.connect(self.show_prev_page)
         self.next_button.clicked.connect(self.show_next_page)
@@ -32,6 +48,17 @@ class MainWindow(
         self.user_profile_btn.clicked.connect(self.show_user_profile)
         self.update_buttons()
         
+    @TimeKeeper.timer
+    def get_videos(
+        self, page: int = 0, page_size: int = 6
+    ) -> list:  # arg no implemented
+        # TODO: get videos partly
+        results = db.videodb.query_videos_all()
+        # construct and return a list of dictionaries
+        videos = [[{"cover": result[2], "title": result[1], "vid": result[0]} for result in results]]
+        logger.debug(f"videos: {videos}")
+        return videos
+
     def append_page(self, *items_data: list) -> None:
         for data in items_data:
             self.pages_data.append(data)
@@ -54,7 +81,7 @@ class MainWindow(
         self.update_buttons()
 
     def show_user_profile(self) -> None:
-        if self.__token: # if user is logged in
+        if self.__token:  # if user logged in
             self.profileWindow = ProfileWindow(self.__token)
             self.profileWindow.show()
         else:
@@ -85,5 +112,4 @@ class MainWindow(
 
     def update_buttons(self) -> None:
         self.prev_button.setEnabled(self.current_page > 0)
-        self.next_button.setEnabled(
-            self.current_page < len(self.pages_data) - 1)
+        self.next_button.setEnabled(self.current_page < len(self.pages_data) - 1)

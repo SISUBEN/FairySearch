@@ -39,8 +39,8 @@ class ProfileWindow(QWidget, Ui_Profile):
         pixmap = QPixmap(":/images/images/profile.png")
         painter.drawPixmap(self.rect(), pixmap)
         
-    def onClickTitle(self, vid):
-        logger.debug(f"to vid: {vid}")
+    def onClickTitle(self, uuid):
+        logger.debug(f"to vid: {uuid}")
     
     def addSearchHistory(self, title: str, duration: str, uuid: str, time: int = timekeeper.get_timestamp()) -> None:
         """add search history to table
@@ -63,7 +63,7 @@ class ProfileWindow(QWidget, Ui_Profile):
         # add title
         # title_item = QTableWidgetItem(title)
         title_item = widget_helper.creatLink(title, color="black")
-        title_item.clicked.connect(lambda _, v=uuid: self.onClickTitle(v))
+        title_item.clicked.connect(lambda _, u=uuid: self.onClickTitle(u))
         # title_item.setTextAlignment(Qt.AlignCenter)
         self.tableWidget.setCellWidget(row_position, 1, title_item)
         

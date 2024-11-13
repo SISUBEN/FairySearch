@@ -1,15 +1,16 @@
 import sqlite3
-from .db_config import *
+from .db_config import Config
 from app.utils.crypto import CryptoHasher
+from app.modules.logger.logger import logger
 import time
 import uuid
 
 cryptor = CryptoHasher()
-
+config = Config()
 class Database:
     class SearchHistorydb:
         def __init__(self) -> None:
-            self.search_connect = sqlite3.connect(SH_DB)
+            self.search_connect = sqlite3.connect(config.SH_DB)
             self.search_cur = self.search_connect.cursor()
             self.init_searchdb()
 
@@ -18,14 +19,14 @@ class Database:
 
         def init_searchdb(self) -> None:
             try:
-                self.search_connect.execute(INIT_SH_DB)
+                self.search_connect.execute(config.INIT_SH_DB)
                 self.search_connect.commit()
             except sqlite3.Error as e:
                 logger.debug(f"init search db fail: {e}")
 
         def get_total_historys(self, username: str) -> int:
             try:
-                return self.search_connect.execute(COUNT_SH, (username,)).fetchone()[0]
+                return self.search_connect.execute(config.COUNT_SH, (username,)).fetchone()[0]
             except sqlite3.Error as e:
                 logger.debug(f"get total historys error: {e}")
 
@@ -37,7 +38,7 @@ class Database:
         ) -> None:
             try:
                 self.search_connect.execute(
-                    SH_ADD, (uuid, userid, title, timestamp, duration)
+                    config.SH_ADD, (uuid, userid, title, timestamp, duration)
                 )
                 self.search_connect.commit()
             except sqlite3.Error as e:
@@ -50,14 +51,14 @@ class Database:
             offset = (page_num - 1) * page_size
             try:
                 return self.search_connect.execute(
-                    FILTE_SH, (userid, offset, page_size)
+                    config.FILTE_SH, (userid, offset, page_size)
                 ).fetchall()
             except sqlite3.Error as e:
                 logger.debug(f"query search history error: {e}")
             
         def query_search_history_all(self, userid: int) -> list:
             try:
-                return self.search_connect.execute(FILTE_SH_ALL, (userid,)).fetchall()
+                return self.search_connect.execute(config.FILTE_SH_ALL, (userid,)).fetchall()
             except sqlite3.Error as e:
                 logger.debug(f"query search history error: {e}")
 
@@ -71,23 +72,21 @@ class Database:
     class Userdb:
         def __init__(self) -> None:
             import os
-            import sys
-            from app.modules.logger.logger import logger
-            logger.debug(f"is userdb exists: {os.path.exists(USER_DB)}\n\tcurrent work dir: {os.path.dirname(os.path.abspath(__file__))}")
-            self.user_connect = sqlite3.connect(USER_DB)
+            logger.debug(f"is userdb exists: {os.path.exists(config.USER_DB)}\n\tcurrent work dir: {os.path.dirname(os.path.abspath(__file__))}")
+            self.user_connect = sqlite3.connect(config.USER_DB)
             self.user_cur = self.user_connect.cursor()
             self.init_userdb()
 
         def init_userdb(self) -> None:
             try:
-                self.user_connect.execute(INIT_USER_DB)
+                self.user_connect.execute(config.INIT_USER_DB)
                 self.user_connect.commit()
             except sqlite3.Error as e:
                 logger.debug(f"init user db fail: {e}")
                 self.user_connect.rollback()
         def user_add(self, username: str, password: str) -> None:
             try:
-                self.user_connect.execute(USER_ADD, (username, password))
+                self.user_connect.execute(config.USER_ADD, (username, password))
                 self.user_connect.commit()
             except sqlite3.Error as e:
                 logger.debug(f"add user fail: {e}")
@@ -103,7 +102,7 @@ class Database:
             try:
                 encrypted = cryptor.sha256(password)
                 token = self.generate_token(username, encrypted)
-                self.user_connect.execute(T_USER_ADD, (username, encrypted, token))
+                self.user_connect.execute(config.T_USER_ADD, (username, encrypted, token))
                 self.user_connect.commit()
                 return token
             except sqlite3.Error as e:
@@ -122,7 +121,7 @@ class Database:
                 bool: is True if token is valid
             """
             try:
-                return self.user_connect.execute(T_USER_QUERY, (token,)).fetchone() is not None
+                return self.user_connect.execute(config.T_USER_QUERY, (token,)).fetchone() is not None
             except sqlite3.Error as e:
                 logger.debug(f"verify token error: {e}")
 
@@ -139,7 +138,7 @@ class Database:
                 sqlite3.Error: if error occurs
             """
             try:
-                 return self.user_connect.execute(T_USER_QUERY, (username,)).fetchone()[0][0]
+                 return self.user_connect.execute(config.T_USER_QUERY, (username,)).fetchone()[0][0]
             except sqlite3.Error as e:
                 logger.debug(f"get token error: {e}")
         
@@ -179,7 +178,7 @@ class Database:
             """
             try: 
                 return (
-                    self.user_connect.execute(USER_QUERY, (username,)).fetchone()
+                    self.user_connect.execute(config.USER_QUERY, (username,)).fetchone()
                     is not None
                 ) # if query result is not None, return True, else return result
             except sqlite3.Error as e:
@@ -195,7 +194,7 @@ class Database:
                 str: username
             """
             try:
-                return self.user_connect.execute(T_USERNAME_QUERY, (token,)).fetchall()[0][0]
+                return self.user_connect.execute(config.T_USERNAME_QUERY, (token,)).fetchall()[0][0]
             except sqlite3.Error as e:
                 logger.debug(f"query username error: {e}")
 
@@ -215,9 +214,9 @@ class Database:
             Returns:
                 str: user password
             """
-            logger.debug(f"self.user_connect.execute(USER_QUERY_PWD, (username,)).fetchall() = {self.user_connect.execute(USER_QUERY_PWD, (username,)).fetchall()}")
+            logger.debug(f"self.user_connect.execute(config.USER_QUERY_PWD, (username,)).fetchall() = {self.user_connect.execute(config.USER_QUERY_PWD, (username,)).fetchall()}")
             try:
-                return self.user_connect.execute(USER_QUERY_PWD, (username,)).fetchall()[0][0]
+                return self.user_connect.execute(config.USER_QUERY_PWD, (username,)).fetchall()[0][0]
             except sqlite3.Error as e:
                 logger.debug(f"query user password error: {e}")
                 
@@ -234,7 +233,7 @@ class Database:
                 sqlite3.Error: if query fail
             """
             try:
-                return self.user_connect.execute(USER_QUERY_UID, (username,)).fetchall()[0][0]
+                return self.user_connect.execute(config.USER_QUERY_UID, (username,)).fetchall()[0][0]
             except sqlite3.Error as e:
                 logger.debug(f"query user uid error: {e}")
 
@@ -251,7 +250,7 @@ class Database:
                 sqlite3.Error: if query fail
             """
             try:
-                return self.user_connect.execute(T_USER_QUERY_UID, (token,)).fetchall()[0][0]
+                return self.user_connect.execute(config.T_USER_QUERY_UID, (token,)).fetchall()[0][0]
             except sqlite3.Error as e:
                 logger.debug(f"query uid error: {e}")
         
@@ -267,7 +266,7 @@ class Database:
             """
             logger.debug(f"pwd: {password}, username: {username}")
             logger.debug(f"Is user exists? => {self.user_exists(username)}")
-            logger.debug(f"self.user_connect.execute(USER_QUERY_PWD, (username,)).fetchall() = {self.user_connect.execute(USER_QUERY_PWD, (username,)).fetchall()}")
+            logger.debug(f"self.user_connect.execute(config.USER_QUERY_PWD, (username,)).fetchall() = {self.user_connect.execute(config.USER_QUERY_PWD, (username,)).fetchall()}")
             return self.query_user_password(username) == password
 
         def __del__(self) -> None:
@@ -275,13 +274,13 @@ class Database:
 
     class Videodb:
         def __init__(self) -> None:
-            self.video_connect = sqlite3.connect(VIDEO_DB)
+            self.video_connect = sqlite3.connect(config.VIDEO_DB)
             self.video_cur = self.video_connect.cursor()
             self.init_videodb()
 
         def init_videodb(self) -> None:
             try:
-                self.video_connect.execute(INIT_VIDEO_DB)
+                self.video_connect.execute(config.INIT_VIDEO_DB)
                 self.video_connect.commit()
             except sqlite3.Error as e:
                 logger.debug(f"init videodb fail: {e}")
@@ -294,7 +293,7 @@ class Database:
             video_type: str,
             video_tags: list,
             video_desc: str,
-            video_cover_path: str = DEFAULT_COVER,
+            video_cover_path: str = config.DEFAULT_COVER,
         ):
             """add video to database
 
@@ -304,20 +303,20 @@ class Database:
                 video_type (str): video type
                 video_tags (list): video tags
                 video_desc (str): video description
-                video_cover_path (str, optional): path of video cover (qrc path). Defaults to DEFAULT_COVER.
+                video_cover_path (str, optional): path of video cover (qrc path). Defaults to config.DEFAULT_COVER.
             
             Exception:
                 sqlite3.Error: if add fail
             """
             if self.video_query(video_title):
                 return
-            elif len(video_title) > TITLE_MAX_LEN:
+            elif len(video_title) > config.TITLE_MAX_LEN:
                 return
             tags = ",".join(video_tags)
             types = ",".join(video_type)
             try:
                 self.video_connect.execute(
-                    VIDEO_ADD,
+                    config.VIDEO_ADD,
                     (
                         video_title,
                         video_cover_path,
@@ -334,7 +333,7 @@ class Database:
 
         def count_videos(self) -> int:
             try:
-                return int(self.video_connect.execute(VIDEO_COUNT).fetchone()[0])
+                return int(self.video_connect.execute(config.VIDEO_COUNT).fetchone()[0])
             except sqlite3.Error as e:
                 logger.debug(f"count videos error: {e}")
             finally:
@@ -342,18 +341,29 @@ class Database:
 
         def video_query(self, video_id: int) -> list:
             try:
-                return self.video_connect.execute(VIDEO_QUERY, (video_id,)).fetchall()
+                return self.video_connect.execute(config.VIDEO_QUERY, (video_id,)).fetchall()
             except sqlite3.Error as e:
                 logger.debug(f"video query error: {e}")
 
         def query_videos_by_page(self, page: int, page_size: int) -> list:
             try:
                 return self.video_connect.execute(
-                    VIDEO_QUERY_BY_PAGE, (page, page_size)
+                    config.VIDEO_QUERY_BY_PAGE, (page, page_size)
                 ).fetchall()
             except sqlite3.Error as e:
                 logger.debug(f"query videos by page error: {e}")
 
+        def query_videos_all(self) -> list:
+            """Query all videos
+            
+            Return:
+                list: all videos e.g. [(1, 'title', 'path', 100, 'type1,type2', 'tag1,tag2', 'desc')]
+            """
+            try:
+                return self.video_connect.execute(config.VIDEO_QUERY_ALL).fetchall()
+            except sqlite3.Error as e:
+                logger.debug(f"query videos all error: {e}")
+        
         def destroy_db(self, db_name: str) -> None:
             self.video_connect.execute(f"DROP TABLE IF EXISTS {db_name};")
             # self.video_connect.execute(f"ALTER TABLE {db_name} AUTO_INCREMENT=1")
