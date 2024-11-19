@@ -1,3 +1,2 @@
 class VideoBrowser:
     ...
-    # TODO: Implement video browser class
