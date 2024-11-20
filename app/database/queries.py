@@ -338,17 +338,23 @@ class Database:
             finally:
                 self.video_connect.close()
 
-        def video_query(self, video_id: int) -> list:
+        def video_query(self, video_id: int) -> tuple:
             try:
-                return self.video_connect.execute(config.VIDEO_QUERY, (video_id,)).fetchall()
+                return self.video_connect.execute(config.VIDEO_QUERY, (video_id,)).fetchall()[0]
             except sqlite3.Error as e:
                 logger.debug(f"video query error: {e}")
 
-        def query_videos_by_page(self, page: int, page_size: int) -> list:
+        def query_title_by_vid(self, vid: int) -> str:
+            try:
+                return self.video_connect.execute(config.VIDEO_QUERY_TITLE, (vid,)).fetchall()[0][0]
+            except sqlite3.Error as e:
+                logger.debug(f"query title by vid error: {e}")
+                
+        def query_videos_by_page(self, page: int, page_size: int) -> tuple:
             try:
                 return self.video_connect.execute(
                     config.VIDEO_QUERY_BY_PAGE, (page, page_size)
-                ).fetchall()
+                ).fetchall()[0]
             except sqlite3.Error as e:
                 logger.debug(f"query videos by page error: {e}")
 

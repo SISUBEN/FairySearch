@@ -69,3 +69,4 @@ class Config:
     """
     VIDEO_QUERY_ALL = "SELECT * FROM videos;"
     VIDEO_COUNT = "SELECT COUNT(*) FROM videos"
+    VIDEO_QUERY_TITLE = "SELECT * FROM videos WHERE video_title LIKE ?;"

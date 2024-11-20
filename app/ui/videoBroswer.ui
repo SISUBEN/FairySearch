@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>945</width>
-    <height>894</height>
+    <width>1473</width>
+    <height>1049</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -24,7 +24,7 @@
 	border-image: url(:/images/images/background.png);
 }</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_2">
+  <layout class="QVBoxLayout" name="verticalLayout_4">
    <item>
     <layout class="QVBoxLayout" name="verticalLayout">
      <property name="leftMargin">
@@ -40,7 +40,7 @@
       <number>20</number>
      </property>
      <item>
-      <widget class="QFrame" name="frame">
+      <widget class="QFrame" name="video">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
          <horstretch>0</horstretch>
@@ -56,110 +56,255 @@
       </widget>
      </item>
      <item>
-      <widget class="QSlider" name="horizontalSlider">
-       <property name="orientation">
-        <enum>Qt::Orientation::Horizontal</enum>
-       </property>
-      </widget>
+      <layout class="QVBoxLayout" name="verticalLayout_3">
+       <item>
+        <widget class="QSlider" name="positionslider">
+         <property name="whatsThis">
+          <string>调整视频位置</string>
+         </property>
+         <property name="orientation">
+          <enum>Qt::Orientation::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_3">
+         <item>
+          <widget class="QSlider" name="volume">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>100</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <property name="whatsThis">
+            <string>声量</string>
+           </property>
+           <property name="orientation">
+            <enum>Qt::Orientation::Horizontal</enum>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer_3">
+           <property name="orientation">
+            <enum>Qt::Orientation::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </item>
+      </layout>
      </item>
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout">
+      <layout class="QVBoxLayout" name="verticalLayout_2">
        <item>
-        <widget class="QPushButton" name="pushButton">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="minimumSize">
-          <size>
-           <width>0</width>
-           <height>60</height>
-          </size>
+        <widget class="QLabel" name="title">
+         <property name="font">
+          <font>
+           <family>微软雅黑</family>
+           <pointsize>18</pointsize>
+          </font>
          </property>
          <property name="styleSheet">
-          <string notr="true"/>
-         </property>
-         <property name="text">
-          <string>PushButton</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLineEdit" name="lineEdit">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="minimumSize">
-          <size>
-           <width>0</width>
-           <height>60</height>
-          </size>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="pushButton_2">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="minimumSize">
-          <size>
-           <width>0</width>
-           <height>60</height>
-          </size>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">QPushButton {
-    background-color: rgb(0, 0, 0);
-    color: white;
-    border: 3px solid #262626;
-    height: 50px;
-    width: 500px;
-    border-radius: 25px;
-}
-QPushButton:pressed {
-    background-color: #a6c100;
-    color: black;
-    border: 5px solid #a6c100;
+          <string notr="true">QLabel {
+	color: white;
 }</string>
          </property>
          <property name="text">
-          <string>PushButton</string>
+          <string>Title</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="describe">
+         <property name="font">
+          <font>
+           <family>微软雅黑</family>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QLabel {
+	color: white;
+}</string>
+         </property>
+         <property name="text">
+          <string>desc</string>
          </property>
         </widget>
        </item>
       </layout>
      </item>
      <item>
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <widget class="QPushButton" name="play">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Minimum" vsizetype="Maximum">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>60</width>
+           <height>60</height>
+          </size>
+         </property>
+         <property name="whatsThis">
+          <string>播放/暂停</string>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton {
+	background-image: url(:/icons/icons/play.svg);
+    background-position: centre centre;
+    background-repeat: no-repeat;
+	background-color:transparent;
+}</string>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="horizontalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Orientation::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </item>
+     <item>
       <layout class="QHBoxLayout" name="horizontalLayout_2">
        <item>
-        <widget class="QPushButton" name="pushButton_3">
+        <widget class="QPushButton" name="like">
+         <property name="minimumSize">
+          <size>
+           <width>30</width>
+           <height>30</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>30</width>
+           <height>30</height>
+          </size>
+         </property>
+         <property name="whatsThis">
+          <string>点赞</string>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton {
+	background-image: url(:/icons/icons/like.png);
+	background-color:transparent;
+    background-position: top left;
+    background-repeat: no-repeat;
+}</string>
+         </property>
          <property name="text">
-          <string>PushButton</string>
+          <string/>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="pushButton_4">
+        <widget class="QPushButton" name="coin">
+         <property name="minimumSize">
+          <size>
+           <width>30</width>
+           <height>30</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>30</width>
+           <height>30</height>
+          </size>
+         </property>
+         <property name="whatsThis">
+          <string>投币</string>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton {
+	background-image: url(:/icons/icons/coin.png);
+	background-color:transparent;
+    background-position: top left;
+    background-repeat: no-repeat;
+}</string>
+         </property>
          <property name="text">
-          <string>PushButton</string>
+          <string/>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="pushButton_5">
+        <widget class="QPushButton" name="favorite">
+         <property name="minimumSize">
+          <size>
+           <width>30</width>
+           <height>30</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>30</width>
+           <height>30</height>
+          </size>
+         </property>
+         <property name="whatsThis">
+          <string>收藏</string>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton {
+	background-image: url(:/icons/icons/favorite.png);
+	background-color:transparent;
+    background-position: top left;
+    background-repeat: no-repeat;
+}</string>
+         </property>
          <property name="text">
-          <string>PushButton</string>
+          <string/>
          </property>
         </widget>
+       </item>
+       <item>
+        <spacer name="horizontalSpacer">
+         <property name="orientation">
+          <enum>Qt::Orientation::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
        </item>
       </layout>
      </item>

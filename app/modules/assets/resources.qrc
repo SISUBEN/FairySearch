@@ -14,6 +14,13 @@
     <file>icons/user.svg</file>
     <file>icons/user_x48.svg</file>
     <file>icons/icon.ico</file>
+    <file>icons/coin.png</file>
+    <file>icons/coined.png</file>
+    <file>icons/favorite.png</file>
+    <file>icons/favorited.png</file>
+    <file>icons/like.png</file>
+    <file>icons/liked.png</file>
+    <file>icons/play.svg</file>
   </qresource>
   <qresource prefix="covers">
     <file>covers/default.png</file>
