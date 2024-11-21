@@ -33,11 +33,11 @@ class Database:
             return uuid.uuid4().hex
 
         def search_history_add(
-            self, uuid: str, userid: int, title: str, timestamp: str, duration: str
+            self, uuid: str, vid: int, userid: int, title: str, timestamp: str, duration: str
         ) -> None:
             try:
                 self.search_connect.execute(
-                    config.SH_ADD, (uuid, userid, title, timestamp, duration)
+                    config.SH_ADD, (uuid, vid, userid, title, timestamp, duration)
                 )
                 self.search_connect.commit()
             except sqlite3.Error as e:

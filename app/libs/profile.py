@@ -2,7 +2,6 @@ from app.__init__ import *
 from app.modules.Ui_profile import Ui_Profile
 from app.utils.time import TimeKeeper
 from app.database.queries import Database
-from PySide6.QtWidgets import QMessageBox
 from app.helper.widgetHelper import WidgetHelper
 timekeeper = TimeKeeper() 
 widget_helper = WidgetHelper()
@@ -20,9 +19,9 @@ class ProfileWindow(QWidget, Ui_Profile):
         # init search history
         # self.tableWidget.horizontalHeader
         # self.tableWidget.verticalHeaderItem
-        self.tableWidget.setColumnCount(4)
-        self.tableWidget.setHorizontalHeaderLabels(["浏览时间", "标题", "时长", "vid"])
-        self.tableWidget.setColumnHidden(4, True) # only for listener function
+        self.tableWidget.setColumnCount(3)
+        self.tableWidget.setHorizontalHeaderLabels(["浏览时间", "标题", "时长"])
+        self.tableWidget.setColumnHidden(3, True) # only for listener function
         self.tableWidget.setEditTriggers(QTableWidget.NoEditTriggers)
         # bind slot
         self.onSearchHistory()
@@ -37,10 +36,10 @@ class ProfileWindow(QWidget, Ui_Profile):
         pixmap = QPixmap(":/images/images/profile.png")
         painter.drawPixmap(self.rect(), pixmap)
         
-    def onClickTitle(self, uuid):
-        logger.debug(f"to vid: {uuid}")
+    def onClickTitle(self, vid: int):
+        logger.debug(f"to vid: {vid}")
     
-    def addSearchHistory(self, title: str, duration: str, uuid: str, time: int = timekeeper.get_timestamp()) -> None:
+    def addSearchHistory(self, title: str, duration: str, vid: str, time: int = timekeeper.get_timestamp()) -> None:
         """add search history to table
         
         Args:
@@ -61,7 +60,7 @@ class ProfileWindow(QWidget, Ui_Profile):
         # add title
         # title_item = QTableWidgetItem(title)
         title_item = widget_helper.creatLink(title, color="black")
-        title_item.clicked.connect(lambda _, u=uuid: self.onClickTitle(u))
+        title_item.clicked.connect(lambda _, v=vid: self.onClickTitle(v))
         # title_item.setTextAlignment(Qt.AlignCenter)
         self.tableWidget.setCellWidget(row_position, 1, title_item)
         
@@ -71,7 +70,7 @@ class ProfileWindow(QWidget, Ui_Profile):
         self.tableWidget.setItem(row_position, 2, duration_item)
         
         # add uuid
-        vid_item = QTableWidgetItem(uuid)
+        vid_item = QTableWidgetItem(vid)
         vid_item.setTextAlignment(Qt.AlignCenter)
         vid_item.setFlags(vid_item.flags() & ~Qt.ItemIsEditable) # disable edit
         self.tableWidget.setItem(row_position, 3, vid_item) 
@@ -81,12 +80,12 @@ class ProfileWindow(QWidget, Ui_Profile):
         results = db.searchHisdb.query_search_history_all(self.__uid)
         # TODO: lazy load
         for row in results:
-            title, timestamp, duration, uuid = row
+            title, timestamp, duration, uuid, vid = row
             self.addSearchHistory(
                 title=title,
                 time=timekeeper.datetime(timestamp), 
                 duration=duration, 
-                uuid=uuid
+                vid=vid
             )
             logger.debug(f"record: {row} has been added")
 

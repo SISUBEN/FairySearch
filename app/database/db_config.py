@@ -32,7 +32,7 @@ class Config:
     FILTE_SH = (
         "SELECT title, timestamp, duration FROM search_history WHERE userid=? ORDER BY timestamp DESC LIMIT ? OFFSET ?;"
     )
-    FILTE_SH_ALL = "SELECT title, timestamp, duration, uuid FROM search_history WHERE userid=? ORDER BY timestamp"
+    FILTE_SH_ALL = "SELECT title, timestamp, duration, uuid, vid FROM search_history WHERE userid=? ORDER BY timestamp"
     SH_ADD = "INSERT INTO search_history (uuid, vid, userid ,title, timestamp, duration) VALUES (?, ?, ?, ?, ?, ?);"
     # user
     INIT_USER_DB = """CREATE TABLE IF NOT EXISTS users (
