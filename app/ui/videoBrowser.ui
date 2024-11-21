@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>VideoBroswer</class>
- <widget class="QWidget" name="VideoBroswer">
+ <class>VideoBrowser</class>
+ <widget class="QWidget" name="VideoBrowser">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -20,7 +20,7 @@
    <string>Form</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">QWidget #VideoBroswer {
+   <string notr="true">QWidget #VideoBrowser {
 	border-image: url(:/images/images/background.png);
 }</string>
   </property>
@@ -68,7 +68,50 @@
         </widget>
        </item>
        <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_3">
+        <layout class="QHBoxLayout" name="horizontalLayout">
+         <item>
+          <widget class="QPushButton" name="play">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Minimum" vsizetype="Maximum">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>60</width>
+             <height>60</height>
+            </size>
+           </property>
+           <property name="whatsThis">
+            <string>播放/暂停</string>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QPushButton {
+	background-image: url(:/icons/icons/play.svg);
+    background-position: centre centre;
+    background-repeat: no-repeat;
+	background-color:transparent;
+}</string>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer_2">
+           <property name="orientation">
+            <enum>Qt::Orientation::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
          <item>
           <widget class="QSlider" name="volume">
            <property name="sizePolicy">
@@ -97,20 +140,10 @@
            </property>
           </widget>
          </item>
-         <item>
-          <spacer name="horizontalSpacer_3">
-           <property name="orientation">
-            <enum>Qt::Orientation::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
         </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_3"/>
        </item>
       </layout>
      </item>
@@ -151,53 +184,6 @@
           <string>desc</string>
          </property>
         </widget>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <layout class="QHBoxLayout" name="horizontalLayout">
-       <item>
-        <widget class="QPushButton" name="play">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Minimum" vsizetype="Maximum">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="minimumSize">
-          <size>
-           <width>60</width>
-           <height>60</height>
-          </size>
-         </property>
-         <property name="whatsThis">
-          <string>播放/暂停</string>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">QPushButton {
-	background-image: url(:/icons/icons/play.svg);
-    background-position: centre centre;
-    background-repeat: no-repeat;
-	background-color:transparent;
-}</string>
-         </property>
-         <property name="text">
-          <string/>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <spacer name="horizontalSpacer_2">
-         <property name="orientation">
-          <enum>Qt::Orientation::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>40</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
        </item>
       </layout>
      </item>

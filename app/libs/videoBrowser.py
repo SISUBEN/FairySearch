@@ -1,14 +1,19 @@
 from app.__init__ import *
-from app.modules.Ui_videoBroswer import Ui_VideoBroswer
+from app.modules.Ui_videoBrowser import Ui_VideoBrowser
 from app.database.queries import Database
+from app.modules.assets.resourceManager import ResouceManager
+from app.libs.dialog import openDialog
 import vlc
 
+res_manager = ResouceManager()
 db = Database
-class VideoBrowser(QWidget, Ui_VideoBroswer):
+class VideoBrowser(QWidget, Ui_VideoBrowser):
     def __init__(self, vid: int, *args, **kwargs) -> None:
         super().__init__()
         self.setupUi(self)
-        self.title = db.videodb.query_title_by_vid(vid)
+        self.title = db.videodb.query_title_by_vid(vid) or None
+        if self.title is None:
+            openDialog("错误", "无法找到该视频")
         self.vid = vid
         self.is_paused = False
     
@@ -18,6 +23,17 @@ class VideoBrowser(QWidget, Ui_VideoBroswer):
         
         self.setWindowTitle(self.title)
         self.video.setAutoFillBackground(True)
+        
+        try: 
+            self.filename = res_manager.getVideo(vid=vid)
+        except TypeError:
+            openDialog("错误", "vid无效")
+        self.media = self.instance.media_new(self.filename)
+        self.mediaplayer.set_media(self.media)
+        self.media.parse()
+        self.setWindowTitle(self.media.get_meta(vlc.Meta.Title))
+        self.mediaplayer.set_hwnd(int(self.video.winId()))
+        self.play()
         
         self.play.clicked.connect(self.onPlay)
         self.like.clicked.connect(self.onLike)

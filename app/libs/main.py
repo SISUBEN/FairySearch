@@ -1,10 +1,10 @@
 from app.libs.videoBrowser import VideoBrowser
+
 # to avoid circular import
 def onClickVideos(vid: int) -> None:
     videosBrower = VideoBrowser(vid)
     videosBrower.show()
-    # logger.debug(f"onClickVideos: {vid}")
-
+    
 from app.modules.Ui_main import Ui_MainWindow, ItemWidget, PageWidget
 from app.libs.profile import ProfileWindow
 from app.libs.expection import NoLoginError
@@ -13,9 +13,6 @@ from app.utils.time import TimeKeeper
 from app.__init__ import *
 # import pdb
 db = Database
-video_browser = VideoBrowser()
-
-
 
 class MainWindow(
     QWidget,
@@ -26,30 +23,19 @@ class MainWindow(
         self.__token = token
         self.bg_image_path = ":/images/images/background.png"  # using QRC path
         self.def_cover_path = ":/covers/covers/default.png"  # using QRC path
-        # self.pages_data = [
-        #     [
-        #         {"cover": self.def_cover_path, "title": "Item 1"},
-        #         {"cover": self.def_cover_path, "title": "Item 2"},
-        #         {"cover": self.def_cover_path, "title": "Item 3"},
-        #         {"cover": self.def_cover_path, "title": "Item 4"},
-        #         {"cover": self.def_cover_path, "title": "Item 5"},
-        #         {"cover": self.def_cover_path, "title": "Item 6"},
-        #     ],
-        # ]
-        self.pages_data = self.get_videos()
+        self.pages_data = self.getVideos()
         logger.debug(f"pages_data: {self.pages_data}, type: {type(self.pages_data)}")
-        # pdb.set_trace()
         self.setupUi(self, self.pages_data)
 
         # bind button click events
-        self.prev_button.clicked.connect(self.show_prev_page)
-        self.next_button.clicked.connect(self.show_next_page)
-        self.page_number.editingFinished.connect(self.jump_to_page)
-        self.user_profile_btn.clicked.connect(self.show_user_profile)
-        self.update_buttons()
+        self.prev_button.clicked.connect(self.showPrevPage)
+        self.next_button.clicked.connect(self.showNextPage)
+        self.page_number.editingFinished.connect(self.jump2Page)
+        self.user_profile_btn.clicked.connect(self.showUserProfile)
+        self.updateButtons()
         
     @TimeKeeper.timer
-    def get_videos(
+    def getVideos(
         self, page: int = 0, page_size: int = 6
     ) -> list:  # arg no implemented
         # TODO: get videos partly
@@ -59,11 +45,11 @@ class MainWindow(
         logger.debug(f"videos: {videos}")
         return videos
 
-    def append_page(self, *items_data: list) -> None:
+    def appendPage(self, *items_data: list) -> None:
         for data in items_data:
             self.pages_data.append(data)
-            self.load_page(len(self.pages_data) - 1)
-            self.update_buttons()
+            self.loadPage(len(self.pages_data) - 1)
+            self.updateButtons()
 
     def paintEvent(self, event) -> None:
         painter = QPainter(self)
@@ -72,15 +58,15 @@ class MainWindow(
         # pixmap = QPixmap(":/images/background.png")
         painter.drawPixmap(self.rect(), pixmap)
 
-    def jump_to_page(self) -> None:
+    def jump2Page(self) -> None:
         page_num = int(self.page_number.text())
         if page_num < 0 or page_num < len(self.pages_data) - 1:
             return
         self.current_page = page_num - 1
-        self.load_page(self.current_page)
-        self.update_buttons()
+        self.loadPage(self.current_page)
+        self.updateButtons()
 
-    def show_user_profile(self) -> None:
+    def showUserProfile(self) -> None:
         if self.__token:  # if user logged in
             self.profileWindow = ProfileWindow(self.__token)
             self.profileWindow.show()
@@ -88,7 +74,7 @@ class MainWindow(
             raise NoLoginError
 
     # Lazy loading
-    def load_page(self, page_index: int) -> None:
+    def loadPage(self, page_index: int) -> None:
         if page_index not in self.page_cache:
             if 0 <= page_index < len(self.pages_data):
                 page = PageWidget(self.pages_data[page_index])
@@ -96,20 +82,20 @@ class MainWindow(
                 self.page_cache[page_index] = page  # cecha page
         self.stacked_widget.setCurrentIndex(page_index)
 
-    def show_prev_page(self) -> None:
+    def showPrevPage(self) -> None:
         if self.current_page > 0:
             self.current_page -= 1
             self.page_number.setText(str(self.current_page + 1))
-            self.load_page(self.current_page)  # load prev page
-            self.update_buttons()
+            self.loadPage(self.current_page)  # load prev page
+            self.updateButtons()
 
-    def show_next_page(self) -> None:
+    def showNextPage(self) -> None:
         if self.current_page < len(self.pages_data) - 1:
             self.current_page += 1
             self.page_number.setText(str(self.current_page + 1))
-            self.load_page(self.current_page)  # load next page
-            self.update_buttons()
+            self.loadPage(self.current_page)  # load next page
+            self.updateButtons()
 
-    def update_buttons(self) -> None:
+    def updateButtons(self) -> None:
         self.prev_button.setEnabled(self.current_page > 0)
         self.next_button.setEnabled(self.current_page < len(self.pages_data) - 1)

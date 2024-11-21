@@ -346,7 +346,9 @@ class Database:
 
         def query_title_by_vid(self, vid: int) -> str:
             try:
-                return self.video_connect.execute(config.VIDEO_QUERY_TITLE, (vid,)).fetchall()[0][0]
+                logger.debug(f"title: {self.video_connect.execute(config.VIDEO_QUERY_TITLE, (vid,)).fetchall()}")
+                return self.video_connect.execute(config.VIDEO_QUERY_TITLE, (vid,)).fetchall()
+            
             except sqlite3.Error as e:
                 logger.debug(f"query title by vid error: {e}")
                 

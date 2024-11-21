@@ -11,10 +11,8 @@ db = Database
 class ProfileWindow(QWidget, Ui_Profile):
     def __init__(self, token: str) -> None:
         super().__init__()
-        self.__token = token
         self.__name = db.userdb.query_username(token)
         self.__uid = db.userdb.query_uid(token)
-        # logger.info(f"login user uid:{LOGIN_UID}")
         self.setupUi(self, self.__name, self.__uid)
         # disable zoom
         self.setFixedSize(self.width(), self.height())
@@ -29,7 +27,7 @@ class ProfileWindow(QWidget, Ui_Profile):
         # bind slot
         self.onSearchHistory()
         self.changeAvatar.clicked.connect(self.onChangeAvatar)
-        # self.tableWidget.cellClicked.connect(self.onClickTitle)s
+        # self.tableWidget.cellClicked.connect(self.onClickTitle)
         # self.tableWidget.cellDoubleClicked.connect(self.onClickTitle)
         
 

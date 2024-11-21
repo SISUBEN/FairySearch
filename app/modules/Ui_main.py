@@ -18,6 +18,7 @@ from PySide6.QtGui import QMouseEvent
 from PySide6.QtCore import Qt, QSize
 from app.libs.main import onClickVideos
 from .assets import resources_rc
+from app.modules.logger.logger import logger
 
 # template
 class ItemWidget(QWidget):
@@ -60,6 +61,7 @@ class PageWidget(QWidget):
         for i, item_data in enumerate(items_data):
             item = ItemWidget(item_data["cover"], item_data["title"])
             item.clicked.connect(lambda v=item_data["vid"]: onClickVideos(v))
+            logger.debug(f"clicked video id: {item_data['vid']}")
             layout.addWidget(item, i // 3, i % 3)  # 3x3
 
             # set item size
@@ -98,7 +100,7 @@ class Ui_MainWindow(object):
         self.pages_data: list[dict] = pages_data
         self.page_cache = {}  # cache videos page
         # load frist page
-        self.load_page(0)
+        self.loadPage(0)
         self.main_layout.addWidget(self.stacked_widget)
         # user profile btn
         self.user_profile_btn = QPushButton("", self)
