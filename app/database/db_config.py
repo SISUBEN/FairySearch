@@ -20,6 +20,7 @@ class Config:
     # search history
     INIT_SH_DB = """CREATE TABLE IF NOT EXISTS search_history (
                         uuid CHAR(33) PRIMARY KEY,
+                        vid INTEGER NOT NULL,
                         userid INTEGER NOT NULL,
                         title VARCHAR(32) NOT NULL,
                         timestamp INTEGER NOT NULL,
@@ -32,7 +33,7 @@ class Config:
         "SELECT title, timestamp, duration FROM search_history WHERE userid=? ORDER BY timestamp DESC LIMIT ? OFFSET ?;"
     )
     FILTE_SH_ALL = "SELECT title, timestamp, duration, uuid FROM search_history WHERE userid=? ORDER BY timestamp"
-    SH_ADD = "INSERT INTO search_history (uuid, userid ,title, timestamp, duration) VALUES (?, ?, ?, ?, ?);"
+    SH_ADD = "INSERT INTO search_history (uuid, vid, userid ,title, timestamp, duration) VALUES (?, ?, ?, ?, ?, ?);"
     # user
     INIT_USER_DB = """CREATE TABLE IF NOT EXISTS users (
                         uid INTEGER PRIMARY KEY AUTOINCREMENT,
