@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'login.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.7.2
+## Created by: Qt User Interface Compiler version 6.8.0
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -24,8 +24,8 @@ class Ui_Form(object):
     def setupUi(self, Form):
         if not Form.objectName():
             Form.setObjectName(u"Form")
-        Form.resize(1625, 1075)
-        Form.setMinimumSize(QSize(1625, 1075))
+        Form.resize(1096, 857)
+        Form.setMinimumSize(QSize(0, 0))
         Form.setMaximumSize(QSize(16777215, 16777215))
         Form.setFocusPolicy(Qt.FocusPolicy.NoFocus)
         Form.setAcceptDrops(False)
@@ -35,9 +35,10 @@ class Ui_Form(object):
 "    height:100%;\n"
 "	background-size:100% 100%,\n"
 "}")
+        self.verticalLayout_3 = QVBoxLayout(Form)
+        self.verticalLayout_3.setObjectName(u"verticalLayout_3")
         self.groupBox = QGroupBox(Form)
         self.groupBox.setObjectName(u"groupBox")
-        self.groupBox.setGeometry(QRect(0, 0, 1631, 1081))
         self.verticalLayout_2 = QVBoxLayout(self.groupBox)
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
         self.verticalLayout_2.setSizeConstraint(QLayout.SizeConstraint.SetMinAndMaxSize)
@@ -246,6 +247,9 @@ class Ui_Form(object):
 
 
         self.verticalLayout_2.addLayout(self.verticalLayout)
+
+
+        self.verticalLayout_3.addWidget(self.groupBox)
 
 
         self.retranslateUi(Form)

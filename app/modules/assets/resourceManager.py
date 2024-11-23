@@ -9,7 +9,7 @@ class ResouceManager:
     covers_dir: str = os.path.join(current_dir, "covers")
     videos_dir: str = os.path.join(current_dir, "videos")
 
-    def getVideo(self, vid: int, file_type: str = "mp4") -> str:
+    def getVideoPath(self, vid: int, file_type: str = "mp4", isEscape: bool = True) -> str:
         """get video file path
 
         Args:
@@ -20,11 +20,11 @@ class ResouceManager:
             _type_: video file path
         """
         if os.path.exists(p := os.path.join(self.videos_dir, f"{vid}.{file_type}")):
-            return p
+            return p if isEscape else p.replace("\\", "/")
         else:
             return None
 
-    def getCover(self, vid: int, file_type: str = "png") -> str:
+    def getCoverPath(self, vid: int, file_type: str = "png", isEscape: bool = True) -> str:
         """get cover file path
         
         Args:
@@ -35,6 +35,6 @@ class ResouceManager:
             _type_: cover file path
         """
         if os.path.exists(p := os.path.join(self.covers_dir, f"{vid}.{file_type}")):
-            return p
+            return p if isEscape else p.replace("\\", "/")
         else:
             return None

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1473</width>
-    <height>1049</height>
+    <width>925</width>
+    <height>688</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -40,7 +40,7 @@
       <number>20</number>
      </property>
      <item>
-      <widget class="QFrame" name="video">
+      <widget class="QFrame" name="video_frame">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
          <horstretch>0</horstretch>
@@ -58,7 +58,7 @@
      <item>
       <layout class="QVBoxLayout" name="verticalLayout_3">
        <item>
-        <widget class="QSlider" name="positionslider">
+        <widget class="QSlider" name="position_slider">
          <property name="whatsThis">
           <string>调整视频位置</string>
          </property>
@@ -70,7 +70,7 @@
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout">
          <item>
-          <widget class="QPushButton" name="play">
+          <widget class="QPushButton" name="play_button">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Minimum" vsizetype="Maximum">
              <horstretch>0</horstretch>
@@ -113,7 +113,7 @@
           </spacer>
          </item>
          <item>
-          <widget class="QSlider" name="volume">
+          <widget class="QSlider" name="volume_slider">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
              <horstretch>0</horstretch>

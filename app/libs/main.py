@@ -1,8 +1,9 @@
 from app.libs.videoBrowser import VideoBrowser
-
+from app.__init__ import *
 # to avoid circular import
 def onClickVideos(vid: int) -> None:
     videosBrower = VideoBrowser(vid)
+    logger.debug(f"onClickVideos: {vid}")
     videosBrower.show()
     
 from app.modules.Ui_main import Ui_MainWindow, ItemWidget, PageWidget
@@ -10,7 +11,7 @@ from app.libs.profile import ProfileWindow
 from app.libs.expection import NoLoginError
 from app.database.queries import Database
 from app.utils.time import TimeKeeper
-from app.__init__ import *
+
 # import pdb
 db = Database
 

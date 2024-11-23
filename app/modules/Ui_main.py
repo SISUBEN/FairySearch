@@ -1,3 +1,4 @@
+import pdb
 from PySide6.QtWidgets import (
     QApplication,
     QWidget,
@@ -60,8 +61,10 @@ class PageWidget(QWidget):
         # set grid layout
         for i, item_data in enumerate(items_data):
             item = ItemWidget(item_data["cover"], item_data["title"])
-            item.clicked.connect(lambda v=item_data["vid"]: onClickVideos(v))
+            logger.debug(f"item_data: {item_data}")
+            # pdb.set_trace()
             logger.debug(f"clicked video id: {item_data['vid']}")
+            item.clicked.connect(lambda v=item_data["vid"]: onClickVideos(v))
             layout.addWidget(item, i // 3, i % 3)  # 3x3
 
             # set item size

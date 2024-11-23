@@ -1,2 +1,5 @@
 class NoLoginError(Exception):
-    pass
+    ...
+    
+class VideoNotFoundError(Exception):
+    ...

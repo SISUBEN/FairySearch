@@ -24,7 +24,7 @@ class Ui_VideoBrowser(object):
     def setupUi(self, VideoBrowser):
         if not VideoBrowser.objectName():
             VideoBrowser.setObjectName(u"VideoBrowser")
-        VideoBrowser.resize(1473, 1049)
+        VideoBrowser.resize(925, 688)
         sizePolicy = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -38,58 +38,58 @@ class Ui_VideoBrowser(object):
         self.verticalLayout = QVBoxLayout()
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.verticalLayout.setContentsMargins(40, 20, 40, 20)
-        self.video = QFrame(VideoBrowser)
-        self.video.setObjectName(u"video")
-        sizePolicy.setHeightForWidth(self.video.sizePolicy().hasHeightForWidth())
-        self.video.setSizePolicy(sizePolicy)
-        self.video.setFrameShape(QFrame.Shape.StyledPanel)
-        self.video.setFrameShadow(QFrame.Shadow.Raised)
+        self.video_frame = QFrame(VideoBrowser)
+        self.video_frame.setObjectName(u"video_frame")
+        sizePolicy.setHeightForWidth(self.video_frame.sizePolicy().hasHeightForWidth())
+        self.video_frame.setSizePolicy(sizePolicy)
+        self.video_frame.setFrameShape(QFrame.Shape.StyledPanel)
+        self.video_frame.setFrameShadow(QFrame.Shadow.Raised)
 
-        self.verticalLayout.addWidget(self.video)
+        self.verticalLayout.addWidget(self.video_frame)
 
         self.verticalLayout_3 = QVBoxLayout()
         self.verticalLayout_3.setObjectName(u"verticalLayout_3")
-        self.positionslider = QSlider(VideoBrowser)
-        self.positionslider.setObjectName(u"positionslider")
-        self.positionslider.setOrientation(Qt.Orientation.Horizontal)
+        self.position_slider = QSlider(VideoBrowser)
+        self.position_slider.setObjectName(u"position_slider")
+        self.position_slider.setOrientation(Qt.Orientation.Horizontal)
 
-        self.verticalLayout_3.addWidget(self.positionslider)
+        self.verticalLayout_3.addWidget(self.position_slider)
 
         self.horizontalLayout = QHBoxLayout()
         self.horizontalLayout.setObjectName(u"horizontalLayout")
-        self.play = QPushButton(VideoBrowser)
-        self.play.setObjectName(u"play")
+        self.play_button = QPushButton(VideoBrowser)
+        self.play_button.setObjectName(u"play_button")
         sizePolicy1 = QSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Maximum)
         sizePolicy1.setHorizontalStretch(0)
         sizePolicy1.setVerticalStretch(0)
-        sizePolicy1.setHeightForWidth(self.play.sizePolicy().hasHeightForWidth())
-        self.play.setSizePolicy(sizePolicy1)
-        self.play.setMinimumSize(QSize(60, 60))
-        self.play.setStyleSheet(u"QPushButton {\n"
+        sizePolicy1.setHeightForWidth(self.play_button.sizePolicy().hasHeightForWidth())
+        self.play_button.setSizePolicy(sizePolicy1)
+        self.play_button.setMinimumSize(QSize(60, 60))
+        self.play_button.setStyleSheet(u"QPushButton {\n"
 "	background-image: url(:/icons/icons/play.svg);\n"
 "    background-position: centre centre;\n"
 "    background-repeat: no-repeat;\n"
 "	background-color:transparent;\n"
 "}")
 
-        self.horizontalLayout.addWidget(self.play)
+        self.horizontalLayout.addWidget(self.play_button)
 
         self.horizontalSpacer_2 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout.addItem(self.horizontalSpacer_2)
 
-        self.volume = QSlider(VideoBrowser)
-        self.volume.setObjectName(u"volume")
+        self.volume_slider = QSlider(VideoBrowser)
+        self.volume_slider.setObjectName(u"volume_slider")
         sizePolicy2 = QSizePolicy(QSizePolicy.Policy.Maximum, QSizePolicy.Policy.Fixed)
         sizePolicy2.setHorizontalStretch(0)
         sizePolicy2.setVerticalStretch(0)
-        sizePolicy2.setHeightForWidth(self.volume.sizePolicy().hasHeightForWidth())
-        self.volume.setSizePolicy(sizePolicy2)
-        self.volume.setMinimumSize(QSize(0, 0))
-        self.volume.setMaximumSize(QSize(100, 16777215))
-        self.volume.setOrientation(Qt.Orientation.Horizontal)
+        sizePolicy2.setHeightForWidth(self.volume_slider.sizePolicy().hasHeightForWidth())
+        self.volume_slider.setSizePolicy(sizePolicy2)
+        self.volume_slider.setMinimumSize(QSize(0, 0))
+        self.volume_slider.setMaximumSize(QSize(100, 16777215))
+        self.volume_slider.setOrientation(Qt.Orientation.Horizontal)
 
-        self.horizontalLayout.addWidget(self.volume)
+        self.horizontalLayout.addWidget(self.volume_slider)
 
 
         self.verticalLayout_3.addLayout(self.horizontalLayout)
@@ -191,14 +191,14 @@ class Ui_VideoBrowser(object):
     def retranslateUi(self, VideoBrowser):
         VideoBrowser.setWindowTitle(QCoreApplication.translate("VideoBrowser", u"Form", None))
 #if QT_CONFIG(whatsthis)
-        self.positionslider.setWhatsThis(QCoreApplication.translate("VideoBrowser", u"\u8c03\u6574\u89c6\u9891\u4f4d\u7f6e", None))
+        self.position_slider.setWhatsThis(QCoreApplication.translate("VideoBrowser", u"\u8c03\u6574\u89c6\u9891\u4f4d\u7f6e", None))
 #endif // QT_CONFIG(whatsthis)
 #if QT_CONFIG(whatsthis)
-        self.play.setWhatsThis(QCoreApplication.translate("VideoBrowser", u"\u64ad\u653e/\u6682\u505c", None))
+        self.play_button.setWhatsThis(QCoreApplication.translate("VideoBrowser", u"\u64ad\u653e/\u6682\u505c", None))
 #endif // QT_CONFIG(whatsthis)
-        self.play.setText("")
+        self.play_button.setText("")
 #if QT_CONFIG(whatsthis)
-        self.volume.setWhatsThis(QCoreApplication.translate("VideoBrowser", u"\u58f0\u91cf", None))
+        self.volume_slider.setWhatsThis(QCoreApplication.translate("VideoBrowser", u"\u58f0\u91cf", None))
 #endif // QT_CONFIG(whatsthis)
         self.title.setText(QCoreApplication.translate("VideoBrowser", u"Title", None))
         self.describe.setText(QCoreApplication.translate("VideoBrowser", u"desc", None))
