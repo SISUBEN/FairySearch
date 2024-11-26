@@ -9,7 +9,7 @@ from app.libs.expection import VideoNotFoundError
 import vlc
 
 res_manager = ResouceManager()
-db = Database
+db = Database()
 class VideoBrowser(QWidget, Ui_VideoBrowser):
     def __init__(self, vid: int, *args, **kwargs) -> None:
         super().__init__()

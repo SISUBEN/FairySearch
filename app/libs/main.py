@@ -13,7 +13,7 @@ from app.database.queries import Database
 from app.utils.time import TimeKeeper
 
 # import pdb
-db = Database
+db = Database()
 
 class MainWindow(
     QWidget,

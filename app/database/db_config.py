@@ -8,13 +8,18 @@ logger.debug(f"Current file dir: {os.getcwd()}")
 
 @dataclass
 class Config:
+
     # locate database path automatically
+    USER_SQL: str
+    VIDEO_SQL: str
     current_dir = os.path.dirname(os.path.abspath(__file__))
     VIDEO_DB: str = os.path.join(current_dir, "videos.db")
     USER_DB: str = os.path.join(current_dir, "users.db")
-    SH_DB: str = os.path.join(current_dir, "search_history.db")
+    VIDEO_SQL_PATH: str = os.path.join(current_dir, "video_db.sql")
+    USER_SQL_PATH: str = os.path.join(current_dir, "user_db.sql")
+    # SH_DB: str = os.path.join(current_dir, "search_history.db")
     # default
-    DEFAULT_COVER =  os.path.join(current_dir, "covers", "default.png")
+    DEFAULT_COVER: str =  os.path.join(current_dir, "covers", "default.png")
     # SQL
     RESET_ID = "alter table ? AUTO_INCREMENT=1;"
     # search history

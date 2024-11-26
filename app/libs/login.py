@@ -7,7 +7,7 @@ from app.libs.register import RegisterWindow
 from app.libs.main import MainWindow
 from app.libs.dialog import openDialog
 
-db = Database
+db = Database()
 cryptor = CryptoHasher()
 
 

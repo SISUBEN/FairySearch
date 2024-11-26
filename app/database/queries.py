@@ -7,78 +7,21 @@ import uuid
 cryptor = CryptoHasher()
 config = Config()
 class Database:
-    class SearchHistorydb:
-        def __init__(self) -> None:
-            self.search_connect = sqlite3.connect(config.SH_DB)
-            self.search_cur = self.search_connect.cursor()
-            self.init_searchdb()
-
-        def __del__(self):
-            self.search_connect.close()
-
-        def init_searchdb(self) -> None:
-            try:
-                self.search_connect.execute(config.INIT_SH_DB)
-                self.search_connect.commit()
-            except sqlite3.Error as e:
-                logger.debug(f"init search db fail: {e}")
-
-        def get_total_historys(self, username: str) -> int:
-            try:
-                return self.search_connect.execute(config.COUNT_SH, (username,)).fetchone()[0]
-            except sqlite3.Error as e:
-                logger.debug(f"get total historys error: {e}")
-
-        def generate_uuid(self) -> str:
-            return uuid.uuid4().hex
-
-        def search_history_add(
-            self, uuid: str, vid: int, userid: int, title: str, timestamp: str, duration: str
-        ) -> None:
-            try:
-                self.search_connect.execute(
-                    config.SH_ADD, (uuid, vid, userid, title, timestamp, duration)
-                )
-                self.search_connect.commit()
-            except sqlite3.Error as e:
-                logger.debug(f"add search history fail: {e}")
-                self.search_connect.rollback()
-
-        def query_search_history(
-            self, userid: int, page_size: int, page_num: int
-        ) -> list:
-            offset = (page_num - 1) * page_size
-            try:
-                return self.search_connect.execute(
-                    config.FILTE_SH, (userid, offset, page_size)
-                ).fetchall()
-            except sqlite3.Error as e:
-                logger.debug(f"query search history error: {e}")
-            
-        def query_search_history_all(self, userid: int) -> list:
-            try:
-                return self.search_connect.execute(config.FILTE_SH_ALL, (userid,)).fetchall()
-            except sqlite3.Error as e:
-                logger.debug(f"query search history error: {e}")
-
-        def destroy_db(self, db_name: str) -> None:
-            try:
-                self.search_connect.execute(f"DROP TABLE IF EXISTS {db_name};")
-                self.search_connect.commit()
-            except sqlite3.Error as e:
-                logger.debug(f"destroy db fail: {e}")
-
+    def __init__(self):
+        with open(config.USER_SQL, "r") as file:
+            config.USER_SQL = file.read()
+        with open(config.VIDEO_SQL, "r") as file:
+            config.VIDEO_SQL = file.read()
+        
     class Userdb:
         def __init__(self) -> None:
-            import os
-            logger.debug(f"is userdb exists: {os.path.exists(config.USER_DB)}\n\tcurrent work dir: {os.path.dirname(os.path.abspath(__file__))}")
             self.user_connect = sqlite3.connect(config.USER_DB)
             self.user_cur = self.user_connect.cursor()
             self.init_userdb()
 
         def init_userdb(self) -> None:
             try:
-                self.user_connect.execute(config.INIT_USER_DB)
+                self.user_connect.execute(config.USER_SQL)
                 self.user_connect.commit()
             except sqlite3.Error as e:
                 logger.debug(f"init user db fail: {e}")
@@ -270,6 +213,67 @@ class Database:
 
         def __del__(self) -> None:
             self.user_connect.close()
+    
+    class SearchHistorydb:
+        def __init__(self) -> None:
+            self.search_connect = sqlite3.connect(config.USER_DB)
+            self.init_searchdb()
+
+        def __del__(self):
+            self.search_connect.close()
+
+        def init_searchdb(self) -> None:
+            try:
+                self.search_connect.execute(config.INIT_SH_DB)
+                self.search_connect.commit()
+            except sqlite3.Error as e:
+                logger.debug(f"init search db fail: {e}")
+
+        def get_total_historys(self, username: str) -> int:
+            try:
+                return self.search_connect.execute(config.COUNT_SH, (username,)).fetchone()[0]
+            except sqlite3.Error as e:
+                logger.debug(f"get total historys error: {e}")
+
+        def generate_uuid(self) -> str:
+            return uuid.uuid4().hex
+
+        def search_history_add(
+            self, uuid: str, vid: int, userid: int, title: str, timestamp: str, duration: str
+        ) -> None:
+            try:
+                self.search_connect.execute(
+                    config.SH_ADD, (uuid, vid, userid, title, timestamp, duration)
+                )
+                self.search_connect.commit()
+            except sqlite3.Error as e:
+                logger.debug(f"add search history fail: {e}")
+                self.search_connect.rollback()
+
+        def query_search_history(
+            self, userid: int, page_size: int, page_num: int
+        ) -> list:
+            offset = (page_num - 1) * page_size
+            try:
+                return self.search_connect.execute(
+                    config.FILTE_SH, (userid, offset, page_size)
+                ).fetchall()
+            except sqlite3.Error as e:
+                logger.debug(f"query search history error: {e}")
+            
+        def query_search_history_all(self, userid: int) -> list:
+            try:
+                return self.search_connect.execute(config.FILTE_SH_ALL, (userid,)).fetchall()
+            except sqlite3.Error as e:
+                logger.debug(f"query search history error: {e}")
+
+        def destroy_db(self, db_name: str) -> None:
+            try:
+                self.search_connect.execute(f"DROP TABLE IF EXISTS {db_name};")
+                self.search_connect.commit()
+            except sqlite3.Error as e:
+                logger.debug(f"destroy db fail: {e}")
+
 
     class Videodb:
         def __init__(self) -> None:
@@ -279,7 +283,7 @@ class Database:
 
         def init_videodb(self) -> None:
             try:
-                self.video_connect.execute(config.INIT_VIDEO_DB)
+                self.video_connect.execute(config.VIDEO_SQL)
                 self.video_connect.commit()
             except sqlite3.Error as e:
                 logger.debug(f"init videodb fail: {e}")

@@ -6,7 +6,7 @@ from app.utils.validator import Password, Username
 from app.libs.main import MainWindow
 from app.libs.dialog import openDialog
 
-db = Database
+db = Database()
 cryptor = CryptoHasher()
 passwd_val = Password()
 usrname_val = Username()

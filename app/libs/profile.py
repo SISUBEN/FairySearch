@@ -5,7 +5,7 @@ from app.database.queries import Database
 from app.helper.widgetHelper import WidgetHelper
 timekeeper = TimeKeeper() 
 widget_helper = WidgetHelper()
-db = Database
+db = Database()
 
 class ProfileWindow(QWidget, Ui_Profile):
     def __init__(self, token: str) -> None:
