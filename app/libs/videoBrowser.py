@@ -55,7 +55,7 @@ class VideoBrowser(QWidget, Ui_VideoBrowser):
             self.onPlay()
         except Exception as e:
             logger.debug(f"Error: {e}")
-            openDialog("错误", "视频播放失败")
+            openDialog("错误", "视频播放失败") 
         
         self.title.setText(self.__title)
         self.describe.setText(self.__desc)

@@ -179,6 +179,9 @@ tempCodeRunnerFile.py
 
 # backup files
 *.bak
+backup/
+backups/
+backup.ps1
 
 # test
 test/
