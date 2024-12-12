@@ -2,7 +2,6 @@ from app.__init__ import *
 from app.modules.Ui_login import Ui_Form
 from app.database.queries import Database
 from app.utils.crypto import CryptoHasher
-
 from app.libs.register import RegisterWindow
 from app.libs.main import MainWindow
 from app.libs.dialog import openDialog
@@ -18,7 +17,7 @@ class LoginWindow(QWidget, Ui_Form):
         self.setWindowTitle("登录")
 
         self.login_btn.clicked.connect(self.login)
-        self.register_2.clicked.connect(self.register)
+        self.register_2.clicked.connect(self.openRegisterWindow)
         self.password.editingFinished.connect(self.login)
 
     def paintEvent(self, event) -> None:
@@ -45,7 +44,7 @@ class LoginWindow(QWidget, Ui_Form):
         else:
             openDialog("登入失败", "用户不存在")
 
-    def register(self) -> None:
+    def openRegisterWindow(self) -> None:
         self.close()
         self.registerWindow = RegisterWindow()
         self.registerWindow.show()
@@ -54,8 +53,3 @@ class LoginWindow(QWidget, Ui_Form):
         self.close()
         self.mainWindow = MainWindow(token)
         self.mainWindow.show()
-
-    def openRegisterWindow(self) -> None:
-        self.close()
-        self.registerWindow = RegisterWindow()
-        self.registerWindow.show()

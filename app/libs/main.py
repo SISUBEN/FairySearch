@@ -1,14 +1,21 @@
 from app.libs.videoBrowser import VideoBrowser
+from app.libs.expection import NoLoginError, VideoNotFoundError
+from app.libs.dialog import openDialog
 from app.__init__ import *
 # to avoid circular import
 def onClickVideos(vid: int) -> None:
-    videosBrower = VideoBrowser(vid)
-    logger.debug(f"onClickVideos: {vid}")
-    videosBrower.show()
-    
+    try:
+        videosBrower = VideoBrowser(vid)
+        logger.debug(f"onClickVideos: {vid}")
+        videosBrower.show()
+    except VideoNotFoundError:
+        logger.error(f"Video ID:{vid} does not exist")
+        openDialog("无法找到该视频", f"视频【{vid}】不存在")
+
+
+
 from app.modules.Ui_main import Ui_MainWindow, ItemWidget, PageWidget
 from app.libs.profile import ProfileWindow
-from app.libs.expection import NoLoginError
 from app.database.queries import Database
 from app.utils.time import TimeKeeper
 
@@ -22,6 +29,8 @@ class MainWindow(
     def __init__(self, token: str) -> None:
         super().__init__()
         self.__token = token
+        if self.__token is None:
+            raise NoLoginError("未登录")
         self.bg_image_path = ":/images/images/background.png"  # using QRC path
         self.def_cover_path = ":/covers/covers/default.png"  # using QRC path
         self.pages_data = self.getVideos()

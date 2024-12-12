@@ -5,14 +5,9 @@ from app.modules.logger.logger import logger
 import uuid
 
 cryptor = CryptoHasher()
-config = Config()
+config = Config
+
 class Database:
-    def __init__(self):
-        with open(config.USER_SQL, "r") as file:
-            config.USER_SQL = file.read()
-        with open(config.VIDEO_SQL, "r") as file:
-            config.VIDEO_SQL = file.read()
-        
     class Userdb:
         def __init__(self) -> None:
             self.user_connect = sqlite3.connect(config.USER_DB)
@@ -224,7 +219,7 @@ class Database:
 
         def init_searchdb(self) -> None:
             try:
-                self.search_connect.execute(config.INIT_SH_DB)
+                self.search_connect.execute(config.SEARCH_HISTORY_SQL)
                 self.search_connect.commit()
             except sqlite3.Error as e:
                 logger.debug(f"init search db fail: {e}")

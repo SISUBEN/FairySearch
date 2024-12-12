@@ -1,6 +1,5 @@
 from app.__init__ import *
 from app.libs.login import LoginWindow
-import os
 
 if __name__ == "__main__":
     try:

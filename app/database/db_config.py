@@ -6,20 +6,23 @@ from typing import ClassVar
 
 logger.debug(f"Current file dir: {os.getcwd()}")
 
+
 @dataclass
 class Config:
 
     # locate database path automatically
     USER_SQL: str
     VIDEO_SQL: str
+    SEARCH_HISTORY_SQL: str
     current_dir = os.path.dirname(os.path.abspath(__file__))
     VIDEO_DB: str = os.path.join(current_dir, "videos.db")
     USER_DB: str = os.path.join(current_dir, "users.db")
-    VIDEO_SQL_PATH: str = os.path.join(current_dir, "video_db.sql")
+    VIDEO_SQL_PATH: str = os.path.join(current_dir, "videos_db.sql")
     USER_SQL_PATH: str = os.path.join(current_dir, "user_db.sql")
+    SEARCH_HISTORY_SQL_PATH: str = os.path.join(current_dir, "search_history_db.sql")
     # SH_DB: str = os.path.join(current_dir, "search_history.db")
     # default
-    DEFAULT_COVER: str =  os.path.join(current_dir, "covers", "default.png")
+    DEFAULT_COVER: str = os.path.join(current_dir, "covers", "default.png")
     # SQL
     RESET_ID = "alter table ? AUTO_INCREMENT=1;"
     # search history
@@ -34,9 +37,7 @@ class Config:
                     );"""
     QUERY_SH = "SELECT title FROM search_history WHERE userid=?;"
     COUNT_SH = "SELECT COUNT(*) FROM search_history WHERE userid=?;"
-    FILTE_SH = (
-        "SELECT title, timestamp, duration FROM search_history WHERE userid=? ORDER BY timestamp DESC LIMIT ? OFFSET ?;"
-    )
+    FILTE_SH = "SELECT title, timestamp, duration FROM search_history WHERE userid=? ORDER BY timestamp DESC LIMIT ? OFFSET ?;"
     FILTE_SH_ALL = "SELECT title, timestamp, duration, uuid, vid FROM search_history WHERE userid=? ORDER BY timestamp"
     SH_ADD = "INSERT INTO search_history (uuid, vid, userid ,title, timestamp, duration) VALUES (?, ?, ?, ?, ?, ?);"
     # user
@@ -77,3 +78,21 @@ class Config:
     VIDEO_COUNT = "SELECT COUNT(*) FROM videos"
     VIDEO_QUERY_TITLE = "SELECT video_title FROM videos WHERE video_id = ?;"
     VIDEO_QUERY_DESC = "SELECT video_desc FROM videos WHERE video_id = ?;"
+
+
+try:
+    logger.debug(
+        f"is path exists: {os.path.exists(Config.USER_SQL_PATH), os.path.exists(Config.VIDEO_SQL_PATH), os.path.exists(Config.SEARCH_HISTORY_SQL_PATH)}"
+    )
+    with open(Config.USER_SQL_PATH, "r") as file:
+        Config.USER_SQL = file.read()
+    with open(Config.VIDEO_SQL_PATH, "r") as file:
+        Config.VIDEO_SQL = file.read()
+    with open(Config.SEARCH_HISTORY_SQL_PATH, "r") as file:
+        Config.SEARCH_HISTORY_SQL = file.read()
+    logger.debug(
+        f"user sql length: {len(Config.USER_SQL)}\nvideo sql length: {len(Config.VIDEO_SQL)}\n search history sql length: {len(Config.SEARCH_HISTORY_SQL)}"
+    )
+except FileNotFoundError:
+    logger.critical("database file not found")
+    exit()

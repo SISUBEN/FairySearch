@@ -4,6 +4,8 @@ from app.database.queries import Database
 from app.utils.crypto import CryptoHasher
 from app.utils.validator import Password, Username
 from app.libs.main import MainWindow
+# from app.libs.main import 
+from app.libs.expection import NoLoginError
 from app.libs.dialog import openDialog
 
 db = Database()
@@ -17,8 +19,9 @@ class RegisterWindow(QWidget, Ui_Registor):
         super().__init__()
         self.setupUi(self)
         self.setWindowTitle("注册")
+        self.__token = None
         self.register_btn.clicked.connect(self.register)
-        self.back.clicked.connect(self.openMainWindow)
+        self.back.clicked.connect(self.openLoginWindow)
 
     def paintEvent(self, event):
         painter = QPainter(self)
@@ -37,7 +40,7 @@ class RegisterWindow(QWidget, Ui_Registor):
             #     self._username, cryptor.sha256(self.password_ipt)
             # )
             # encyted = cryptor.sha256(self.password_ipt)
-            db.userdb.t_user_add(self._username, self.password_ipt)
+            self.__token = db.userdb.t_user_add(self._username, self.password_ipt)
             openDialog(title="提示", text="注册成功")
             self.openMainWindow()
         elif not usrname_val.validate(self._username):
@@ -52,8 +55,20 @@ class RegisterWindow(QWidget, Ui_Registor):
             )
         else:
             openDialog(title="提示", text="两次输入的密码不一致")
-
+            
+    def openLoginWindow(self) -> None:
+        from app.libs.login import LoginWindow
+        # import pdb
+        self.close()
+        loginWindow = LoginWindow()
+        # pdb.set_trace()
+        loginWindow.show()
+        
     def openMainWindow(self) -> None:
         self.close()
-        self.mainWindow = MainWindow()
+        try:
+            self.mainWindow = MainWindow(token=self.__token)
+        except NoLoginError:
+            logger.log("user not login, back to [login.py] page")
+            openDialog("提示", "请先登录")
         self.mainWindow.show()

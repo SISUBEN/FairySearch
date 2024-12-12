@@ -36,6 +36,8 @@ class VideoBrowser(QWidget, Ui_VideoBrowser):
         # logger.debug(f"title: {self.__title}")
         self.setWindowTitle(self.__title)
         self.video_frame.setAutoFillBackground(True)
+        self.position_slider.setToolTip("Position")
+        self.position_slider.setMaximum(1000)
         
         try: 
             self.filename = res_manager.getVideoPath(vid=vid)
@@ -43,9 +45,7 @@ class VideoBrowser(QWidget, Ui_VideoBrowser):
                 raise VideoNotFoundError
         except TypeError:
             openDialog("错误", "vid无效")
-        # import pdb
         self.media = self.instance.media_new(self.filename)
-        # pdb.set_trace()
         try:
             self.media_player.set_media(self.media)
             self.media.parse()
@@ -70,12 +70,12 @@ class VideoBrowser(QWidget, Ui_VideoBrowser):
         self.media_player.audio_set_volume(50)
         
     def changeBackground(self, path: str, widget: str):
-        logger.debug("bgs : "+(u"%s {\n"
-        "	background-image: url(%s);\n"
-        "    background-position: centre centre;\n"
-        "    background-repeat: no-repeat;\n"
-        "	background-color:transparent;\n"
-        "}" % (widget, path)))
+        # logger.debug("bgs : "+(u"%s {\n"
+        # "	background-image: url(%s);\n"
+        # "    background-position: centre centre;\n"
+        # "    background-repeat: no-repeat;\n"
+        # "	background-color:transparent;\n"
+        # "}" % (widget, path)))
         return (u"%s {\n"
         "	background-image: url(%s);\n"
         "    background-position: centre centre;\n"
@@ -167,6 +167,11 @@ class VideoBrowser(QWidget, Ui_VideoBrowser):
         # self.position_slider.setGeometry(40, self.height() - 100, self.width() - 80, 50)
         
     def __del__(self):
-        self.media_player.stop()
-        self.timer.stop()
-        self.media_player.set_media(QMediaPlayer.Media())
+        try:
+            self.media_player.stop()
+            self.timer.stop()
+            self.media_player.set_media(QMediaPlayer.Media())
+        except RuntimeError:
+            logger.debug("object PySide6.QtCore.QTimer already deleted")
+        except ImportError:
+            logger.debug("object PySide6.QtMultimedia.QMediaPlayer already deleted")
