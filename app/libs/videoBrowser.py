@@ -19,6 +19,9 @@ class VideoBrowser(QWidget, Ui_VideoBrowser):
         self.timer.timeout.connect(self.updateUi)
         self.closeEvent = self.closeEventWrapper
         
+        self.is_liked = False
+        self.is_favorited = False
+        self.is_coined = False
         self.__title = db.videodb.query_title_by_vid(vid)[0][0] or None
         self.__desc = db.videodb.query_desc_by_vid(vid)[0][0] or None
         logger.debug(f"Video Info:\n title: {self.__title}\n desc :{self.__desc}\n vid: {vid}")
@@ -70,12 +73,6 @@ class VideoBrowser(QWidget, Ui_VideoBrowser):
         self.media_player.audio_set_volume(50)
         
     def changeBackground(self, path: str, widget: str):
-        # logger.debug("bgs : "+(u"%s {\n"
-        # "	background-image: url(%s);\n"
-        # "    background-position: centre centre;\n"
-        # "    background-repeat: no-repeat;\n"
-        # "	background-color:transparent;\n"
-        # "}" % (widget, path)))
         return (u"%s {\n"
         "	background-image: url(%s);\n"
         "    background-position: centre centre;\n"
@@ -86,43 +83,49 @@ class VideoBrowser(QWidget, Ui_VideoBrowser):
     def onPlay(self):
         if self.media_player.is_playing():
             self.media_player.pause()
-            self.play_button.setStyleSheet(self.changeBackground(":/icons/icons/pause.svg", "QPushButton"))
+            self.play_button.setStyleSheet(self.changeBackground(":/icons/icons/play.svg", "QPushButton"))
+            
             self.is_paused = True
             self.timer.stop()
+            logger.debug("video paused")
         else:
             if self.media_player.play() == -1:
                 return
             self.media_player.play()
-            self.play_button.setStyleSheet(self.changeBackground(":/icons/icons/play.svg", "QPushButton"))
+            self.play_button.setStyleSheet(self.changeBackground(":/icons/icons/pause.svg", "QPushButton"))
             self.timer.start()
             self.is_paused = False
+            logger.debug("video playing")
     
     def onLike(self):
-        logger.debug("onLike")
-        if self.like.isChecked():
-            self.like.setChecked(False)
-            self.like.setStyleSheet(self.changeBackground(":/icons/icons/like.png", "QPushButton"))
-        else:
-            self.like.setChecked(True)
+        if not self.is_liked:
+            self.is_liked = True
             self.like.setStyleSheet(self.changeBackground(":/icons/icons/liked.png", "QPushButton"))
+            logger.debug("video liked")
+        else:
+            self.is_liked = False
+            self.like.setStyleSheet(self.changeBackground(":/icons/icons/like.png", "QPushButton"))
+            logger.debug("video unliked")
         
     def onCoin(self):
-        logger.debug("onCoin")
-        if self.coin.isChecked():
-            self.coin.setChecked(False)
-            self.coin.setStyleSheet(self.changeBackground(":/icons/icons/coin.png", "QPushButton"))
-        else:
-            self.coin.setChecked(True)
+        if not self.is_coined:
+            self.is_coined = True
             self.coin.setStyleSheet(self.changeBackground(":/icons/icons/coined.png", "QPushButton"))
+            logger.debug("video coined")
+        else:
+            self.is_coined = False
+            self.coin.setStyleSheet(self.changeBackground(":/icons/icons/coin.png", "QPushButton"))
+            logger.debug("video uncoined")
 
     def onFavorite(self):
-        logger.debug("onFavorite")
-        if self.favorite.isChecked():
-            self.favorite.setChecked(False)
-            self.favorite.setStyleSheet(self.changeBackground(":/icons/icons/favorite.png", "QPushButton"))
-        else:
-            self.favorite.setChecked(True)
+        if not self.is_favorited:
+            self.is_favorited = True
             self.favorite.setStyleSheet(self.changeBackground(":/icons/icons/favorited.png", "QPushButton"))
+            logger.debug("video favorited")
+        else:
+            self.is_favorited = False
+            self.favorite.setStyleSheet(self.changeBackground(":/icons/icons/favorite.png", "QPushButton"))
+            logger.debug("video unfavorited")
         
     def stop(self):
         self.media_player.stop()
@@ -157,6 +160,7 @@ class VideoBrowser(QWidget, Ui_VideoBrowser):
         event.accept()
     
     def closeEventWrapper(self, event):
+        self.submitStatus()
         self.media_player.stop()
         self.timer.stop()
         # self.media_player.set_media(QMediaPlayer.Media())
@@ -166,12 +170,15 @@ class VideoBrowser(QWidget, Ui_VideoBrowser):
         # Update position_slider size and position
         # self.position_slider.setGeometry(40, self.height() - 100, self.width() - 80, 50)
         
+    def submitStatus(self):
+        logger.debug("submit status")
+        
     def __del__(self):
         try:
             self.media_player.stop()
             self.timer.stop()
             self.media_player.set_media(QMediaPlayer.Media())
         except RuntimeError:
-            logger.debug("object PySide6.QtCore.QTimer already deleted")
-        except ImportError:
-            logger.debug("object PySide6.QtMultimedia.QMediaPlayer already deleted")
+            logger.error("object PySide6.QtCore.QTimer already deleted")
+        except (ImportError, AttributeError):
+            logger.error("object PySide6.QtMultimedia.QMediaPlayer already deleted")

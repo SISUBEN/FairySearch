@@ -19,7 +19,7 @@ class Config:
     USER_DB: str = os.path.join(current_dir, "users.db")
     VIDEO_SQL_PATH: str = os.path.join(current_dir, "videos_db.sql")
     USER_SQL_PATH: str = os.path.join(current_dir, "user_db.sql")
-    SEARCH_HISTORY_SQL_PATH: str = os.path.join(current_dir, "search_history_db.sql")
+    SEARCH_HISTORY_SQL_PATH: str = os.path.join(current_dir, "search_history.sql")
     # SH_DB: str = os.path.join(current_dir, "search_history.db")
     # default
     DEFAULT_COVER: str = os.path.join(current_dir, "covers", "default.png")

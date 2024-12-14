@@ -9,7 +9,6 @@ from app.libs.dialog import openDialog
 db = Database()
 cryptor = CryptoHasher()
 
-
 class LoginWindow(QWidget, Ui_Form):
     def __init__(self) -> None:
         super().__init__()
@@ -39,10 +38,8 @@ class LoginWindow(QWidget, Ui_Form):
                 logger.debug(f"token: {token}")
                 openDialog("登入成功", f"{self.username.text()}，欢迎")
                 self.openMainWindow(token)
-            else:
-                openDialog("登入失败", "用户名或者密码错误\n请再试一次")
         else:
-            openDialog("登入失败", "用户不存在")
+            openDialog("登入失败", "用户名或者密码错误\n请再试一次")
 
     def openRegisterWindow(self) -> None:
         self.close()

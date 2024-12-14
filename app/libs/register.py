@@ -58,10 +58,10 @@ class RegisterWindow(QWidget, Ui_Registor):
             
     def openLoginWindow(self) -> None:
         from app.libs.login import LoginWindow
-        # import pdb
+        import pdb
         self.close()
         loginWindow = LoginWindow()
-        # pdb.set_trace()
+        pdb.set_trace()
         loginWindow.show()
         
     def openMainWindow(self) -> None:
