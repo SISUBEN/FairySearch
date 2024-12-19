@@ -1,9 +1,10 @@
 import sqlite3
-from db_config import Config
+from .db_config import Config
 from app.utils.crypto import CryptoHasher
 from app.modules.logger.logger import logger
 cryptor = CryptoHasher()
 config = Config
+
 
 class Userdb:
         def __init__(self) -> None:
@@ -98,7 +99,7 @@ class Userdb:
             return cryptor.sha256(token)
                 
         
-        def user_exists(self, username: str) -> bool:
+        def is_user_exists(self, username: str) -> bool:
             """Check if user exists
 
             Args:
@@ -199,7 +200,7 @@ class Userdb:
                 bool: True if password is correct, False otherwise
             """
             logger.debug(f"pwd: {password}, username: {username}")
-            logger.debug(f"Is user exists? => {self.user_exists(username)}")
+            logger.debug(f"Is user exists? => {self.is_user_exists(username)}")
             logger.debug(f"self.user_connect.execute(config.USER_QUERY_PWD, (username,)).fetchall() = {self.user_connect.execute(config.USER_QUERY_PWD, (username,)).fetchall()}")
             return self.query_user_password(username) == password
 

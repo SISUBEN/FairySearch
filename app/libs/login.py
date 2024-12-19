@@ -29,7 +29,7 @@ class LoginWindow(QWidget, Ui_Form):
         username_input: str = self.username.text()
         password_input: str = self.password.text()
         enctrypt: str = cryptor.sha256(password_input)
-        if db.userdb.user_exists(self.username.text()):
+        if db.userdb.is_user_exists(self.username.text()):
             logger.debug(f"user exists")
             logger.debug(f"username: {username_input}, password: {password_input}")
             if db.userdb.verify_user(username=username_input, password=enctrypt):

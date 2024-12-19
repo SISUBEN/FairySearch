@@ -33,7 +33,7 @@ class RegisterWindow(QWidget, Ui_Registor):
         self._username = self.username.text()
         self.password_ipt = self.password.text()
         self.password2_ipt = self.password_2.text()
-        if db.userdb.user_exists(self._username):
+        if db.userdb.is_user_exists(self._username):
             openDialog(title="提示", text="用户名已存在")
         elif self.password_ipt == self.password2_ipt:
             # db.userdb.user_add(
