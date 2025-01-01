@@ -7,13 +7,13 @@ config = Config
 
 class Videodb:
         def __init__(self) -> None:
-            self.video_connect = sqlite3.connect(config.VIDEO_DB)
+            self.video_connect = sqlite3.connect(config.PATHS["video_db"])
             self.video_cur = self.video_connect.cursor()
             self.init_videodb()
 
         def init_videodb(self) -> None:
             try:
-                self.video_connect.execute(config.VIDEO_SQL)
+                self.video_connect.execute(config.INIT_VIDEO_DB)
                 self.video_connect.commit()
             except sqlite3.Error as e:
                 logger.debug(f"init videodb fail: {e}")
@@ -42,8 +42,6 @@ class Videodb:
                 sqlite3.Error: if add fail
             """
             if self.video_query(video_title):
-                return
-            elif len(video_title) > config.TITLE_MAX_LEN:
                 return
             tags = ",".join(video_tags)
             types = ",".join(video_type)

@@ -163,7 +163,6 @@ class VideoBrowser(QWidget, Ui_VideoBrowser):
         self.submitStatus()
         self.media_player.stop()
         self.timer.stop()
-        # self.media_player.set_media(QMediaPlayer.Media())
         event.accept()
         
     # def resizeEvent(self, event):
@@ -177,8 +176,7 @@ class VideoBrowser(QWidget, Ui_VideoBrowser):
         try:
             self.media_player.stop()
             self.timer.stop()
-            self.media_player.set_media(QMediaPlayer.Media())
         except RuntimeError:
             logger.error("object PySide6.QtCore.QTimer already deleted")
         except (ImportError, AttributeError):
-            logger.error("object PySide6.QtMultimedia.QMediaPlayer already deleted")
+            logger.error("VLC media player already deleted")

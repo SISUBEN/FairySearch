@@ -8,7 +8,7 @@ config = Config
 
 class SearchHistorydb:
         def __init__(self) -> None:
-            self.search_connect = sqlite3.connect(config.USER_DB)
+            self.search_connect = sqlite3.connect(config.PATHS["user_db"])
             self.init_searchdb()
 
         def __del__(self):
@@ -16,7 +16,7 @@ class SearchHistorydb:
 
         def init_searchdb(self) -> None:
             try:
-                self.search_connect.execute(config.SEARCH_HISTORY_SQL)
+                self.search_connect.execute(config.INIT_SH_DB)
                 self.search_connect.commit()
             except sqlite3.Error as e:
                 logger.debug(f"init search db fail: {e}")

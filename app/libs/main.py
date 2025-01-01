@@ -46,14 +46,17 @@ class MainWindow(
         
     @TimeKeeper.timer
     def getVideos(
-        self, page: int = 0, page_size: int = 6
-    ) -> list:  # arg no implemented
-        # TODO: get videos partly
+        self, page: int = 0, page_size: int = 9
+    ) -> list:
         results = db.videodb.query_videos_all()
-        # construct and return a list of dictionaries
-        videos = [[{"cover": result[2], "title": result[1], "vid": result[0]} for result in results]]
-        logger.debug(f"videos: {videos}")
-        return videos
+        videos = [
+            {"cover": result[2], "title": result[1], "vid": result[0]}
+            for result in results
+        ]
+        # Split videos into pages
+        pages = [videos[i:i + page_size] for i in range(0, len(videos), page_size)]
+        logger.debug(f"videos: {pages}")
+        return pages
 
     def appendPage(self, *items_data: list) -> None:
         for data in items_data:

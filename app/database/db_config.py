@@ -2,26 +2,30 @@
 import os
 from app.modules.logger.logger import logger
 from dataclasses import dataclass
-from typing import ClassVar
 
 logger.debug(f"Current file dir: {os.getcwd()}")
-
 
 @dataclass
 class Config:
     current_dir = os.path.dirname(os.path.abspath(__file__))
-
+    
     # locate database path automatically
-    USER_SQL: str
-    VIDEO_SQL: str
-    SEARCH_HISTORY_SQL: str
     
     # Database sql path
-    VIDEO_DB: str = os.path.join(current_dir, "videos.db")
-    USER_DB: str = os.path.join(current_dir, "users.db")
-    VIDEO_SQL_PATH: str = os.path.join(current_dir, "videos_db.sql")
-    USER_SQL_PATH: str = os.path.join(current_dir, "user_db.sql")
-    SEARCH_HISTORY_SQL_PATH: str = os.path.join(current_dir, "search_history.sql")
+    PATHS = {
+        "video_db": os.path.join(current_dir, "videos.db"),
+        "user_db": os.path.join(current_dir, "users.db"),
+        "video_sql": os.path.join(current_dir, "videos_db.sql"),
+        "user_sql": os.path.join(current_dir, "user_db.sql"),
+        "search_history_sql": os.path.join(current_dir, "search_history.sql"),
+        "user_activity_data_sql": os.path.join(current_dir, "user_activity_data.sql"),
+    }
+    # VIDEO_DB: str = os.path.join(current_dir, "videos.db")
+    # USER_DB: str = os.path.join(current_dir, "users.db")
+    # VIDEO_SQL_PATH: str = os.path.join(current_dir, "videos_db.sql")
+    # USER_SQL_PATH: str = os.path.join(current_dir, "user_db.sql")
+    # SEARCH_HISTORY_SQL_PATH: str = os.path.join(current_dir, "search_history.sql")
+    # USER_ACTIVITY_DATA_SQL_PATH: str = os.path.join(current_dir, "user_activity_data.sql")
     
     # default
     DEFAULT_COVER: str = os.path.join(current_dir, "covers", "default.png")
@@ -82,21 +86,15 @@ class Config:
     VIDEO_QUERY_TITLE = "SELECT video_title FROM videos WHERE video_id = ?;"
     VIDEO_QUERY_DESC = "SELECT video_desc FROM videos WHERE video_id = ?;"
 
+# try:
+#     with open(Config.PATHS["user_sql"], "r") as file:
+#         Config.USER_SQL = file.read()
+#     with open(Config.PATHS["video_sql"], "r") as file:
+#         Config.VIDEO_SQL = file.read()
+#     with open(Config.PATHS["search_history_sql"], "r") as file:
+#         Config.SEARCH_HISTORY_SQL = file.read()
+#     # with open(Config.
+# except FileNotFoundError:
+#     logger.critical("database file not found")
+#     exit()
 
-try:
-    # logger.debug(
-    #     f"is path exists: {os.path.exists(Config.USER_SQL_PATH), os.path.exists(Config.VIDEO_SQL_PATH), os.path.exists(Config.SEARCH_HISTORY_SQL_PATH)}"
-    # )
-    with open(Config.USER_SQL_PATH, "r") as file:
-        Config.USER_SQL = file.read()
-    with open(Config.VIDEO_SQL_PATH, "r") as file:
-        Config.VIDEO_SQL = file.read()
-    with open(Config.SEARCH_HISTORY_SQL_PATH, "r") as file:
-        Config.SEARCH_HISTORY_SQL = file.read()
-        
-    # logger.debug(
-    #     f"user sql length: {len(Config.USER_SQL)}\nvideo sql length: {len(Config.VIDEO_SQL)}\n search history sql length: {len(Config.SEARCH_HISTORY_SQL)}"
-    # )
-except FileNotFoundError:
-    logger.critical("database file not found")
-    exit()

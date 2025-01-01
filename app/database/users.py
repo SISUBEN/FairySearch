@@ -8,13 +8,13 @@ config = Config
 
 class Userdb:
         def __init__(self) -> None:
-            self.user_connect = sqlite3.connect(config.USER_DB)
+            self.user_connect = sqlite3.connect(config.PATHS["user_db"])
             self.user_cur = self.user_connect.cursor()
             self.init_userdb()
 
         def init_userdb(self) -> None:
             try:
-                self.user_connect.execute(config.USER_SQL)
+                self.user_connect.execute(config.INIT_USER_DB)
                 self.user_connect.commit()
             except sqlite3.Error as e:
                 logger.debug(f"init user db fail: {e}")
