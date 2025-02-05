@@ -2,6 +2,7 @@ from app.libs.videoBrowser import VideoBrowser
 from app.libs.expection import NoLoginError, VideoNotFoundError
 from app.libs.dialog import openDialog
 from app.__init__ import *
+
 # to avoid circular import
 def onClickVideos(vid: int) -> None:
     try:
@@ -11,8 +12,6 @@ def onClickVideos(vid: int) -> None:
     except VideoNotFoundError:
         logger.error(f"Video ID:{vid} does not exist")
         openDialog("无法找到该视频", f"视频【{vid}】不存在")
-
-
 
 from app.modules.Ui_main import Ui_MainWindow, ItemWidget, PageWidget
 from app.libs.profile import ProfileWindow
@@ -46,7 +45,7 @@ class MainWindow(
         
     @TimeKeeper.timer
     def getVideos(
-        self, page: int = 0, page_size: int = 9
+        self, page_size: int = 9
     ) -> list:
         results = db.videodb.query_videos_all()
         videos = [
