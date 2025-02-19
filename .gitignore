@@ -187,6 +187,7 @@ backup.ps1
 test/
 tests/
 *test.py
+test_*.py
 
 # Deprecated
 *_deprecated.py
@@ -194,3 +195,11 @@ tests/
 deprecated/
 *_de.py
 *_de.ipynb
+
+# i18n
+# *.po
+# *.mo
+# *.pot
+
+# jupyter
+.ipynb_checkpoints
