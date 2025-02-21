@@ -7,7 +7,7 @@ from PySide6.QtMultimedia import QMediaPlayer
 from app.libs.dialog import openDialog
 from app.libs.expection import VideoNotFoundError
 import vlc
-
+from app.i18n import _
 res_manager = ResouceManager()
 db = Database()
 class VideoBrowser(QWidget, Ui_VideoBrowser):
@@ -26,7 +26,7 @@ class VideoBrowser(QWidget, Ui_VideoBrowser):
         self.__desc = db.videodb.query_desc_by_vid(vid)[0][0] or None
         logger.debug(f"Video Info:\n title: {self.__title}\n desc :{self.__desc}\n vid: {vid}")
         if self.__title is None or self.__desc is None:
-            openDialog("错误", "无法找到该视频")
+            openDialog(_("错误"), _("无法找到该视频"))
             raise VideoNotFoundError
         
         self.vid = vid
@@ -47,7 +47,7 @@ class VideoBrowser(QWidget, Ui_VideoBrowser):
             if self.filename is None:
                 raise VideoNotFoundError
         except TypeError:
-            openDialog("错误", "vid无效")
+            openDialog(_("错误"), _("vid无效"))
         self.media = self.instance.media_new(self.filename)
         try:
             self.media_player.set_media(self.media)
@@ -58,7 +58,7 @@ class VideoBrowser(QWidget, Ui_VideoBrowser):
             self.onPlay()
         except Exception as e:
             logger.debug(f"Error: {e}")
-            openDialog("错误", "视频播放失败") 
+            openDialog(_("错误"), _("视频播放失败")) 
         
         self.title.setText(self.__title)
         self.describe.setText(self.__desc)

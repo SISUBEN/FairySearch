@@ -1,0 +1,136 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2025-02-21 21:35+0800\n"
+"PO-Revision-Date: 2025-02-21 21:42+0800\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: en_US\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.5\n"
+"X-Poedit-Basepath: ../../..\n"
+"X-Poedit-KeywordsList: _\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.pyc\n"
+"X-Poedit-SearchPathExcluded-1: *.ui\n"
+
+#: app/libs/login.py:20
+msgid "登录"
+msgstr "Login"
+
+#: app/libs/login.py:45
+msgid "登入成功"
+msgstr "Login Successful"
+
+#: app/libs/login.py:45
+msgid "欢迎"
+msgstr "Welcome!"
+
+#: app/libs/login.py:48
+msgid "登入失败"
+msgstr "Login Fail"
+
+#: app/libs/login.py:48
+msgid ""
+"用户名或者密码错误\n"
+"请再试一次"
+msgstr ""
+"Username or password incorrect.\n"
+"Please try again."
+
+#: app/libs/main.py:33
+msgid "主页"
+msgstr "FairySearch"
+
+#: app/libs/main.py:35
+msgid "未登录"
+msgstr "No Login"
+
+#: app/libs/profile.py:21
+msgid "个人资料"
+msgstr "Profile"
+
+#: app/libs/profile.py:26
+msgid "浏览时间"
+msgstr "View Time"
+
+#: app/libs/profile.py:26
+msgid "标题"
+msgstr "Title"
+
+#: app/libs/profile.py:26
+msgid "时长"
+msgstr "During"
+
+#: app/libs/register.py:23
+msgid "注册"
+msgstr "Register"
+
+#: app/libs/register.py:39 app/libs/register.py:46 app/libs/register.py:50
+#: app/libs/register.py:55 app/libs/register.py:59 app/libs/register.py:75
+msgid "提示"
+msgstr "Tips"
+
+#: app/libs/register.py:39
+msgid "用户名已存在"
+msgstr "Username already exists."
+
+#: app/libs/register.py:46
+msgid "注册成功"
+msgstr "Successfully Registered"
+
+#: app/libs/register.py:51
+msgid ""
+"用户名格式不正确\n"
+"字母开头，长度5-16个字，字母数字下划线组合"
+msgstr ""
+"The username format is incorrect.\n"
+"Starts with a letter, is 5-16 characters long, and is a combination of letters, numbers, and underscores."
+
+#: app/libs/register.py:56
+msgid ""
+"密码格式不正确\n"
+"必须包含大小写字母和数字的组合，可以使用特殊字符，长度在8-10之间"
+msgstr ""
+"The password format is incorrect.\n"
+"It must contain a combination of uppercase and lowercase letters and numbers. Special characters can be used. The length must be between 8 and 10 characters."
+
+#: app/libs/register.py:59
+msgid "两次输入的密码不一致"
+msgstr "The passwords you entered twice do not match."
+
+#: app/libs/register.py:75
+msgid "请先登录"
+msgstr "Please log in first."
+
+#: app/libs/videoBrowser.py:32 app/libs/videoBrowser.py:53
+#: app/libs/videoBrowser.py:64
+msgid "错误"
+msgstr "Error"
+
+#: app/libs/videoBrowser.py:32
+msgid "无法找到该视频"
+msgstr "The video could not be found"
+
+#: app/libs/videoBrowser.py:53
+msgid "vid无效"
+msgstr "Invalid vid"
+
+#: app/libs/videoBrowser.py:64
+msgid "视频播放失败"
+msgstr "Video playback failed"
+
+#: fs.py:23
+msgid "初始化"
+msgstr "Initialization"
+
+#: fs.py:30
+#, python-brace-format
+msgid "An error occurred while the program was running: {err}"
+msgstr "An error occurred while the program was running: {err}"
+
+#: fs.py:33
+msgid "The program was interrupted by the user"
+msgstr "The program was interrupted by the user"

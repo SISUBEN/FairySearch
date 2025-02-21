@@ -3,6 +3,7 @@ from app.modules.Ui_profile import Ui_Profile
 from app.utils.time import TimeKeeper
 from app.database.queries import Database
 from app.helper.widgetHelper import WidgetHelper
+from app.i18n import _
 timekeeper = TimeKeeper() 
 widget_helper = WidgetHelper()
 db = Database()
@@ -15,12 +16,12 @@ class ProfileWindow(QWidget, Ui_Profile):
         self.setupUi(self, self.__name, self.__uid)
         # disable zoom
         self.setFixedSize(self.width(), self.height())
-        self.setWindowTitle("Profile")
+        self.setWindowTitle(_("个人资料"))
         # init search history
         # self.tableWidget.horizontalHeader
         # self.tableWidget.verticalHeaderItem
         self.tableWidget.setColumnCount(3)
-        self.tableWidget.setHorizontalHeaderLabels(["浏览时间", "标题", "时长"])
+        self.tableWidget.setHorizontalHeaderLabels([_("浏览时间"), _("标题"), _("时长")])
         self.tableWidget.setColumnHidden(3, True) # only for listener function
         self.tableWidget.setEditTriggers(QTableWidget.NoEditTriggers)
         # bind slot

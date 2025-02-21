@@ -7,7 +7,7 @@ from app.libs.main import MainWindow
 # from app.libs.main import 
 from app.libs.expection import NoLoginError
 from app.libs.dialog import openDialog
-
+from app.i18n import _
 db = Database()
 cryptor = CryptoHasher()
 passwd_val = Password()
@@ -18,7 +18,7 @@ class RegisterWindow(QWidget, Ui_Registor):
     def __init__(self) -> None:
         super().__init__()
         self.setupUi(self)
-        self.setWindowTitle("注册")
+        self.setWindowTitle(_("注册"))
         self.__token = None
         self.register_btn.clicked.connect(self.register)
         self.back.clicked.connect(self.openLoginWindow)
@@ -34,27 +34,27 @@ class RegisterWindow(QWidget, Ui_Registor):
         self.password_ipt = self.password.text()
         self.password2_ipt = self.password_2.text()
         if db.userdb.is_user_exists(self._username):
-            openDialog(title="提示", text="用户名已存在")
+            openDialog(title=_("提示"), text=_("用户名已存在"))
         elif self.password_ipt == self.password2_ipt:
             # db.userdb.user_add(
             #     self._username, cryptor.sha256(self.password_ipt)
             # )
             # encyted = cryptor.sha256(self.password_ipt)
             self.__token = db.userdb.t_user_add(self._username, self.password_ipt)
-            openDialog(title="提示", text="注册成功")
+            openDialog(title=_("提示"), text=_("注册成功"))
             self.openMainWindow()
         elif not usrname_val.validate(self._username):
             openDialog(
-                title="提示",
-                text="用户名格式不正确\n字母开头，长度5-16个字，字母数字下划线组合",
+                title=_("提示"),
+                text=_("用户名格式不正确\n字母开头，长度5-16个字，字母数字下划线组合"),
             )
         elif not passwd_val.validate(self.password_ipt):
             openDialog(
-                title="提示",
-                text="密码格式不正确\n必须包含大小写字母和数字的组合，可以使用特殊字符，长度在8-10之间",
+                title=_("提示"),
+                text=_("密码格式不正确\n必须包含大小写字母和数字的组合，可以使用特殊字符，长度在8-10之间"),
             )
         else:
-            openDialog(title="提示", text="两次输入的密码不一致")
+            openDialog(title=_("提示"), text=_("两次输入的密码不一致"))
             
     def openLoginWindow(self) -> None:
         from app.libs.login import LoginWindow
@@ -70,5 +70,5 @@ class RegisterWindow(QWidget, Ui_Registor):
             self.mainWindow = MainWindow(token=self.__token)
         except NoLoginError:
             logger.log("user not login, back to [login.py] page")
-            openDialog("提示", "请先登录")
+            openDialog(_("提示"), _("请先登录"))
         self.mainWindow.show()

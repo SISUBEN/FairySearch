@@ -17,7 +17,7 @@ from app.modules.Ui_main import Ui_MainWindow, ItemWidget, PageWidget
 from app.libs.profile import ProfileWindow
 from app.database.queries import Database
 from app.utils.time import TimeKeeper
-
+from app.i18n import _
 # import pdb
 db = Database()
 
@@ -28,8 +28,9 @@ class MainWindow(
     def __init__(self, token: str) -> None:
         super().__init__()
         self.__token = token
+        self.setWindowTitle(_("主页"))
         if self.__token is None:
-            raise NoLoginError("未登录")
+            raise NoLoginError(_("未登录"))
         self.bg_image_path = ":/images/images/background.png"  # using QRC path
         self.def_cover_path = ":/covers/covers/default.png"  # using QRC path
         self.pages_data = self.getVideos()

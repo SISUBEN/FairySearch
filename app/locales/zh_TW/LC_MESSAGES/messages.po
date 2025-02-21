@@ -1,0 +1,134 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2025-02-22 00:16+0800\n"
+"PO-Revision-Date: 2025-02-22 00:16+0800\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: zh_TW\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.5\n"
+"X-Poedit-Basepath: ../../..\n"
+"X-Poedit-KeywordsList: _\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.pyc\n"
+"X-Poedit-SearchPathExcluded-1: *.ui\n"
+
+#: app/libs/login.py:20
+msgid "登录"
+msgstr "登入"
+
+#: app/libs/login.py:45
+msgid "登入成功"
+msgstr "登入成功"
+
+#: app/libs/login.py:45
+msgid "欢迎"
+msgstr "歡迎"
+
+#: app/libs/login.py:48
+msgid "登入失败"
+msgstr "登入失敗"
+
+#: app/libs/login.py:48
+msgid ""
+"用户名或者密码错误\n"
+"请再试一次"
+msgstr "用家名或者密碼錯誤，請重試"
+
+#: app/libs/main.py:33
+msgid "主页"
+msgstr "個人主頁"
+
+#: app/libs/main.py:35
+msgid "未登录"
+msgstr "未登入"
+
+#: app/libs/profile.py:21
+msgid "个人资料"
+msgstr "個人資料"
+
+#: app/libs/profile.py:26
+msgid "浏览时间"
+msgstr "瀏覽時間"
+
+#: app/libs/profile.py:26
+msgid "标题"
+msgstr "標題"
+
+#: app/libs/profile.py:26
+msgid "时长"
+msgstr "時常"
+
+#: app/libs/register.py:23
+msgid "注册"
+msgstr "注冊"
+
+#: app/libs/register.py:39 app/libs/register.py:46 app/libs/register.py:50
+#: app/libs/register.py:55 app/libs/register.py:59 app/libs/register.py:75
+msgid "提示"
+msgstr "提示"
+
+#: app/libs/register.py:39
+msgid "用户名已存在"
+msgstr "用家名已存在"
+
+#: app/libs/register.py:46
+msgid "注册成功"
+msgstr "注冊成功"
+
+#: app/libs/register.py:51
+msgid ""
+"用户名格式不正确\n"
+"字母开头，长度5-16个字，字母数字下划线组合"
+msgstr ""
+"用家名格式不正確\n"
+"用家名由字母開頭，長度5-16個字，字母、數字或下劃綫組成"
+
+#: app/libs/register.py:56
+msgid ""
+"密码格式不正确\n"
+"必须包含大小写字母和数字的组合，可以使用特殊字符，长度在8-10之间"
+msgstr ""
+"密碼格式不正塙\n"
+"必須包含大小寫字母和數字的組合，可以使用特殊字符，長度在8-10之間"
+
+#: app/libs/register.py:59
+msgid "两次输入的密码不一致"
+msgstr "兩次輸入的密碼不一致"
+
+#: app/libs/register.py:75
+msgid "请先登录"
+msgstr "請先登入"
+
+#: app/libs/videoBrowser.py:32 app/libs/videoBrowser.py:53
+#: app/libs/videoBrowser.py:64
+msgid "错误"
+msgstr "錯誤"
+
+#: app/libs/videoBrowser.py:32
+msgid "无法找到该视频"
+msgstr "無法尋找到此視頻"
+
+#: app/libs/videoBrowser.py:53
+msgid "vid无效"
+msgstr "VID無效"
+
+#: app/libs/videoBrowser.py:64
+msgid "视频播放失败"
+msgstr "視頻播放失敗"
+
+#: fs.py:23
+msgid "初始化"
+msgstr "初始化"
+
+#: fs.py:30
+#, python-brace-format
+msgid "An error occurred while the program was running: {err}"
+msgstr ""
+
+#: fs.py:33
+msgid "The program was interrupted by the user"
+msgstr ""
