@@ -1,15 +1,14 @@
 from app.__init__ import *
 from app.libs.login import LoginWindow
+from app.modules.assets.resourceManager import ResourceManager
 from app.i18n import _
-
+rm = ResourceManager()
 if __name__ == "__main__":
     try:
-        
-        # locale_lang = locale.getdefaultlocale()[0]
-        locale_lang = 'en_US'
         console = Console()
         console.print(Rule(_("初始化")))
         app = QApplication([])
+        rm.installTranslation(app)
         app.setWindowIcon(QIcon(":/icons/icons/icon.ico"))
         loginWindow = LoginWindow()
         loginWindow.show()

@@ -18,6 +18,7 @@ from PySide6.QtGui import QMouseEvent
 # import PySide6.QtGui as QtGui
 from PySide6.QtCore import Qt, QSize
 from app.libs.main import onClickVideos
+from app.i18n import _
 from .assets import resources_rc
 from app.modules.logger.logger import logger
 
@@ -81,7 +82,7 @@ class Ui_MainWindow(object):
         # super(Ui_MainWindow, self).__init__()
         if not MainWin.objectName():
             MainWin.setObjectName("Form")
-        self.setWindowTitle("Videos")
+        self.setWindowTitle(_("Videos"))
         # self.bg_image_path = "./assets/images/background.png" # using absolute path
         self.bg_image_path = ":/images/images/background.png"  # using QRC path
         # self.def_cover_path = "./assets/covers/default.png" # using absolute path
@@ -109,11 +110,11 @@ class Ui_MainWindow(object):
         self.user_profile_btn = QPushButton("", self)
         # next page btn
         self.button_layout = QHBoxLayout()
-        self.prev_button = QPushButton("上一页", self)
-        self.next_button = QPushButton("下一页", self)
-        self.label = QLabel("第", self)
+        self.prev_button = QPushButton(_("上一页"), self)
+        self.next_button = QPushButton(_("下一页"), self)
+        self.label = QLabel(_("第"), self)
         self.page_number = QLineEdit(self)
-        self.label2 = QLabel("页", self)
+        self.label2 = QLabel(_("页"), self)
         self.prev_button.setStyleSheet(
             "QPushButton {\n"
             "    background-color: rgb(0, 0, 0);\n"

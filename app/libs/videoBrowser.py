@@ -2,13 +2,13 @@ from app.__init__ import *
 from PySide6.QtCore import QTimer
 from app.modules.Ui_videoBrowser import Ui_VideoBrowser
 from app.database.queries import Database
-from app.modules.assets.resourceManager import ResouceManager
+from app.modules.assets.resourceManager import ResourceManager
 from PySide6.QtMultimedia import QMediaPlayer
 from app.libs.dialog import openDialog
 from app.libs.expection import VideoNotFoundError
 import vlc
 from app.i18n import _
-res_manager = ResouceManager()
+res_manager = ResourceManager()
 db = Database()
 class VideoBrowser(QWidget, Ui_VideoBrowser):
     def __init__(self, vid: int, *args, **kwargs) -> None:

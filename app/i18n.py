@@ -15,7 +15,7 @@ class Translate:
         """        
         locale_lang = locale.getlocale()[0]
         language = locale_lang if language == 0 else language
-        language = "en_US"
+        # language = "en_US"
         self.trans = gettext.translation(domain='messages', localedir=FILE_PATH, languages=[language], fallback=True)
         self.trans.install()
     
