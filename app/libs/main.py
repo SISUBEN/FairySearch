@@ -2,7 +2,6 @@ from app.libs.videoBrowser import VideoBrowser
 from app.libs.expection import NoLoginError, VideoNotFoundError
 from app.libs.dialog import openDialog
 from app.__init__ import *
-from app.i18n import _
 
 # to avoid circular import
 def onClickVideos(vid: int) -> None:
@@ -12,13 +11,13 @@ def onClickVideos(vid: int) -> None:
         videosBrower.show()
     except VideoNotFoundError:
         logger.error(f"Video ID:{vid} does not exist")
-        openDialog(_("无法找到该视频"), _(f"视频【{vid}】不存在"))
+        openDialog("无法找到该视频", f"视频【{vid}】不存在")
 
 from app.modules.Ui_main import Ui_MainWindow, ItemWidget, PageWidget
 from app.libs.profile import ProfileWindow
 from app.database.queries import Database
 from app.utils.time import TimeKeeper
-from app.i18n import _
+
 # import pdb
 db = Database()
 
@@ -29,9 +28,8 @@ class MainWindow(
     def __init__(self, token: str) -> None:
         super().__init__()
         self.__token = token
-        self.setWindowTitle(_("主页"))
         if self.__token is None:
-            raise NoLoginError(_("未登录"))
+            raise NoLoginError("未登录")
         self.bg_image_path = ":/images/images/background.png"  # using QRC path
         self.def_cover_path = ":/covers/covers/default.png"  # using QRC path
         self.pages_data = self.getVideos()
@@ -43,6 +41,7 @@ class MainWindow(
         self.next_button.clicked.connect(self.showNextPage)
         self.page_number.editingFinished.connect(self.jump2Page)
         self.user_profile_btn.clicked.connect(self.showUserProfile)
+        self.setting_btn.clicked.connect(self.showSetting)
         self.updateButtons()
         
     @TimeKeeper.timer
@@ -86,6 +85,9 @@ class MainWindow(
             self.profileWindow.show()
         else:
             raise NoLoginError
+    
+    def showSetting(self) -> None:
+        pass
 
     # Lazy loading
     def loadPage(self, page_index: int) -> None:

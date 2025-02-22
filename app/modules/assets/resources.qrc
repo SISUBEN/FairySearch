@@ -22,11 +22,16 @@
     <file>icons/liked.png</file>
     <file>icons/play.svg</file>
     <file>icons/pause.svg</file>
+    <file>icons/setting.svg</file>
   </qresource>
   <qresource prefix="covers">
     <file>covers/default.png</file>
   </qresource>
   <qresource prefix="font">
     <file>font/HarmonySans_black.ttf</file>
+  </qresource>
+  <qresource prefix="i18n">
+    <file>i18n/en.qm</file>
+    <file>i18n/zh_tw.qm</file>
   </qresource>
 </RCC>
