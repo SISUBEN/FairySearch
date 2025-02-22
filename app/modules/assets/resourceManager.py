@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from PySide6.QtCore import QTranslator
-from PySide6.QtWidgets import QApplication
+
 import locale
 import os
 
@@ -43,18 +43,51 @@ class ResourceManager:
         else:
             return None
 
-    def installTranslation(self, app: QApplication, trans_file: str = "", directory: str = "") -> None:
+    # def installTranslation(self, app: QApplication, trans_file: str = "", directory: str = "") -> None:
+    #     """install translation
+
+    #     Args:
+    #         trans_file (str): translation file name
+    #         directory (str, optional):  i18n directory. "" to auto detect. Defaults to "".
+    #     """
+    #     translator = QTranslator()
+    #     file = trans_file.lower() if trans_file else locale.getdefaultlocale()[0] + ".qm"
+    #     directory = directory if directory else os.path.join(self.current_dir, "i18n")
+    #     file = "en.qm"
+    #     logger.info(f"Loading translation file: {file}")
+    #     logger.debug(f"load {translator.load(file, directory)}")
+    #     if translator.load(file, directory):
+    #         app.installTranslator(translator)
+    def translateDirectory(self) -> None:
+        """
+        Constructs the path to the 'i18n' directory within the current directory.
+
+        Returns:
+            None
+        """
+        return os.path.join(self.current_dir, "i18n")
+    
+    def getTranslationPath(self, trans_file: str = "") -> str:
+        """Get translation file path
+
+        Args:
+            trans_file (str, optional): translate file. Defaults to "" and auto detect.
+
+        Returns:
+            str: translate file path
+        """        
+        return os.path.join(self.translateDirectory(), trans_file.lower() if trans_file else locale.getdefaultlocale()[0] + ".qm")
+    
+    def getTranslator(self, trans_file: str = "") -> QTranslator:
         """install translation
 
         Args:
-            trans_file (str): translation file name
-            directory (str, optional):  i18n directory. "" to auto detect. Defaults to "".
-        """
+            app (QApplication): Pyside6 application
+            trans_file (str, optional): tanslate file. Defaults to "" and auto detect.
+        """        
         translator = QTranslator()
         file = trans_file.lower() if trans_file else locale.getdefaultlocale()[0] + ".qm"
-        directory = directory if directory else os.path.join(self.current_dir, "i18n")
-        file = "en.qm"
         logger.info(f"Loading translation file: {file}")
-        logger.debug(f"loda {translator.load(file, directory)}")
-        if translator.load(file, directory):
-            app.installTranslator(translator)
+        logger.debug(f"load {translator.load(file, self.translateDirectory())}")
+        if translator.load(file, self.translateDirectory()):
+            return translator

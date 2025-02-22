@@ -3,15 +3,20 @@ from app.libs.login import LoginWindow
 from app.modules.assets.resourceManager import ResourceManager
 from app.i18n import _
 rm = ResourceManager()
+
 if __name__ == "__main__":
     try:
         console = Console()
         console.print(Rule(_("初始化")))
+        
         app = QApplication([])
-        rm.installTranslation(app)
+        tanslator = rm.getTranslator()
+        app.installTranslator(tanslator)
         app.setWindowIcon(QIcon(":/icons/icons/icon.ico"))
+        
         loginWindow = LoginWindow()
         loginWindow.show()
+        
         app.exec()
     except Exception as err:
         logger.critical(_(f"An error occurred while the program was running: {err}"))
