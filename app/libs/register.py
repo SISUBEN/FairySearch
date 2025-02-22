@@ -15,8 +15,9 @@ usrname_val = Username()
 
 
 class RegisterWindow(QWidget, Ui_Registor):
-    def __init__(self) -> None:
+    def __init__(self, login_window: object) -> None:
         super().__init__()
+        self.login_window = login_window
         self.setupUi(self)
         self.setWindowTitle(_("注册"))
         self.__token = None
@@ -57,12 +58,8 @@ class RegisterWindow(QWidget, Ui_Registor):
             openDialog(title=_("提示"), text=_("两次输入的密码不一致"))
             
     def openLoginWindow(self) -> None:
-        from app.libs.login import LoginWindow
-        import pdb
         self.close()
-        loginWindow = LoginWindow()
-        pdb.set_trace()
-        loginWindow.show()
+        self.login_window.show()
         
     def openMainWindow(self) -> None:
         self.close()

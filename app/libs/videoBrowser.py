@@ -177,6 +177,6 @@ class VideoBrowser(QWidget, Ui_VideoBrowser):
             self.media_player.stop()
             self.timer.stop()
         except RuntimeError:
-            logger.error("object PySide6.QtCore.QTimer already deleted")
+            logger.warning("object PySide6.QtCore.QTimer already deleted")
         except (ImportError, AttributeError):
-            logger.error("VLC media player already deleted")
+            logger.warning("VLC media player already deleted")

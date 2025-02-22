@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2025-02-22 00:16+0800\n"
-"PO-Revision-Date: 2025-02-22 00:16+0800\n"
+"POT-Creation-Date: 2025-02-22 13:57+0800\n"
+"PO-Revision-Date: 2025-02-22 14:12+0800\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: zh_TW\n"
@@ -16,70 +16,79 @@ msgstr ""
 "X-Poedit-SearchPathExcluded-0: *.pyc\n"
 "X-Poedit-SearchPathExcluded-1: *.ui\n"
 
-#: app/libs/login.py:20
+#: libs/login.py:17
 msgid "登录"
 msgstr "登入"
 
-#: app/libs/login.py:45
+#: libs/login.py:42
 msgid "登入成功"
 msgstr "登入成功"
 
-#: app/libs/login.py:45
+#: libs/login.py:42
 msgid "欢迎"
-msgstr "歡迎"
+msgstr "，歡迎"
 
-#: app/libs/login.py:48
+#: libs/login.py:45
 msgid "登入失败"
 msgstr "登入失敗"
 
-#: app/libs/login.py:48
+#: libs/login.py:45
 msgid ""
 "用户名或者密码错误\n"
 "请再试一次"
 msgstr "用家名或者密碼錯誤，請重試"
 
-#: app/libs/main.py:33
+#: libs/main.py:15 libs/videoBrowser.py:29
+msgid "无法找到该视频"
+msgstr "無法尋找到此視頻"
+
+#: libs/main.py:15
+#, python-brace-format
+msgid "视频【{vid}】不存在"
+msgstr "視頻 {vid} 不存在"
+
+#: libs/main.py:32
 msgid "主页"
 msgstr "個人主頁"
 
-#: app/libs/main.py:35
+#: libs/main.py:34
 msgid "未登录"
 msgstr "未登入"
 
-#: app/libs/profile.py:21
+#: libs/profile.py:19
 msgid "个人资料"
 msgstr "個人資料"
 
-#: app/libs/profile.py:26
+#: libs/profile.py:24
 msgid "浏览时间"
 msgstr "瀏覽時間"
 
-#: app/libs/profile.py:26
+#: libs/profile.py:24
 msgid "标题"
 msgstr "標題"
 
-#: app/libs/profile.py:26
+#: libs/profile.py:24
 msgid "时长"
-msgstr "時常"
+msgstr "時長"
 
-#: app/libs/register.py:23
+#: libs/register.py:22
 msgid "注册"
 msgstr "注冊"
 
-#: app/libs/register.py:39 app/libs/register.py:46 app/libs/register.py:50
-#: app/libs/register.py:55 app/libs/register.py:59 app/libs/register.py:75
+#: libs/register.py:38 libs/register.py:45 libs/register.py:49
+#: libs/register.py:54 libs/register.py:58 libs/register.py:70
 msgid "提示"
 msgstr "提示"
 
-#: app/libs/register.py:39
+#: libs/register.py:38
 msgid "用户名已存在"
 msgstr "用家名已存在"
 
-#: app/libs/register.py:46
+#: libs/register.py:45
 msgid "注册成功"
 msgstr "注冊成功"
 
-#: app/libs/register.py:51
+#: libs/register.py:50
 msgid ""
 "用户名格式不正确\n"
 "字母开头，长度5-16个字，字母数字下划线组合"
@@ -87,7 +96,7 @@ msgstr ""
 "用家名格式不正確\n"
 "用家名由字母開頭，長度5-16個字，字母、數字或下劃綫組成"
 
-#: app/libs/register.py:56
+#: libs/register.py:55
 msgid ""
 "密码格式不正确\n"
 "必须包含大小写字母和数字的组合，可以使用特殊字符，长度在8-10之间"
@@ -95,40 +104,25 @@ msgstr ""
 "密碼格式不正塙\n"
 "必須包含大小寫字母和數字的組合，可以使用特殊字符，長度在8-10之間"
 
-#: app/libs/register.py:59
+#: libs/register.py:58
 msgid "两次输入的密码不一致"
 msgstr "兩次輸入的密碼不一致"
 
-#: app/libs/register.py:75
+#: libs/register.py:70
 msgid "请先登录"
 msgstr "請先登入"
 
-#: app/libs/videoBrowser.py:32 app/libs/videoBrowser.py:53
-#: app/libs/videoBrowser.py:64
+#: libs/videoBrowser.py:29 libs/videoBrowser.py:50 libs/videoBrowser.py:61
 msgid "错误"
 msgstr "錯誤"
 
-#: app/libs/videoBrowser.py:32
-msgid "无法找到该视频"
-msgstr "無法尋找到此視頻"
-
-#: app/libs/videoBrowser.py:53
+#: libs/videoBrowser.py:50
 msgid "vid无效"
 msgstr "VID無效"
 
-#: app/libs/videoBrowser.py:64
+#: libs/videoBrowser.py:61
 msgid "视频播放失败"
 msgstr "視頻播放失敗"
 
-#: fs.py:23
-msgid "初始化"
-msgstr "初始化"
-
-#: fs.py:30
-#, python-brace-format
-msgid "An error occurred while the program was running: {err}"
-msgstr ""
-
-#: fs.py:33
-msgid "The program was interrupted by the user"
-msgstr ""
+#~ msgid "初始化"
+#~ msgstr "初始化"

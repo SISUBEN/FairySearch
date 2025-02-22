@@ -39,15 +39,17 @@ class LoginWindow(QWidget, Ui_Form):
                     username=username_input, password=enctrypt
                 )
                 logger.debug(f"token: {token}")
-                openDialog(_("登入成功"), f"{self.username.text()}" + _("欢迎") )
+                openDialog(_("登入成功"), f"{self.username.text()}" + " " +_("欢迎") )
                 self.openMainWindow(token)
         else:
             openDialog(_("登入失败"), _("用户名或者密码错误\n请再试一次"))
 
     def openRegisterWindow(self) -> None:
-        self.close()
-        self.registerWindow = RegisterWindow()
+        # self.close()
+        # hide login window
+        self.registerWindow = RegisterWindow(self) # pass self to register window
         self.registerWindow.show()
+        self.hide()
 
     def openMainWindow(self, token: str) -> None:
         self.close()
