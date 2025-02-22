@@ -135,7 +135,7 @@
     <message>
         <location filename="../profile.ui" line="100"/>
         <source>搜索历史：</source>
-        <translation>Search History</translation>
+        <translation type="unfinished">History:</translation>
     </message>
 </context>
 <context>

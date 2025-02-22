@@ -1,9 +1,9 @@
 from app.__init__ import *
 from app.libs.login import LoginWindow
 from app.modules.assets.resourceManager import ResourceManager
+from app.modules.logger import logger
 from app.i18n import _
 rm = ResourceManager()
-
 if __name__ == "__main__":
     try:
         console = Console()
