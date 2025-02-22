@@ -43,7 +43,7 @@ class ItemWidget(QWidget):
 
         # title
         self.title_label = QLabel(title, self)
-        self.title_label.setStyleSheet("color: white;weight: bold;font-size: 16px;")
+        self.title_label.setStyleSheet("color: white;font-size: 16px;")
         self.title_label.setAlignment(Qt.AlignCenter)
         layout.addWidget(self.title_label)
 
@@ -145,12 +145,12 @@ class Ui_MainWindow(object):
             "    border: 5px solid #a6c100;\n"
             "}"
         )
-        self.label.setStyleSheet("color: white;weight: bold;font-size: 16px;")
+        self.label.setStyleSheet("color: white;font-size: 16px;")
         self.label.setFixedWidth(20)
         self.label2.setFixedWidth(20)
-        self.label2.setStyleSheet("color: white;weight: bold;font-size: 16px;")
+        self.label2.setStyleSheet("color: white;font-size: 16px;")
         self.page_number.setFixedSize(50, 50)
-        self.page_number.setStyleSheet("color: black;weight: bold;font-size: 16px;") 
+        self.page_number.setStyleSheet("color: black;font-size: 16px;") 
         self.page_number.setValidator(QIntValidator(1, len(self.pages_data), self))
         self.page_number.setText(str(self.current_page + 1))
         self.user_profile_btn.setIcon(QIcon(":/icons/icons/user_x48.svg"))

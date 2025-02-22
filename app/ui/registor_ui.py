@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'registor.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.7.2
+## Created by: Qt User Interface Compiler version 6.8.0
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -17,7 +17,8 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QHBoxLayout, QLineEdit, QPushButton,
     QSizePolicy, QVBoxLayout, QWidget)
-from .assets import resources_rc
+import resources_rc
+import resources_rc
 
 class Ui_Registor(object):
     def setupUi(self, Registor):
@@ -28,7 +29,6 @@ class Ui_Registor(object):
         Registor.setMaximumSize(QSize(1458, 1038))
         Registor.setStyleSheet(u"QWidget#Registor {\n"
 "	background-image: url(:/images/images/reg.png);\n"
-# "    background-size: contain;\n"
 "}")
         self.layoutWidget = QWidget(Registor)
         self.layoutWidget.setObjectName(u"layoutWidget")

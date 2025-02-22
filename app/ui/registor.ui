@@ -28,7 +28,6 @@
   <property name="styleSheet">
    <string notr="true">QWidget#Registor {
 	background-image: url(:/images/images/reg.png);
-    background-size: contain;
 }</string>
   </property>
   <widget class="QWidget" name="layoutWidget">

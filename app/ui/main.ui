@@ -16,7 +16,6 @@
   <property name="styleSheet">
    <string notr="true">QWidget#mainWindow {
 	background-image:url(:/images/images/background.png);
-	background-size:cover;
 }</string>
   </property>
   <widget class="QWidget" name="verticalLayoutWidget_2">

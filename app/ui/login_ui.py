@@ -18,7 +18,10 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
 from PySide6.QtWidgets import (QApplication, QGroupBox, QHBoxLayout, QLabel,
     QLayout, QLineEdit, QPushButton, QSizePolicy,
     QSpacerItem, QVBoxLayout, QWidget)
-from .assets import resources_rc
+import resources_rc
+import resources_rc
+import resources_rc
+import resources_rc
 
 class Ui_Form(object):
     def setupUi(self, Form):
@@ -33,7 +36,6 @@ class Ui_Form(object):
 "	background-image: url(:/images/images/background.png);\n"
 "    width:100%;\n"
 "    height:100%;\n"
-# "	background-size:100% 100%,\n"
 "}")
         self.verticalLayout_3 = QVBoxLayout(Form)
         self.verticalLayout_3.setObjectName(u"verticalLayout_3")
