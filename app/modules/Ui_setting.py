@@ -20,23 +20,23 @@ from PySide6.QtWidgets import (QApplication, QComboBox, QHBoxLayout, QLabel,
     QWidget)
 from .assets import resources_rc
 
-class Ui_SettiingWindow(object):
-    def setupUi(self, SettiingWindow):
-        if not SettiingWindow.objectName():
-            SettiingWindow.setObjectName(u"SettiingWindow")
-        SettiingWindow.resize(1139, 701)
-        SettiingWindow.setStyleSheet(u"QWidget {\n"
+class Ui_SettingWindow(object):
+    def setupUi(self, SettingWindow):
+        if not SettingWindow.objectName():
+            SettingWindow.setObjectName(u"SettingWindow")
+        SettingWindow.resize(1139, 701)
+        SettingWindow.setStyleSheet(u"QWidget {\n"
 "	background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0.987, y2:1, stop:0.159686 rgba(10, 10, 10, 255), stop:0.465969 rgba(43, 42, 40, 255), stop:1 rgba(108, 108, 108, 255))\n"
 "    width:100%;\n"
 "    height:100%;\n"
 "}")
-        self.verticalLayout_2 = QVBoxLayout(SettiingWindow)
+        self.verticalLayout_2 = QVBoxLayout(SettingWindow)
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
         self.verticalLayout = QVBoxLayout()
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.horizontalLayout = QHBoxLayout()
         self.horizontalLayout.setObjectName(u"horizontalLayout")
-        self.label_2 = QLabel(SettiingWindow)
+        self.label_2 = QLabel(SettingWindow)
         self.label_2.setObjectName(u"label_2")
         font = QFont()
         font.setFamilies([u"\u5fae\u8f6f\u96c5\u9ed1"])
@@ -80,7 +80,7 @@ class Ui_SettiingWindow(object):
 
         self.verticalLayout.addLayout(self.horizontalLayout)
 
-        self.tabWidget = QTabWidget(SettiingWindow)
+        self.tabWidget = QTabWidget(SettingWindow)
         self.tabWidget.setObjectName(u"tabWidget")
         font1 = QFont()
         font1.setFamilies([u"Microsoft YaHei"])
@@ -122,8 +122,8 @@ class Ui_SettiingWindow(object):
         self.langSettingPage.setStyleSheet(u"")
         self.verticalLayout_4 = QVBoxLayout(self.langSettingPage)
         self.verticalLayout_4.setObjectName(u"verticalLayout_4")
-        self.verticalLayout_3 = QVBoxLayout()
-        self.verticalLayout_3.setObjectName(u"verticalLayout_3")
+        self.langVLayout = QVBoxLayout()
+        self.langVLayout.setObjectName(u"langVLayout")
         self.horizontalLayout_2 = QHBoxLayout()
         self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
         self.label = QLabel(self.langSettingPage)
@@ -149,10 +149,10 @@ class Ui_SettiingWindow(object):
         self.horizontalLayout_2.addItem(self.horizontalSpacer)
 
 
-        self.verticalLayout_3.addLayout(self.horizontalLayout_2)
+        self.langVLayout.addLayout(self.horizontalLayout_2)
 
 
-        self.verticalLayout_4.addLayout(self.verticalLayout_3)
+        self.verticalLayout_4.addLayout(self.langVLayout)
 
         self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
 
@@ -163,8 +163,8 @@ class Ui_SettiingWindow(object):
         self.devSettinPage.setObjectName(u"devSettinPage")
         self.verticalLayout_6 = QVBoxLayout(self.devSettinPage)
         self.verticalLayout_6.setObjectName(u"verticalLayout_6")
-        self.verticalLayout_5 = QVBoxLayout()
-        self.verticalLayout_5.setObjectName(u"verticalLayout_5")
+        self.devVLayout = QVBoxLayout()
+        self.devVLayout.setObjectName(u"devVLayout")
         self.horizontalLayout_3 = QHBoxLayout()
         self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
         self.label_3 = QLabel(self.devSettinPage)
@@ -187,10 +187,10 @@ class Ui_SettiingWindow(object):
         self.horizontalLayout_3.addItem(self.horizontalSpacer_2)
 
 
-        self.verticalLayout_5.addLayout(self.horizontalLayout_3)
+        self.devVLayout.addLayout(self.horizontalLayout_3)
 
 
-        self.verticalLayout_6.addLayout(self.verticalLayout_5)
+        self.verticalLayout_6.addLayout(self.devVLayout)
 
         self.verticalSpacer_2 = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
 
@@ -204,20 +204,20 @@ class Ui_SettiingWindow(object):
         self.verticalLayout_2.addLayout(self.verticalLayout)
 
 
-        self.retranslateUi(SettiingWindow)
+        self.retranslateUi(SettingWindow)
 
         self.tabWidget.setCurrentIndex(0)
 
 
-        QMetaObject.connectSlotsByName(SettiingWindow)
+        QMetaObject.connectSlotsByName(SettingWindow)
     # setupUi
 
-    def retranslateUi(self, SettiingWindow):
-        SettiingWindow.setWindowTitle(QCoreApplication.translate("SettiingWindow", u"Form", None))
-        self.label_2.setText(QCoreApplication.translate("SettiingWindow", u"\ud83e\uddffFairySearch - \u8bbe\u5b9a", None))
-        self.label.setText(QCoreApplication.translate("SettiingWindow", u"\u754c\u9762\u8bed\u8a00\uff1a", None))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.langSettingPage), QCoreApplication.translate("SettiingWindow", u"\u8bed\u8a00", None))
-        self.label_3.setText(QCoreApplication.translate("SettiingWindow", u"\u65e5\u5fd7\u7b49\u7ea7\uff1a", None))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.devSettinPage), QCoreApplication.translate("SettiingWindow", u"\u5f00\u53d1\u8005\u8bbe\u5b9a", None))
+    def retranslateUi(self, SettingWindow):
+        SettingWindow.setWindowTitle(QCoreApplication.translate("SettingWindow", u"Form", None))
+        self.label_2.setText(QCoreApplication.translate("SettingWindow", u"FairySearch - \u8bbe\u5b9a", None))
+        self.label.setText(QCoreApplication.translate("SettingWindow", u"\u754c\u9762\u8bed\u8a00\uff1a", None))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.langSettingPage), QCoreApplication.translate("SettingWindow", u"\u8bed\u8a00", None))
+        self.label_3.setText(QCoreApplication.translate("SettingWindow", u"\u65e5\u5fd7\u7b49\u7ea7\uff1a", None))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.devSettinPage), QCoreApplication.translate("SettingWindow", u"\u5f00\u53d1\u8005\u8bbe\u5b9a", None))
     # retranslateUi
 

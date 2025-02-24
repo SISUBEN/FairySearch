@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>SettiingWindow</class>
- <widget class="QWidget" name="SettiingWindow">
+ <class>SettingWindow</class>
+ <widget class="QWidget" name="SettingWindow">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -68,7 +68,7 @@ QTabBar::tab:!selected{
 }</string>
          </property>
          <property name="text">
-          <string>🧿FairySearch - 设定</string>
+          <string>FairySearch - 设定</string>
          </property>
         </widget>
        </item>
@@ -127,7 +127,7 @@ QWidget #devSettingPage #langSettingPage  {
         </attribute>
         <layout class="QVBoxLayout" name="verticalLayout_4">
          <item>
-          <layout class="QVBoxLayout" name="verticalLayout_3">
+          <layout class="QVBoxLayout" name="langVLayout">
            <item>
             <layout class="QHBoxLayout" name="horizontalLayout_2">
              <item>
@@ -209,7 +209,7 @@ QWidget #devSettingPage #langSettingPage  {
         </attribute>
         <layout class="QVBoxLayout" name="verticalLayout_6">
          <item>
-          <layout class="QVBoxLayout" name="verticalLayout_5">
+          <layout class="QVBoxLayout" name="devVLayout">
            <item>
             <layout class="QHBoxLayout" name="horizontalLayout_3">
              <item>

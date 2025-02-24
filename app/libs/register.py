@@ -8,6 +8,7 @@ from app.libs.main import MainWindow
 from app.libs.expection import NoLoginError
 from app.libs.dialog import openDialog
 from app.i18n import _
+
 db = Database()
 cryptor = CryptoHasher()
 passwd_val = Password()

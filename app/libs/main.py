@@ -17,7 +17,8 @@ from app.modules.Ui_main import Ui_MainWindow, ItemWidget, PageWidget
 from app.libs.profile import ProfileWindow
 from app.database.queries import Database
 from app.utils.time import TimeKeeper
-
+from app.libs.setting import SettingWindow  # Ensure SettingWindow is imported
+from app.i18n import _
 # import pdb
 db = Database()
 
@@ -87,7 +88,8 @@ class MainWindow(
             raise NoLoginError
     
     def showSetting(self) -> None:
-        pass
+        self.settingWindow = SettingWindow()
+        self.settingWindow.show()
 
     # Lazy loading
     def loadPage(self, page_index: int) -> None:

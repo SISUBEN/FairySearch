@@ -41,6 +41,8 @@ class LoginWindow(QWidget, Ui_Form):
                 logger.debug(f"token: {token}")
                 openDialog(_("登入成功"), f"{self.username.text()}" + " " +_("欢迎") )
                 self.openMainWindow(token)
+            else:
+                openDialog(_("登入失败"), _("用户名或者密码错误\n请再试一次"))
         else:
             openDialog(_("登入失败"), _("用户名或者密码错误\n请再试一次"))
 
