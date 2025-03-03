@@ -5,11 +5,10 @@ FairySearch 是一个免费的视频搜索引擎，它通过分析用户的浏�
 
 ## 如何使用
 > ⚠️使用本程序前请确保本地环境是完整版Python 3.8+
-### 从源码构建
-1. 首先使用git克隆本项目
-`$ git clone https://github.com/SISUBEN/FairySearch.git`  
+### 从源码构建  
+1. 首先使用git克隆本项目`$ git clone https://github.com/SISUBEN/FairySearch.git`  
 
-2.切换目录`cd ./FairySearch-main/`  
+2.切换目录`$ cd ./FairySearch-main/`  
 
 3.运行构建脚本（暂时没写好） 
 
