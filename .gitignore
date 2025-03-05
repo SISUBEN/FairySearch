@@ -196,7 +196,7 @@ deprecated/
 *_de.py
 *_de.ipynb
 
-# i18n
+# i18n file
 # *.po
 # *.mo
 # *.pot
@@ -204,4 +204,9 @@ deprecated/
 # jupyter
 .ipynb_checkpoints
 
+# temp files
 temp.ts
+
+# binary file
+*.mo
+*.qm
