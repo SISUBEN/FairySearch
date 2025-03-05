@@ -197,9 +197,9 @@ deprecated/
 *_de.ipynb
 
 # i18n file
-# *.po
-# *.mo
-# *.pot
+*.po
+*.mo
+*.pot
 
 # jupyter
 .ipynb_checkpoints
