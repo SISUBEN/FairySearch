@@ -12,6 +12,7 @@ class ResourceManager:
     current_dir: str = os.path.dirname(os.path.abspath(__file__))
     covers_dir: str = os.path.join(current_dir, "covers")
     videos_dir: str = os.path.join(current_dir, "videos")
+    locale_lang: str = locale.getdefaultlocale()[0]
 
     def getVideoPath(self, vid: int, file_type: str = "mp4", isEscape: bool = True) -> str:
         """get video file path
@@ -58,7 +59,7 @@ class ResourceManager:
     #     logger.debug(f"load {translator.load(file, directory)}")
     #     if translator.load(file, directory):
     #         app.installTranslator(translator)
-    def translateDirectory(self) -> None:
+    def getI18nDirectory(self) -> None:
         """
         Constructs the path to the 'i18n' directory within the current directory.
 
@@ -76,7 +77,7 @@ class ResourceManager:
         Returns:
             str: translate file path
         """        
-        return os.path.join(self.translateDirectory(), trans_file.lower() if trans_file else locale.getdefaultlocale()[0] + ".qm")
+        return os.path.join(self.getI18nDirectory(), trans_file.lower() if trans_file else self.locale_lang + ".qm")
     
     def getTranslator(self, trans_file: str = "") -> QTranslator:
         """install translation
@@ -86,8 +87,8 @@ class ResourceManager:
             trans_file (str, optional): tanslate file. Defaults to "" and auto detect.
         """        
         translator = QTranslator()
-        file = trans_file.lower() if trans_file else locale.getdefaultlocale()[0] + ".qm"
+        file = trans_file.lower() if trans_file else self.locale_lang + ".qm"
         logger.info(f"Loading translation file: {file}")
-        logger.debug(f"load {translator.load(file, self.translateDirectory())}")
-        if translator.load(file, self.translateDirectory()):
+        logger.debug(f"load {'successful' if translator.load(file, self.getI18nDirectory()) else 'failed'}")
+        if translator.load(file, self.getI18nDirectory()):
             return translator

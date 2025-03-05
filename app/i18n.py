@@ -2,6 +2,7 @@ import os
 import gettext
 import threading
 import locale
+# from app.modules.assets.
 thread = threading.Thread()
 FILE_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "locale")
 # i18n_file_path = os.path.join(dir, "locales")
@@ -29,4 +30,3 @@ class Translate:
         
 t = Translate()
 _ = t.translate
-# print(gettext.textdomain(), gettext.l)
