@@ -1,18 +1,20 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
+from typing import List
 from PySide6.QtCore import QTranslator
 
 import locale
 import os
 
 from app.logger.logger import logger
-
+from app.libs.expection import UnsupportedLanguageError
 
 @dataclass
 class ResourceManager:
     current_dir: str = os.path.dirname(os.path.abspath(__file__))
     covers_dir: str = os.path.join(current_dir, "covers")
     videos_dir: str = os.path.join(current_dir, "videos")
-    locale_lang: str = locale.getdefaultlocale()[0]
+    locale_lang: str = locale.getdefaultlocale()[0].lower()
+    support_lang: List[str] = field(default_factory=lambda: ["en", "zh_cn", "zh_tw"])
 
     def getVideoPath(self, vid: int, file_type: str = "mp4", isEscape: bool = True) -> str:
         """get video file path
@@ -85,7 +87,8 @@ class ResourceManager:
         Args:
             app (QApplication): Pyside6 application
             trans_file (str, optional): tanslate file. Defaults to "" and auto detect.
-        """        
+        """
+        if self.locale_lang not in self.support_lang: raise UnsupportedLanguageError(self.locale_lang)
         translator = QTranslator()
         file = trans_file.lower() if trans_file else self.locale_lang + ".qm"
         logger.info(f"Loading translation file: {file}")

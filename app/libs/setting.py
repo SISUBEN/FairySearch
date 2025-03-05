@@ -12,7 +12,6 @@ class SettingWindow(QWidget, Ui_SettingWindow):
         self.setWindowTitle(_('设置'))
         self.a = self.addSetting()
     
-    
     def addSetting(
         self,
         title: QWidget,

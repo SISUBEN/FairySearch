@@ -3,3 +3,6 @@ class NoLoginError(Exception):
     
 class VideoNotFoundError(Exception):
     ...
+    
+class UnsupportedLanguageError(Exception):
+    ...
