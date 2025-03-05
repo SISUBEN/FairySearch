@@ -1,6 +1,6 @@
 import time
 from datetime import datetime
-from app.modules.logger.logger import logger
+from app.logger.logger import logger
 from functools import wraps
 # Author: Vertin
 # Date: 1999

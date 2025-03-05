@@ -4,7 +4,7 @@ from PySide6.QtCore import QTranslator
 import locale
 import os
 
-from app.modules.logger.logger import logger
+from app.logger.logger import logger
 
 
 @dataclass
