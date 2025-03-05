@@ -1,5 +1,5 @@
 from app.__init__ import *
-from app.modules.Ui_login import Ui_Form
+from app.modules.ui_login import Ui_Form
 from app.database.queries import Database
 from app.utils.crypto import CryptoHasher
 from app.libs.register import RegisterWindow

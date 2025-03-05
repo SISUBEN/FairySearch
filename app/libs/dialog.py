@@ -1,4 +1,4 @@
-from app.modules.Ui_dialog import Ui_Dialog
+from app.modules.ui_dialog import Ui_Dialog
 from app.__init__ import *
 
 class DialogWindow(QDialog, Ui_Dialog):

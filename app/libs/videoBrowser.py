@@ -1,6 +1,6 @@
 from app.__init__ import *
 from PySide6.QtCore import QTimer
-from app.modules.Ui_videoBrowser import Ui_VideoBrowser
+from app.modules.ui_videoBrowser import Ui_VideoBrowser
 from app.database.queries import Database
 from app.modules.assets.resourceManager import ResourceManager
 from PySide6.QtMultimedia import QMediaPlayer
