@@ -18,7 +18,7 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
 from PySide6.QtWidgets import (QApplication, QFrame, QHBoxLayout, QLabel,
     QPushButton, QSizePolicy, QSlider, QSpacerItem,
     QVBoxLayout, QWidget)
-from .assets import resources_rc
+from app.assets import resources_rc
 
 class Ui_VideoBrowser(object):
     def setupUi(self, VideoBrowser):

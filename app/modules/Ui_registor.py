@@ -17,7 +17,7 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QHBoxLayout, QLineEdit, QPushButton,
     QSizePolicy, QVBoxLayout, QWidget)
-from .assets import resources_rc
+from app.assets import resources_rc
 
 class Ui_Registor(object):
     def setupUi(self, Registor):

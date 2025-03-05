@@ -1,7 +1,7 @@
 import sqlite3
 from .db_config import Config
 from app.utils.crypto import CryptoHasher
-from app.modules.logger.logger import logger
+from app.logger.logger import logger
 cryptor = CryptoHasher()
 config = Config
 
