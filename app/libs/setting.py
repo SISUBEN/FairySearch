@@ -1,7 +1,7 @@
 from app.__init__ import *
 from PySide6.QtWidgets import QLabel, QVBoxLayout, QHBoxLayout, QWidget, QComboBox
 from PySide6.QtGui import QIcon, QFont
-from app.modules.Ui_setting import Ui_SettingWindow
+from app.modules.ui_setting import Ui_SettingWindow
 from app.i18n import _
 import time 
 

@@ -13,7 +13,7 @@ def onClickVideos(vid: int) -> None:
         logger.error(f"Video ID:{vid} does not exist")
         openDialog("无法找到该视频", f"视频【{vid}】不存在")
 
-from app.modules.Ui_main import Ui_MainWindow, ItemWidget, PageWidget
+from app.modules.ui_main import Ui_MainWindow, ItemWidget, PageWidget
 from app.libs.profile import ProfileWindow
 from app.database.queries import Database
 from app.utils.time import TimeKeeper

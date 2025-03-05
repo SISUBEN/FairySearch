@@ -1,5 +1,5 @@
 from app.__init__ import *
-from app.modules.Ui_profile import Ui_Profile
+from app.modules.ui_profile import Ui_Profile
 from app.utils.time import TimeKeeper
 from app.database.queries import Database
 from app.helper.widgetHelper import WidgetHelper
