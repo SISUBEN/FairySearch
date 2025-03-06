@@ -6,7 +6,8 @@ from app.utils.validator import Password, Username
 from app.libs.main import MainWindow
 # from app.libs.main import 
 from app.libs.expection import NoLoginError
-from app.libs.dialog import openDialog
+from app.libs.dialog import Dialog
+dialog = Dialog()
 from app.i18n import _
 
 db = Database()
@@ -36,27 +37,27 @@ class RegisterWindow(QWidget, Ui_Registor):
         self.password_ipt = self.password.text()
         self.password2_ipt = self.password_2.text()
         if db.userdb.is_user_exists(self._username):
-            openDialog(title=_("提示"), text=_("用户名已存在"))
+            dialog.standardDialog(title=_("提示"), text=_("用户名已存在"))
         elif self.password_ipt == self.password2_ipt:
             # db.userdb.user_add(
             #     self._username, cryptor.sha256(self.password_ipt)
             # )
             # encyted = cryptor.sha256(self.password_ipt)
             self.__token = db.userdb.t_user_add(self._username, self.password_ipt)
-            openDialog(title=_("提示"), text=_("注册成功"))
+            dialog.standardDialog(title=_("提示"), text=_("注册成功"))
             self.openMainWindow()
         elif not usrname_val.validate(self._username):
-            openDialog(
+            dialog.standardDialog(
                 title=_("提示"),
                 text=_("用户名格式不正确\n字母开头，长度5-16个字，字母数字下划线组合"),
             )
         elif not passwd_val.validate(self.password_ipt):
-            openDialog(
+            dialog.standardDialog(
                 title=_("提示"),
                 text=_("密码格式不正确\n必须包含大小写字母和数字的组合，可以使用特殊字符，长度在8-10之间"),
             )
         else:
-            openDialog(title=_("提示"), text=_("两次输入的密码不一致"))
+            dialog.standardDialog(title=_("提示"), text=_("两次输入的密码不一致"))
             
     def openLoginWindow(self) -> None:
         self.close()
@@ -68,5 +69,5 @@ class RegisterWindow(QWidget, Ui_Registor):
             self.mainWindow = MainWindow(token=self.__token)
         except NoLoginError:
             logger.log("user not login, back to [login.py] page")
-            openDialog(_("提示"), _("请先登录"))
+            dialog.standardDialog(_("提示"), _("请先登录"))
         self.mainWindow.show()

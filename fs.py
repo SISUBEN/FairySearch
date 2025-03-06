@@ -1,6 +1,9 @@
 from app.__init__ import *
 from app.libs.login import LoginWindow
 from app.assets.resourceManager import ResourceManager
+from app.libs.expection import UnsupportedLanguageError
+from app.libs.dialog import Dialog
+dialog = Dialog()
 from app.logger.logger import logger
 from app.i18n import _
 rm = ResourceManager()
@@ -18,9 +21,9 @@ if __name__ == "__main__":
         loginWindow.show()
         
         app.exec()
-    except Exception as err:
-        logger.critical(_(f"An error occurred while the program was running: {err}"))
-        app.shutdown()
     except KeyboardInterrupt:
         logger.error(_(f"The program was interrupted by the user"))
+    except UnsupportedLanguageError:
+        pass
+    finally:
         app.shutdown()

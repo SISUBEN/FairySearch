@@ -14,6 +14,7 @@ class ResourceManager:
     covers_dir: str = os.path.join(current_dir, "covers")
     videos_dir: str = os.path.join(current_dir, "videos")
     locale_lang: str = locale.getdefaultlocale()[0].lower()
+    # PEP 557: Using default factory functions to create new instances of mutable types as default values for fields
     support_lang: List[str] = field(default_factory=lambda: ["en", "zh_cn", "zh_tw"])
 
     def getVideoPath(self, vid: int, file_type: str = "mp4", isEscape: bool = True) -> str:
@@ -86,7 +87,14 @@ class ResourceManager:
 
         Args:
             app (QApplication): Pyside6 application
-            trans_file (str, optional): tanslate file. Defaults to "" and auto detect.
+            trans_file (str, optional): tanslate file. Defaults to "" and auto detect.  
+            
+        Raises:
+            UnsupportedLanguageError: if language is not supported  
+            
+        Returns:
+            QTranslator: translator
+            
         """
         if self.locale_lang not in self.support_lang: raise UnsupportedLanguageError(self.locale_lang)
         translator = QTranslator()

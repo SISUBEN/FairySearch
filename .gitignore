@@ -195,6 +195,7 @@ test_*.py
 deprecated/
 *_de.py
 *_de.ipynb
+*_de.*
 
 # i18n file
 *.po

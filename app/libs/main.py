@@ -1,6 +1,7 @@
 from app.libs.videoBrowser import VideoBrowser
 from app.libs.expection import NoLoginError, VideoNotFoundError
-from app.libs.dialog import openDialog
+from app.libs.dialog import Dialog
+dialog = Dialog()
 from app.__init__ import *
 
 # to avoid circular import
@@ -11,7 +12,7 @@ def onClickVideos(vid: int) -> None:
         videosBrower.show()
     except VideoNotFoundError:
         logger.error(f"Video ID:{vid} does not exist")
-        openDialog("无法找到该视频", f"视频【{vid}】不存在")
+        dialog.standardDialog("无法找到该视频", f"视频【{vid}】不存在")
 
 from app.modules.ui_main import Ui_MainWindow, ItemWidget, PageWidget
 from app.libs.profile import ProfileWindow

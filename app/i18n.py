@@ -27,6 +27,5 @@ class Translate:
         self.trans = gettext.translation(domain='messages', localedir=FILE_PATH, languages=[language], fallback=True)
         self.trans.install()
         
-        
 t = Translate()
 _ = t.translate

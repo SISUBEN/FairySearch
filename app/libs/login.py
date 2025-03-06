@@ -4,7 +4,8 @@ from app.database.queries import Database
 from app.utils.crypto import CryptoHasher
 from app.libs.register import RegisterWindow
 from app.libs.main import MainWindow
-from app.libs.dialog import openDialog
+from app.libs.dialog import Dialog
+dialog = Dialog()
 from app.i18n import _
 db = Database()
 cryptor = CryptoHasher()
@@ -39,12 +40,12 @@ class LoginWindow(QWidget, Ui_Form):
                     username=username_input, password=enctrypt
                 )
                 logger.debug(f"token: {token}")
-                openDialog(_("登入成功"), f"{self.username.text()}" + " " +_("欢迎") )
+                dialog.standardDialog(_("登入成功"), f"{self.username.text()}" + " " +_("欢迎") )
                 self.openMainWindow(token)
             else:
-                openDialog(_("登入失败"), _("用户名或者密码错误\n请再试一次"))
+                dialog.standardDialog(_("登入失败"), _("用户名或者密码错误\n请再试一次"))
         else:
-            openDialog(_("登入失败"), _("用户名或者密码错误\n请再试一次"))
+            dialog.standardDialog(_("登入失败"), _("用户名或者密码错误\n请再试一次"))
 
     def openRegisterWindow(self) -> None:
         # self.close()
