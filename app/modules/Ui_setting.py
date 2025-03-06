@@ -15,16 +15,16 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QComboBox, QHBoxLayout, QLabel,
-    QSizePolicy, QSpacerItem, QTabWidget, QVBoxLayout,
-    QWidget)
+from PySide6.QtWidgets import (QApplication, QHBoxLayout, QLabel, QSizePolicy,
+    QSpacerItem, QTabWidget, QVBoxLayout, QWidget)
 from app.assets import resources_rc
+
 
 class Ui_SettingWindow(object):
     def setupUi(self, SettingWindow):
         if not SettingWindow.objectName():
             SettingWindow.setObjectName(u"SettingWindow")
-        SettingWindow.resize(1139, 701)
+        SettingWindow.resize(1139, 732)
         SettingWindow.setStyleSheet(u"QWidget {\n"
 "	background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0.987, y2:1, stop:0.159686 rgba(10, 10, 10, 255), stop:0.465969 rgba(43, 42, 40, 255), stop:1 rgba(108, 108, 108, 255))\n"
 "    width:100%;\n"
@@ -124,33 +124,6 @@ class Ui_SettingWindow(object):
         self.verticalLayout_4.setObjectName(u"verticalLayout_4")
         self.langVLayout = QVBoxLayout()
         self.langVLayout.setObjectName(u"langVLayout")
-        self.horizontalLayout_2 = QHBoxLayout()
-        self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
-        self.label = QLabel(self.langSettingPage)
-        self.label.setObjectName(u"label")
-        self.label.setMinimumSize(QSize(150, 0))
-        self.label.setMaximumSize(QSize(150, 16777215))
-        font2 = QFont()
-        font2.setFamilies([u"Microsoft YaHei"])
-        font2.setPointSize(11)
-        self.label.setFont(font2)
-
-        self.horizontalLayout_2.addWidget(self.label)
-
-        self.langComboBox = QComboBox(self.langSettingPage)
-        self.langComboBox.setObjectName(u"langComboBox")
-        self.langComboBox.setMinimumSize(QSize(500, 0))
-        self.langComboBox.setMaximumSize(QSize(400, 20))
-
-        self.horizontalLayout_2.addWidget(self.langComboBox)
-
-        self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
-
-        self.horizontalLayout_2.addItem(self.horizontalSpacer)
-
-
-        self.langVLayout.addLayout(self.horizontalLayout_2)
-
 
         self.verticalLayout_4.addLayout(self.langVLayout)
 
@@ -165,30 +138,6 @@ class Ui_SettingWindow(object):
         self.verticalLayout_6.setObjectName(u"verticalLayout_6")
         self.devVLayout = QVBoxLayout()
         self.devVLayout.setObjectName(u"devVLayout")
-        self.horizontalLayout_3 = QHBoxLayout()
-        self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
-        self.label_3 = QLabel(self.devSettinPage)
-        self.label_3.setObjectName(u"label_3")
-        self.label_3.setMinimumSize(QSize(150, 0))
-        self.label_3.setMaximumSize(QSize(150, 16777215))
-        self.label_3.setFont(font2)
-
-        self.horizontalLayout_3.addWidget(self.label_3)
-
-        self.langComboBox_2 = QComboBox(self.devSettinPage)
-        self.langComboBox_2.setObjectName(u"langComboBox_2")
-        self.langComboBox_2.setMinimumSize(QSize(500, 0))
-        self.langComboBox_2.setMaximumSize(QSize(400, 20))
-
-        self.horizontalLayout_3.addWidget(self.langComboBox_2)
-
-        self.horizontalSpacer_2 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
-
-        self.horizontalLayout_3.addItem(self.horizontalSpacer_2)
-
-
-        self.devVLayout.addLayout(self.horizontalLayout_3)
-
 
         self.verticalLayout_6.addLayout(self.devVLayout)
 
@@ -206,7 +155,7 @@ class Ui_SettingWindow(object):
 
         self.retranslateUi(SettingWindow)
 
-        self.tabWidget.setCurrentIndex(0)
+        self.tabWidget.setCurrentIndex(1)
 
 
         QMetaObject.connectSlotsByName(SettingWindow)
@@ -215,9 +164,7 @@ class Ui_SettingWindow(object):
     def retranslateUi(self, SettingWindow):
         SettingWindow.setWindowTitle(QCoreApplication.translate("SettingWindow", u"Form", None))
         self.label_2.setText(QCoreApplication.translate("SettingWindow", u"FairySearch - \u8bbe\u5b9a", None))
-        self.label.setText(QCoreApplication.translate("SettingWindow", u"\u754c\u9762\u8bed\u8a00\uff1a", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.langSettingPage), QCoreApplication.translate("SettingWindow", u"\u8bed\u8a00", None))
-        self.label_3.setText(QCoreApplication.translate("SettingWindow", u"\u65e5\u5fd7\u7b49\u7ea7\uff1a", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.devSettinPage), QCoreApplication.translate("SettingWindow", u"\u5f00\u53d1\u8005\u8bbe\u5b9a", None))
     # retranslateUi
 
