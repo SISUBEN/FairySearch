@@ -35,7 +35,6 @@ class MainWindow(
         self.bg_image_path = ":/images/images/background.png"  # using QRC path
         self.def_cover_path = ":/covers/covers/default.png"  # using QRC path
         self.pages_data = self.getVideos()
-        logger.debug(f"pages_data: {self.pages_data}, type: {type(self.pages_data)}")
         self.setupUi(self, self.pages_data)
 
         # bind button click events
@@ -57,7 +56,6 @@ class MainWindow(
         ]
         # Split videos into pages
         pages = [videos[i:i + page_size] for i in range(0, len(videos), page_size)]
-        logger.debug(f"videos: {pages}")
         return pages
 
     def appendPage(self, *items_data: list) -> None:

@@ -33,7 +33,6 @@ class LoginWindow(QWidget, Ui_Form):
         enctrypt: str = cryptor.sha256(password_input)
         if db.userdb.is_user_exists(self.username.text()):
             logger.debug(f"user exists")
-            logger.debug(f"username: {username_input}, password: {password_input}")
             if db.userdb.verify_user(username=username_input, password=enctrypt):
                 logger.debug(f"verified scuccess")
                 token = db.userdb.generate_token(

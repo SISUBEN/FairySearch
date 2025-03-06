@@ -149,7 +149,6 @@ class Userdb:
             Returns:
                 str: user password
             """
-            logger.debug(f"self.user_connect.execute(config.USER_QUERY_PWD, (username,)).fetchall() = {self.user_connect.execute(config.USER_QUERY_PWD, (username,)).fetchall()}")
             try:
                 return self.user_connect.execute(config.USER_QUERY_PWD, (username,)).fetchall()[0][0]
             except sqlite3.Error as e:
@@ -199,9 +198,6 @@ class Userdb:
             Returns:
                 bool: True if password is correct, False otherwise
             """
-            logger.debug(f"pwd: {password}, username: {username}")
-            logger.debug(f"Is user exists? => {self.is_user_exists(username)}")
-            logger.debug(f"self.user_connect.execute(config.USER_QUERY_PWD, (username,)).fetchall() = {self.user_connect.execute(config.USER_QUERY_PWD, (username,)).fetchall()}")
             return self.query_user_password(username) == password
 
         def __del__(self) -> None:
