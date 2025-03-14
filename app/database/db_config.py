@@ -1,6 +1,6 @@
 # db addr
 import os
-from app.logger.logger import logger
+from app.utils.logger.logger import logger
 from dataclasses import dataclass
 
 logger.debug(f"Current file dir: {os.getcwd()}")

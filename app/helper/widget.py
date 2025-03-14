@@ -5,11 +5,7 @@ from PySide6.QtWidgets import (
     QLineEdit,
     QComboBox
 )
-
-
-
-
-class WidgetHelper(object):
+class WidgetCreator(object):
     def __init__(self) -> None:
         ...
 
@@ -56,5 +52,8 @@ class WidgetHelper(object):
     def createLineEdit(self, placeholder: str, size: int, color: str) -> QLineEdit:
         ...
 
-    def createComboBox(self, size: int, color: str) -> QComboBox:
-        ...
+    def createComboBox(self, size: int, color: str, items: list) -> QComboBox:
+        box = QComboBox()
+        box.addItems(items)
+        
+# class SettingComboBox()

@@ -197,17 +197,24 @@ deprecated/
 *_de.ipynb
 *_de.*
 
-# i18n file
-*.po
-*.mo
-*.pot
-
 # jupyter
 .ipynb_checkpoints
+
+# i18n file
+# *.po
+# *.mo
+# *.pot
 
 # temp files
 temp.ts
 
 # binary file
-*.mo
-*.qm
+# *.mo
+# *.qm
+# resources_rc.py
+
+# # config
+# config.json
+
+# # database
+# *.db

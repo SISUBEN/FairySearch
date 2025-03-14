@@ -31,7 +31,10 @@
     <file>font/HarmonySans_black.ttf</file>
   </qresource>
   <qresource prefix="i18n">
-    <file>i18n/en.qm</file>
-    <file>i18n/zh_tw.qm</file>
+    <file>i18n/en_US.qm</file>
+    <file>i18n/zh_TW.qm</file>
+  </qresource>
+  <qresource prefix="config">
+    <file>config/config.json</file>
   </qresource>
 </RCC>

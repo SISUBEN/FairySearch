@@ -3,10 +3,10 @@ from app.libs.login import LoginWindow
 from app.assets.resourceManager import ResourceManager
 from app.libs.expection import UnsupportedLanguageError
 from app.libs.dialog import Dialog
-dialog = Dialog()
-from app.logger.logger import logger
+from app.utils.logger.logger import logger
 from app.i18n import _
 rm = ResourceManager()
+dialog = Dialog()
 if __name__ == "__main__":
     try:
         console = Console()

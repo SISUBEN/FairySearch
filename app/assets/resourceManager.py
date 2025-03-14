@@ -5,7 +5,7 @@ from PySide6.QtCore import QTranslator
 import locale
 import os
 
-from app.logger.logger import logger
+from app.utils.logger.logger import logger
 from app.libs.expection import UnsupportedLanguageError
 
 @dataclass
@@ -13,9 +13,9 @@ class ResourceManager:
     current_dir: str = os.path.dirname(os.path.abspath(__file__))
     covers_dir: str = os.path.join(current_dir, "covers")
     videos_dir: str = os.path.join(current_dir, "videos")
-    locale_lang: str = locale.getdefaultlocale()[0].lower()
+    locale_lang: str = locale.getdefaultlocale()[0]
     # PEP 557: Using default factory functions to create new instances of mutable types as default values for fields
-    support_lang: List[str] = field(default_factory=lambda: ["en", "zh_cn", "zh_tw"])
+    support_lang: List[str] = field(default_factory=lambda: ["en", "zh_CN", "zh_TW"])
 
     def getVideoPath(self, vid: int, file_type: str = "mp4", isEscape: bool = True) -> str:
         """get video file path
@@ -47,21 +47,6 @@ class ResourceManager:
         else:
             return None
 
-    # def installTranslation(self, app: QApplication, trans_file: str = "", directory: str = "") -> None:
-    #     """install translation
-
-    #     Args:
-    #         trans_file (str): translation file name
-    #         directory (str, optional):  i18n directory. "" to auto detect. Defaults to "".
-    #     """
-    #     translator = QTranslator()
-    #     file = trans_file.lower() if trans_file else locale.getdefaultlocale()[0] + ".qm"
-    #     directory = directory if directory else os.path.join(self.current_dir, "i18n")
-    #     file = "en.qm"
-    #     logger.info(f"Loading translation file: {file}")
-    #     logger.debug(f"load {translator.load(file, directory)}")
-    #     if translator.load(file, directory):
-    #         app.installTranslator(translator)
     def getI18nDirectory(self) -> None:
         """
         Constructs the path to the 'i18n' directory within the current directory.
@@ -80,7 +65,7 @@ class ResourceManager:
         Returns:
             str: translate file path
         """        
-        return os.path.join(self.getI18nDirectory(), trans_file.lower() if trans_file else self.locale_lang + ".qm")
+        return os.path.join(self.getI18nDirectory(), trans_file if trans_file else self.locale_lang + ".qm")
     
     def getTranslator(self, trans_file: str = "") -> QTranslator:
         """install translation
@@ -98,7 +83,7 @@ class ResourceManager:
         """
         if self.locale_lang not in self.support_lang: raise UnsupportedLanguageError(self.locale_lang)
         translator = QTranslator()
-        file = trans_file.lower() if trans_file else self.locale_lang + ".qm"
+        file = trans_file if trans_file else self.locale_lang + ".qm"
         logger.info(f"Loading translation file: {file}")
         logger.debug(f"load {'successful' if translator.load(file, self.getI18nDirectory()) else 'failed'}")
         if translator.load(file, self.getI18nDirectory()):

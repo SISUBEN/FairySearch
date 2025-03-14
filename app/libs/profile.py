@@ -2,10 +2,10 @@ from app.__init__ import *
 from app.modules.ui_profile import Ui_Profile
 from app.utils.time import TimeKeeper
 from app.database.queries import Database
-from app.helper.widgetHelper import WidgetHelper
+from app.helper.widget import WidgetCreator
 from app.i18n import _
 timekeeper = TimeKeeper() 
-widget_helper = WidgetHelper()
+widget_helper = WidgetCreator()
 db = Database()
 
 class ProfileWindow(QWidget, Ui_Profile):

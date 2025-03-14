@@ -20,7 +20,7 @@ from PySide6.QtCore import Qt, QSize
 from app.libs.main import onClickVideos
 from app.i18n import _
 from app.assets import resources_rc
-from app.logger.logger import logger
+from app.utils.logger.logger import logger
 
 
 # template
