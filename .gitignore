@@ -212,11 +212,10 @@ temp.ts
 # binary file
 *.mo
 *.qm
-*resources_rc.py
+app/assets/resources_rc.py
 
 # # config
 # config.json
 
 # # database
 # *.db
-app/assets/resources_rc.py
