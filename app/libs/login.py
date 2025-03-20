@@ -4,15 +4,17 @@ from app.database.queries import Database
 from app.utils.crypto import CryptoHasher
 from app.libs.register import RegisterWindow
 from app.libs.main import MainWindow
-from app.libs.dialog import openDialog
+from app.libs.dialog import Dialog
+dialog = Dialog()
 from app.i18n import _
 db = Database()
 cryptor = CryptoHasher()
 
 
 class LoginWindow(QWidget, Ui_Form):
-    def __init__(self) -> None:
+    def __init__(self, app: QApplication) -> None:
         super().__init__()
+        self.app = app
         self.setupUi(self)
         self.setWindowTitle(_("登录"))
 
@@ -32,19 +34,18 @@ class LoginWindow(QWidget, Ui_Form):
         enctrypt: str = cryptor.sha256(password_input)
         if db.userdb.is_user_exists(self.username.text()):
             logger.debug(f"user exists")
-            logger.debug(f"username: {username_input}, password: {password_input}")
             if db.userdb.verify_user(username=username_input, password=enctrypt):
                 logger.debug(f"verified scuccess")
                 token = db.userdb.generate_token(
                     username=username_input, password=enctrypt
                 )
                 logger.debug(f"token: {token}")
-                openDialog(_("登入成功"), f"{self.username.text()}" + " " +_("欢迎") )
+                dialog.standardDialog(_("登入成功"), f"{self.username.text()}" + " " +_("欢迎") )
                 self.openMainWindow(token)
             else:
-                openDialog(_("登入失败"), _("用户名或者密码错误\n请再试一次"))
+                dialog.standardDialog(_("登入失败"), _("用户名或者密码错误\n请再试一次"))
         else:
-            openDialog(_("登入失败"), _("用户名或者密码错误\n请再试一次"))
+            dialog.standardDialog(_("登入失败"), _("用户名或者密码错误\n请再试一次"))
 
     def openRegisterWindow(self) -> None:
         # self.close()
@@ -55,5 +56,5 @@ class LoginWindow(QWidget, Ui_Form):
 
     def openMainWindow(self, token: str) -> None:
         self.close()
-        self.mainWindow = MainWindow(token)
+        self.mainWindow = MainWindow(token, self.app)
         self.mainWindow.show()

@@ -1,27 +1,27 @@
 import sqlite3
 from .db_config import Config
 from app.utils.crypto import CryptoHasher
-from app.logger.logger import logger
+from app.utils.logger.logger import logger
 cryptor = CryptoHasher()
-config = Config
-
 
 class Userdb:
         def __init__(self) -> None:
-            self.user_connect = sqlite3.connect(config.PATHS["user_db"])
+            self.user_connect = sqlite3.connect(Config.PATHS["user_db"])
             self.user_cur = self.user_connect.cursor()
+            self.INIT_USER_DB_SQL = Config.load(Config.PATHS["init_user_db_sql"])
             self.init_userdb()
 
         def init_userdb(self) -> None:
             try:
-                self.user_connect.execute(config.INIT_USER_DB)
+                self.user_connect.execute(self.INIT_USER_DB_SQL)
                 self.user_connect.commit()
             except sqlite3.Error as e:
                 logger.debug(f"init user db fail: {e}")
                 self.user_connect.rollback()
+                
         def user_add(self, username: str, password: str) -> None:
             try:
-                self.user_connect.execute(config.USER_ADD, (username, password))
+                self.user_connect.execute(Config.USER_ADD, (username, password))
                 self.user_connect.commit()
             except sqlite3.Error as e:
                 logger.debug(f"add user fail: {e}")
@@ -37,7 +37,7 @@ class Userdb:
             try:
                 encrypted = cryptor.sha256(password)
                 token = self.generate_token(username, encrypted)
-                self.user_connect.execute(config.T_USER_ADD, (username, encrypted, token))
+                self.user_connect.execute(Config.T_USER_ADD, (username, encrypted, token))
                 self.user_connect.commit()
                 return token
             except sqlite3.Error as e:
@@ -56,7 +56,7 @@ class Userdb:
                 bool: is True if token is valid
             """
             try:
-                return self.user_connect.execute(config.T_USER_QUERY, (token,)).fetchone() is not None
+                return self.user_connect.execute(Config.T_USER_QUERY, (token,)).fetchone() is not None
             except sqlite3.Error as e:
                 logger.debug(f"verify token error: {e}")
 
@@ -73,7 +73,7 @@ class Userdb:
                 sqlite3.Error: if error occurs
             """
             try:
-                 return self.user_connect.execute(config.T_USER_QUERY, (username,)).fetchone()[0][0]
+                 return self.user_connect.execute(Config.T_USER_QUERY, (username,)).fetchone()[0][0]
             except sqlite3.Error as e:
                 logger.debug(f"get token error: {e}")
         
@@ -113,7 +113,7 @@ class Userdb:
             """
             try: 
                 return (
-                    self.user_connect.execute(config.USER_QUERY, (username,)).fetchone()
+                    self.user_connect.execute(Config.USER_QUERY, (username,)).fetchone()
                     is not None
                 ) # if query result is not None, return True, else return result
             except sqlite3.Error as e:
@@ -129,7 +129,7 @@ class Userdb:
                 str: username
             """
             try:
-                return self.user_connect.execute(config.T_USERNAME_QUERY, (token,)).fetchall()[0][0]
+                return self.user_connect.execute(Config.T_USERNAME_QUERY, (token,)).fetchall()[0][0]
             except sqlite3.Error as e:
                 logger.debug(f"query username error: {e}")
 
@@ -149,9 +149,8 @@ class Userdb:
             Returns:
                 str: user password
             """
-            logger.debug(f"self.user_connect.execute(config.USER_QUERY_PWD, (username,)).fetchall() = {self.user_connect.execute(config.USER_QUERY_PWD, (username,)).fetchall()}")
             try:
-                return self.user_connect.execute(config.USER_QUERY_PWD, (username,)).fetchall()[0][0]
+                return self.user_connect.execute(Config.USER_QUERY_PWD, (username,)).fetchall()[0][0]
             except sqlite3.Error as e:
                 logger.debug(f"query user password error: {e}")
                 
@@ -168,7 +167,7 @@ class Userdb:
                 sqlite3.Error: if query fail
             """
             try:
-                return self.user_connect.execute(config.USER_QUERY_UID, (username,)).fetchall()[0][0]
+                return self.user_connect.execute(Config.USER_QUERY_UID, (username,)).fetchall()[0][0]
             except sqlite3.Error as e:
                 logger.debug(f"query user uid error: {e}")
 
@@ -185,7 +184,7 @@ class Userdb:
                 sqlite3.Error: if query fail
             """
             try:
-                return self.user_connect.execute(config.T_USER_QUERY_UID, (token,)).fetchall()[0][0]
+                return self.user_connect.execute(Config.T_USER_QUERY_UID, (token,)).fetchall()[0][0]
             except sqlite3.Error as e:
                 logger.debug(f"query uid error: {e}")
         
@@ -199,9 +198,6 @@ class Userdb:
             Returns:
                 bool: True if password is correct, False otherwise
             """
-            logger.debug(f"pwd: {password}, username: {username}")
-            logger.debug(f"Is user exists? => {self.is_user_exists(username)}")
-            logger.debug(f"self.user_connect.execute(config.USER_QUERY_PWD, (username,)).fetchall() = {self.user_connect.execute(config.USER_QUERY_PWD, (username,)).fetchall()}")
             return self.query_user_password(username) == password
 
         def __del__(self) -> None:

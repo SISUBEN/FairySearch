@@ -1,14 +1,14 @@
 import sqlite3
 from .db_config import Config
 from app.utils.crypto import CryptoHasher
-from app.logger.logger import logger
+from app.utils.logger.logger import logger
 import uuid
 cryptor = CryptoHasher()
-config = Config
 
 class SearchHistorydb:
         def __init__(self) -> None:
-            self.search_connect = sqlite3.connect(config.PATHS["user_db"])
+            self.search_connect = sqlite3.connect(Config.PATHS["user_db"])
+            self.INIT_SH_DB_SQL = Config.load(Config.PATHS["init_search_history_db_sql"])
             self.init_searchdb()
 
         def __del__(self):
@@ -16,14 +16,14 @@ class SearchHistorydb:
 
         def init_searchdb(self) -> None:
             try:
-                self.search_connect.execute(config.INIT_SH_DB)
+                self.search_connect.execute(self.INIT_SH_DB_SQL)
                 self.search_connect.commit()
             except sqlite3.Error as e:
                 logger.debug(f"init search db fail: {e}")
 
         def get_total_historys(self, username: str) -> int:
             try:
-                return self.search_connect.execute(config.COUNT_SH, (username,)).fetchone()[0]
+                return self.search_connect.execute(Config.COUNT_SH, (username,)).fetchone()[0]
             except sqlite3.Error as e:
                 logger.debug(f"get total historys error: {e}")
 
@@ -35,7 +35,7 @@ class SearchHistorydb:
         ) -> None:
             try:
                 self.search_connect.execute(
-                    config.SH_ADD, (uuid, vid, userid, title, timestamp, duration)
+                    Config.SH_ADD, (uuid, vid, userid, title, timestamp, duration)
                 )
                 self.search_connect.commit()
             except sqlite3.Error as e:
@@ -48,14 +48,14 @@ class SearchHistorydb:
             offset = (page_num - 1) * page_size
             try:
                 return self.search_connect.execute(
-                    config.FILTE_SH, (userid, offset, page_size)
+                    Config.FILTE_SH, (userid, offset, page_size)
                 ).fetchall()
             except sqlite3.Error as e:
                 logger.debug(f"query search history error: {e}")
             
         def query_search_history_all(self, userid: int) -> list:
             try:
-                return self.search_connect.execute(config.FILTE_SH_ALL, (userid,)).fetchall()
+                return self.search_connect.execute(Config.FILTE_SH_ALL, (userid,)).fetchall()
             except sqlite3.Error as e:
                 logger.debug(f"query search history error: {e}")
 

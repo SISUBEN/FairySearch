@@ -195,14 +195,16 @@ test_*.py
 deprecated/
 *_de.py
 *_de.ipynb
-
-# i18n file
-*.po
-*.mo
-*.pot
+*_de.*
+*.deprecated
 
 # jupyter
 .ipynb_checkpoints
+
+# i18n file
+# *.po
+# *.mo
+# *.pot
 
 # temp files
 temp.ts
@@ -210,3 +212,10 @@ temp.ts
 # binary file
 *.mo
 *.qm
+app/assets/resources_rc.py
+
+# # config
+# config.json
+
+# # database
+# *.db

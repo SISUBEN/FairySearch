@@ -1,6 +1,7 @@
-from app.libs.videoBrowser import VideoBrowser
+from app.libs.video_browser import VideoBrowser
 from app.libs.expection import NoLoginError, VideoNotFoundError
-from app.libs.dialog import openDialog
+from app.libs.dialog import Dialog
+dialog = Dialog()
 from app.__init__ import *
 
 # to avoid circular import
@@ -11,7 +12,7 @@ def onClickVideos(vid: int) -> None:
         videosBrower.show()
     except VideoNotFoundError:
         logger.error(f"Video ID:{vid} does not exist")
-        openDialog("无法找到该视频", f"视频【{vid}】不存在")
+        dialog.standardDialog("无法找到该视频", f"视频【{vid}】不存在")
 
 from app.modules.ui_main import Ui_MainWindow, ItemWidget, PageWidget
 from app.libs.profile import ProfileWindow
@@ -26,15 +27,15 @@ class MainWindow(
     QWidget,
     Ui_MainWindow,
 ):
-    def __init__(self, token: str) -> None:
+    def __init__(self, token: str, app: QApplication) -> None:
         super().__init__()
+        self.app = app
         self.__token = token
         if self.__token is None:
             raise NoLoginError("未登录")
         self.bg_image_path = ":/images/images/background.png"  # using QRC path
         self.def_cover_path = ":/covers/covers/default.png"  # using QRC path
         self.pages_data = self.getVideos()
-        logger.debug(f"pages_data: {self.pages_data}, type: {type(self.pages_data)}")
         self.setupUi(self, self.pages_data)
 
         # bind button click events
@@ -56,7 +57,6 @@ class MainWindow(
         ]
         # Split videos into pages
         pages = [videos[i:i + page_size] for i in range(0, len(videos), page_size)]
-        logger.debug(f"videos: {pages}")
         return pages
 
     def appendPage(self, *items_data: list) -> None:
@@ -88,7 +88,7 @@ class MainWindow(
             raise NoLoginError
     
     def showSetting(self) -> None:
-        self.settingWindow = SettingWindow()
+        self.settingWindow = SettingWindow(self.app)
         self.settingWindow.show()
 
     # Lazy loading

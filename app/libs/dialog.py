@@ -9,8 +9,17 @@ class DialogWindow(QDialog, Ui_Dialog):
             "Dialog", f"{title}", None))
         self.label.setText(QCoreApplication.translate(
             "Dialog", f"{text}", None))
+        self.okButton.clicked.connect(self.onOk)
+        self.cancelButton.clicked.connect(self.close)
+    
+    def onOk(self) -> None:
+        self.accept()
 
-def openDialog(title: str, text: str) -> None:
-    dialogWindow = DialogWindow(title, text)
-    dialogWindow.exec()
+class Dialog:
+    @staticmethod
+    def standardDialog(title: str, text: str) -> None:
+        dialogWindow = DialogWindow(title, text)
+        dialogWindow.exec()
+        return dialogWindow
+
     

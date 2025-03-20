@@ -31,7 +31,24 @@
     <file>font/HarmonySans_black.ttf</file>
   </qresource>
   <qresource prefix="i18n">
-    <file>i18n/en.qm</file>
-    <file>i18n/zh_tw.qm</file>
+    <file>i18n/en_US.qm</file>
+    <file>i18n/zh_TW.qm</file>
+  </qresource>
+  <qresource prefix="config">
+    <file>config/config.json</file>
+  </qresource>
+  <qresource prefix="database_sql">
+    <file>sql/user_db.sql</file>
+    <file>sql/videos_db.sql</file>
+    <file>sql/search_history.sql</file>
+  </qresource>
+  <qresource prefix="data_sql">
+    <file>sql/import_data.sql</file>
+  </qresource>
+  <qresource prefix="table_sql">
+    <file>sql/video_activity_data.sql</file>
+    <file>sql/init_video_db.sql</file>
+    <file>sql/init_search_history_db.sql</file>
+    <file>sql/init_user_db.sql</file>
   </qresource>
 </RCC>
