@@ -1,4 +1,4 @@
-from app.libs.videoBrowser import VideoBrowser
+from app.libs.video_browser import VideoBrowser
 from app.libs.expection import NoLoginError, VideoNotFoundError
 from app.libs.dialog import Dialog
 dialog = Dialog()

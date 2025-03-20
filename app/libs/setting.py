@@ -1,4 +1,5 @@
 from app.__init__ import *
+from app.assets.resource_manager import ResourceManager
 from qfluentwidgets import *
 from PySide6.QtWidgets import QLabel, QVBoxLayout, QHBoxLayout, QWidget, QComboBox
 from PySide6.QtCore import QTranslator
@@ -12,10 +13,6 @@ from app.assets.config import cfg
 import logging
 serializer = LanguageSerializer()
 creator = WidgetCreator()
-<<<<<<< HEAD
-
-=======
->>>>>>> parent of b76fa1c (Refactor: update sql resource management)
 class SettingWindow(QWidget, Ui_SettingWindow):
     def __init__(self, app: QApplication) -> None:
         super().__init__()
@@ -77,22 +74,13 @@ class SettingWindow(QWidget, Ui_SettingWindow):
             lang = serializer.serialize(Language.SIMP_CHINESE)
         elif index == 2:
             lang = serializer.serialize(Language.TRA_CHINESE)
-<<<<<<< HEAD
             logger.debug(f"Change language to {lang}")
         _translator = self.rm.getTranslator(lang)
         self._load_translation(_translator, lang)
-=======
-        _ = QTranslator()
-        self._load_translation(_, lang)
->>>>>>> parent of b76fa1c (Refactor: update sql resource management)
         self.retranslateUi(self)
             
     def _load_translation(self, translator: QTranslator, language: str) -> None:
         t.set_language(language)
-<<<<<<< HEAD
         cfg.set("language", language)
-=======
-        # ... gettext part
->>>>>>> parent of b76fa1c (Refactor: update sql resource management)
         translator.load(f":/i18n/{language}.qm")
         self.rm.setTranslation(language)

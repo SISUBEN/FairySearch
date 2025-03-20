@@ -28,7 +28,7 @@ class Config:
         file = QFile(resource_path)
         if not file.open(QFile.ReadOnly | QFile.Text):
             logger.error(f"Cannot open resource file: {resource_path}")
-            return
+            raise FileNotFoundError(f"Cannot open resource file: {resource_path}")
         stream = QTextStream(file)
         content = stream.readAll()
         file.close()
