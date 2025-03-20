@@ -196,6 +196,7 @@ deprecated/
 *_de.py
 *_de.ipynb
 *_de.*
+*.deprecated
 
 # jupyter
 .ipynb_checkpoints
@@ -209,9 +210,9 @@ deprecated/
 temp.ts
 
 # binary file
-# *.mo
-# *.qm
-# resources_rc.py
+*.mo
+*.qm
+*resources_rc.py
 
 # # config
 # config.json

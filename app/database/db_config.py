@@ -2,58 +2,49 @@
 import os
 from app.utils.logger.logger import logger
 from dataclasses import dataclass
+import app.assets.resources_rc
+from PySide6.QtCore import QFile, QTextStream
 
 logger.debug(f"Current file dir: {os.getcwd()}")
+
 
 @dataclass
 class Config:
     current_dir = os.path.dirname(os.path.abspath(__file__))
-    
     # locate database path automatically
-    
     # Database sql path
     PATHS = {
         "video_db": os.path.join(current_dir, "videos.db"),
         "user_db": os.path.join(current_dir, "users.db"),
-        "video_sql": os.path.join(current_dir, "videos_db.sql"),
-        "user_sql": os.path.join(current_dir, "user_db.sql"),
-        "search_history_sql": os.path.join(current_dir, "search_history.sql"),
-        "user_activity_data_sql": os.path.join(current_dir, "user_activity_data.sql"),
+        "import_data_sql": ":/data_sql/sql/import_data.sql",
+        "video_activity_data_sql": ":/table_sql/sql/video_activity_data.sql",
+        "init_video_db_sql": ":/table_sql/sql/init_video_db.sql",
+        "init_user_db_sql": ":/table_sql/sql/init_user_db.sql",
+        "init_search_history_db_sql": ":/table_sql/sql/init_search_history_db.sql",
     }
-    # VIDEO_DB: str = os.path.join(current_dir, "videos.db")
-    # USER_DB: str = os.path.join(current_dir, "users.db")
-    # VIDEO_SQL_PATH: str = os.path.join(current_dir, "videos_db.sql")
-    # USER_SQL_PATH: str = os.path.join(current_dir, "user_db.sql")
-    # SEARCH_HISTORY_SQL_PATH: str = os.path.join(current_dir, "search_history.sql")
-    # USER_ACTIVITY_DATA_SQL_PATH: str = os.path.join(current_dir, "user_activity_data.sql")
-    
+
+    @staticmethod
+    def load(resource_path: str) -> str:
+        file = QFile(resource_path)
+        if not file.open(QFile.ReadOnly | QFile.Text):
+            logger.error(f"Cannot open resource file: {resource_path}")
+            return
+        stream = QTextStream(file)
+        content = stream.readAll()
+        file.close()
+        return content
+
     # default
-    DEFAULT_COVER: str = os.path.join(current_dir, "covers", "default.png")
-    
+    DEFAULT_COVER = ":/covers/covers/default.png"
     # SQL
     RESET_ID = "alter table ? AUTO_INCREMENT=1;"
     # search history
-    INIT_SH_DB = """CREATE TABLE IF NOT EXISTS search_history (
-                        uuid CHAR(33) PRIMARY KEY,
-                        vid INTEGER NOT NULL,
-                        userid INTEGER NOT NULL,
-                        title VARCHAR(32) NOT NULL,
-                        timestamp INTEGER NOT NULL,
-                        duration INTEGER NOT NULL,
-                        FOREIGN KEY (userid) REFERENCES users(uid)
-                    );"""
     QUERY_SH = "SELECT title FROM search_history WHERE userid=?;"
     COUNT_SH = "SELECT COUNT(*) FROM search_history WHERE userid=?;"
     FILTE_SH = "SELECT title, timestamp, duration FROM search_history WHERE userid=? ORDER BY timestamp DESC LIMIT ? OFFSET ?;"
     FILTE_SH_ALL = "SELECT title, timestamp, duration, uuid, vid FROM search_history WHERE userid=? ORDER BY timestamp"
     SH_ADD = "INSERT INTO search_history (uuid, vid, userid ,title, timestamp, duration) VALUES (?, ?, ?, ?, ?, ?);"
     # user
-    INIT_USER_DB = """CREATE TABLE IF NOT EXISTS users (
-                        uid INTEGER PRIMARY KEY AUTOINCREMENT,
-                        username VARCHAR(32) NOT NULL,
-                        password VARCHAR(32) NOT NULL,
-                        token VARCHAR(32) NOT NULL
-                    );"""
     USER_ADD = "INSERT INTO users (username, password) VALUES (?, ?);"
     USER_QUERY = "SELECT * FROM users WHERE username=?;"
     USER_QUERY_PWD = "SELECT password FROM users WHERE username=?;"
@@ -67,34 +58,10 @@ class Config:
     USER_QUERY_TOKEN = "SELECT token FROM users WHERE username=?;"
     DESTROY_TABLE = "DROP TABLE IF EXISTS ?;"
     # video
-    INIT_VIDEO_DB = """CREATE TABLE IF NOT EXISTS videos (
-                        video_id INTEGER PRIMARY KEY AUTOINCREMENT,
-                        video_title VARCHAR(50),
-                        video_cover_path TEXT,
-                        video_time_sec FLOAT,
-                        video_type TEXT,
-                        video_tags TEXT,
-                        video_desc TEXT
-                    );"""
     VIDEO_ADD = "INSERT INTO videos (video_title, video_cover_path, video_time_sec, video_type, video_tags, video_desc) VALUES (?, ?, ?, ?, ?, ?);"
     VIDEO_QUERY = "SELECT * FROM videos WHERE video_id=?;"
-    VIDEO_QUERY_BY_PAGE = """
-        SELECT * FROM videos ORDER BY video_id DESC LIMIT ?,?;
-    """
+    VIDEO_QUERY_BY_PAGE = "SELECT * FROM videos ORDER BY video_id DESC LIMIT ?,?;"
     VIDEO_QUERY_ALL = "SELECT * FROM videos;"
     VIDEO_COUNT = "SELECT COUNT(*) FROM videos"
     VIDEO_QUERY_TITLE = "SELECT video_title FROM videos WHERE video_id = ?;"
     VIDEO_QUERY_DESC = "SELECT video_desc FROM videos WHERE video_id = ?;"
-
-# try:
-#     with open(Config.PATHS["user_sql"], "r") as file:
-#         Config.USER_SQL = file.read()
-#     with open(Config.PATHS["video_sql"], "r") as file:
-#         Config.VIDEO_SQL = file.read()
-#     with open(Config.PATHS["search_history_sql"], "r") as file:
-#         Config.SEARCH_HISTORY_SQL = file.read()
-#     # with open(Config.
-# except FileNotFoundError:
-#     logger.critical("database file not found")
-#     exit()
-

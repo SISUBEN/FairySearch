@@ -37,4 +37,18 @@
   <qresource prefix="config">
     <file>config/config.json</file>
   </qresource>
+  <qresource prefix="database_sql">
+    <file>sql/user_db.sql</file>
+    <file>sql/videos_db.sql</file>
+    <file>sql/search_history.sql</file>
+  </qresource>
+  <qresource prefix="data_sql">
+    <file>sql/import_data.sql</file>
+  </qresource>
+  <qresource prefix="table_sql">
+    <file>sql/video_activity_data.sql</file>
+    <file>sql/init_video_db.sql</file>
+    <file>sql/init_search_history_db.sql</file>
+    <file>sql/init_user_db.sql</file>
+  </qresource>
 </RCC>

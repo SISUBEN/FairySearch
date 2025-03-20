@@ -13,11 +13,16 @@ if __name__ == "__main__":
         console.print(Rule(_("初始化")))
         
         app = QApplication([])
+<<<<<<< HEAD
+        rm = ResourceManager(app)
+        rm.setTranslation()
+=======
         tanslator = rm.getTranslator()
         app.installTranslator(tanslator)
+>>>>>>> parent of b76fa1c (Refactor: update sql resource management)
         app.setWindowIcon(QIcon(":/icons/icons/icon.ico"))
         
-        loginWindow = LoginWindow()
+        loginWindow = LoginWindow(app)
         loginWindow.show()
         
         app.exec()

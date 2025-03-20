@@ -3,17 +3,16 @@ from .db_config import Config
 from app.utils.crypto import CryptoHasher
 from app.utils.logger.logger import logger
 cryptor = CryptoHasher()
-config = Config
 
 class Videodb:
         def __init__(self) -> None:
-            self.video_connect = sqlite3.connect(config.PATHS["video_db"])
-            self.video_cur = self.video_connect.cursor()
+            self.video_connect = sqlite3.connect(Config.PATHS["video_db"])
+            self.INIT_VIDEO_DB_SQL = Config.load(Config.PATHS["init_video_db_sql"])
             self.init_videodb()
 
         def init_videodb(self) -> None:
             try:
-                self.video_connect.execute(config.INIT_VIDEO_DB)
+                self.video_connect.execute(self.INIT_VIDEO_DB_SQL)
                 self.video_connect.commit()
             except sqlite3.Error as e:
                 logger.debug(f"init videodb fail: {e}")
@@ -26,7 +25,7 @@ class Videodb:
             video_type: str,
             video_tags: list,
             video_desc: str,
-            video_cover_path: str = config.DEFAULT_COVER,
+            video_cover_path: str = Config.DEFAULT_COVER,
         ):
             """add video to database
 
@@ -47,7 +46,7 @@ class Videodb:
             types = ",".join(video_type)
             try:
                 self.video_connect.execute(
-                    config.VIDEO_ADD,
+                    Config.VIDEO_ADD,
                     (
                         video_title,
                         video_cover_path,
@@ -64,7 +63,7 @@ class Videodb:
 
         def count_videos(self) -> int:
             try:
-                return int(self.video_connect.execute(config.VIDEO_COUNT).fetchone()[0])
+                return int(self.video_connect.execute(Config.VIDEO_COUNT).fetchone()[0])
             except sqlite3.Error as e:
                 logger.debug(f"count videos error: {e}")
             finally:
@@ -72,21 +71,21 @@ class Videodb:
 
         def video_query(self, video_id: int) -> tuple:
             try:
-                return self.video_connect.execute(config.VIDEO_QUERY, (video_id,)).fetchall()[0]
+                return self.video_connect.execute(Config.VIDEO_QUERY, (video_id,)).fetchall()[0]
             except sqlite3.Error as e:
                 logger.debug(f"video query error: {e}")
 
         def query_title_by_vid(self, vid: int) -> str:
             try:
-                logger.debug(f"title: {self.video_connect.execute(config.VIDEO_QUERY_TITLE, (vid,)).fetchall()[0][0]}\nvid: {vid}")
-                return self.video_connect.execute(config.VIDEO_QUERY_TITLE, (vid,)).fetchall()
+                logger.debug(f"title: {self.video_connect.execute(Config.VIDEO_QUERY_TITLE, (vid,)).fetchall()[0][0]}\nvid: {vid}")
+                return self.video_connect.execute(Config.VIDEO_QUERY_TITLE, (vid,)).fetchall()
             
             except sqlite3.Error as e:
                 logger.debug(f"query title by vid error: {e}")
             
         def query_desc_by_vid(self, vid: int) -> str:
             try:
-                return self.video_connect.execute(config.VIDEO_QUERY_DESC, (vid,)).fetchall()
+                return self.video_connect.execute(Config.VIDEO_QUERY_DESC, (vid,)).fetchall()
             except sqlite3.Error as e:
                 logger.debug(f"query desc by vid error: {e}")
             
@@ -94,7 +93,7 @@ class Videodb:
         def query_videos_by_page(self, page: int, page_size: int) -> tuple:
             try:
                 return self.video_connect.execute(
-                    config.VIDEO_QUERY_BY_PAGE, (page, page_size)
+                    Config.VIDEO_QUERY_BY_PAGE, (page, page_size)
                 ).fetchall()[0]
             except sqlite3.Error as e:
                 logger.debug(f"query videos by page error: {e}")
@@ -106,7 +105,7 @@ class Videodb:
                 list: all videos e.g. [(1, 'title', 'path', 100, 'type1,type2', 'tag1,tag2', 'desc')]
             """
             try:
-                return self.video_connect.execute(config.VIDEO_QUERY_ALL).fetchall()
+                return self.video_connect.execute(Config.VIDEO_QUERY_ALL).fetchall()
             except sqlite3.Error as e:
                 logger.debug(f"query videos all error: {e}")
         

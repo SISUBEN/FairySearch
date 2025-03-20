@@ -1,7 +1,7 @@
 from enum import Enum
 from PySide6.QtCore import QLocale, Qt
 import logging
-from qfluentwidgets import QConfig, ConfigItem, BoolValidator, ConfigSerializer, qconfig
+from qfluentwidgets import QConfig, ConfigItem, BoolValidator, ConfigSerializer, qconfig, OptionsConfigItem, OptionsValidator
 
 class Language(Enum):
     """ Language enumeration class """
@@ -34,24 +34,20 @@ class LogLevelSerializer:
 class LanguageSerializer(ConfigSerializer):
     """ Language serializer """
 
-    def serialize(self, language):
-        return language.value.name() if language != Language.AUTO else "Auto"
+    @staticmethod
+    def serialize(language):
+        return Language.value.name() if language != Language.AUTO else "Auto"
 
-    def deserialize(self, value: str):
+    @staticmethod
+    def deserialize(value: str):
         return Language(QLocale(value)) if value != "Auto" else Language.AUTO
 
 class Config(QConfig):
     """ Config of application """
 
-    # # main window
-    enableAcrylic = ConfigItem("MainWindow", "EnableAcrylic", False, BoolValidator())
-    # playBarColor = ColorConfigItem("MainWindow", "PlayBarColor", "#225C7F")
-    # themeMode = OptionsConfigItem("MainWindow", "ThemeMode", "Light", OptionsValidator(["Light", "Dark", "Auto"]), restart=True)
-    # recentPlaysNumber = RangeConfigItem("MainWindow", "RecentPlayNumbers", 300, RangeValidator(10, 300))
-
-    # # online
-    # onlineMvQuality = OptionsConfigItem("Online", "MvQuality", MvQuality.FULL_HD, OptionsValidator(MvQuality), EnumSerializer(MvQuality))
-    pass
+    # main window
+    logLevel = OptionsConfigItem("Setting", "log_level","INFO", OptionsValidator(["DEBUG", "INFO"]))
+    language = OptionsConfigItem("Setting", "language", "zh_CN", OptionsValidator(["en_US", "zh_CN", "zh_TW", "Auto"]))
 
 
 # 创建配置实例并使用配置文件来初始化它

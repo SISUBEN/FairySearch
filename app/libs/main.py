@@ -27,8 +27,9 @@ class MainWindow(
     QWidget,
     Ui_MainWindow,
 ):
-    def __init__(self, token: str) -> None:
+    def __init__(self, token: str, app: QApplication) -> None:
         super().__init__()
+        self.app = app
         self.__token = token
         if self.__token is None:
             raise NoLoginError("未登录")
@@ -87,7 +88,7 @@ class MainWindow(
             raise NoLoginError
     
     def showSetting(self) -> None:
-        self.settingWindow = SettingWindow()
+        self.settingWindow = SettingWindow(self.app)
         self.settingWindow.show()
 
     # Lazy loading

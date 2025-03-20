@@ -12,8 +12,9 @@ cryptor = CryptoHasher()
 
 
 class LoginWindow(QWidget, Ui_Form):
-    def __init__(self) -> None:
+    def __init__(self, app: QApplication) -> None:
         super().__init__()
+        self.app = app
         self.setupUi(self)
         self.setWindowTitle(_("登录"))
 
@@ -55,5 +56,5 @@ class LoginWindow(QWidget, Ui_Form):
 
     def openMainWindow(self, token: str) -> None:
         self.close()
-        self.mainWindow = MainWindow(token)
+        self.mainWindow = MainWindow(token, self.app)
         self.mainWindow.show()

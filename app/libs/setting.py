@@ -8,16 +8,26 @@ from app.helper.widget import WidgetCreator
 from app.assets.config import LanguageSerializer, Language
 from app.modules.ui_setting import Ui_SettingWindow
 from app.i18n import _, t
+from app.assets.config import cfg
 import logging
 serializer = LanguageSerializer()
 creator = WidgetCreator()
+<<<<<<< HEAD
+
+=======
+>>>>>>> parent of b76fa1c (Refactor: update sql resource management)
 class SettingWindow(QWidget, Ui_SettingWindow):
-    def __init__(self) -> None:
+    def __init__(self, app: QApplication) -> None:
         super().__init__()
         self.setupUi(self)
         self.setWindowTitle(_('设置'))
         # TODO: promote to qfluentwidgets
-        self.lang_combo_box = creator.createComboBox(["English", "中文", "繁體中文"])
+        self.app = app
+        self.rm = ResourceManager(app)
+        self.support_lang = ["English", "中文", "繁體中文"]
+        self.lang_combo_box = creator.createComboBox(self.support_lang)
+        self.current_lang = cfg.load("language")
+        self.lang_combo_box.setCurrentIndex()
         self.log_level_combo_box = creator.createComboBox(["DEBUG", "INFO"])
         
         self.addSetting("langVLayout", QLabel(_("界面语言：")), self.lang_combo_box)
@@ -54,8 +64,10 @@ class SettingWindow(QWidget, Ui_SettingWindow):
     def onChangeLogLevel(self, index: int) -> None:
         if index == 0:
             logger.setLevel(logging.DEBUG)
+            cfg.set("log_level", "DEBUG")
         elif index == 1:
             logger.setLevel(logging.INFO)
+            cfg.set("log_level", "INFO")
             
     def onChangeLang(self, index: int) -> None:
         serializer.serialize(Language.AUTO)
@@ -65,12 +77,22 @@ class SettingWindow(QWidget, Ui_SettingWindow):
             lang = serializer.serialize(Language.SIMP_CHINESE)
         elif index == 2:
             lang = serializer.serialize(Language.TRA_CHINESE)
+<<<<<<< HEAD
+            logger.debug(f"Change language to {lang}")
+        _translator = self.rm.getTranslator(lang)
+        self._load_translation(_translator, lang)
+=======
         _ = QTranslator()
         self._load_translation(_, lang)
+>>>>>>> parent of b76fa1c (Refactor: update sql resource management)
         self.retranslateUi(self)
             
     def _load_translation(self, translator: QTranslator, language: str) -> None:
         t.set_language(language)
+<<<<<<< HEAD
+        cfg.set("language", language)
+=======
         # ... gettext part
+>>>>>>> parent of b76fa1c (Refactor: update sql resource management)
         translator.load(f":/i18n/{language}.qm")
-        self.app.installTranslator(translator)
+        self.rm.setTranslation(language)
