@@ -219,3 +219,4 @@ temp.ts
 
 # # database
 # *.db
+app/assets/resources_rc.py
