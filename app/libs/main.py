@@ -18,7 +18,7 @@ from app.modules.ui_main import Ui_MainWindow, ItemWidget, PageWidget
 from app.libs.profile import ProfileWindow
 from app.database.queries import Database
 from app.utils.time import TimeKeeper
-from app.libs.setting import SettingWindow  # Ensure SettingWindow is imported
+from app.libs.setting import SettingWindow
 from app.i18n import _
 # import pdb
 db = Database()

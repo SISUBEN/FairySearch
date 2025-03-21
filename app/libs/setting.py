@@ -1,6 +1,5 @@
 from app.__init__ import *
 from app.assets.resource_manager import ResourceManager
-from qfluentwidgets import *
 from PySide6.QtWidgets import QLabel, QVBoxLayout, QHBoxLayout, QWidget, QComboBox
 from PySide6.QtCore import QTranslator
 from PySide6.QtGui import QFont
