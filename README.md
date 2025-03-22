@@ -1,9 +1,24 @@
-# Fairy Search Engine
---------------
-FairySearch 是一个免费的视频搜索引擎，它通过分析用户的浏览数据和喜欢推荐视频。  
-[简体中文](README.md)|[繁體中文](README_zh_TW.md)|[English](README_en_US.md)
+<div align="center">
+<h1 size="300%">Fairy Search Engine</h1>
+<div align="center">
+<img alt="" src="https://github.com/SISUBEN/FairySearch/blob/main/app/assets/images/H.D.D.png" width="30%" height="30%" />  
+</div>
+<img alt="" src="https://img.shields.io/pypi/pyversions/Pyside6" />
+<img alt="" src="https://img.shields.io/github/commit-activity/y/SISUBEN/FairySearch" />
+<img alt="" src="https://img.shields.io/github/last-commit/SISUBEN/FairySearch" />
+<img alt="" src="https://img.shields.io/github/contributors-anon/SISUBEN/FairySearch" />
+<img alt="" src="https://img.shields.io/github/issues/SISUBEN/FairySearch">
+<img alt="GitHub code size in bytes" src="https://img.shields.io/github/languages/code-size/SISUBEN/FairySearch">
+<img alt="GitHub repo file or directory count" src="https://img.shields.io/github/directory-file-count/SISUBEN/FairySearch">
+<img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/SISUBEN/FairySearch">
+<p>FairySearch 是一个免费的视频搜索引擎，它通过分析用户的浏览数据和喜欢推荐视频。  </p> 
+<a herf="https://github.com/SISUBEN/FairySearch/blob/main/README.md">简体中文 |</a>
+<a herf="https://github.com/SISUBEN/FairySearch/blob/main/README_zh_TW.md">繁体中文 |</a>
+<a herf="https://github.com/SISUBEN/FairySearch/blob/main/README_en_US.md">English</a>
+</div>  
+
 ## 注意事项
-> ⚠️使用本程序前请确保本地环境是完整版Python 3.8+
+> ⚠️使用本程序前请确保本地环境是完整版Python 3.8+  
 
 ## 如何使用
 - **从源码构建**  
