@@ -52,8 +52,9 @@ class WidgetCreator(object):
     def createLineEdit(self, placeholder: str, size: int, color: str) -> QLineEdit:
         ...
 
-    def createComboBox(self, size: int, color: str, items: list) -> QComboBox:
+    def createComboBox(self, items: list) -> QComboBox:
         box = QComboBox()
         box.addItems(items)
+        return box
         
 # class SettingComboBox()

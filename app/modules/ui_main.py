@@ -14,8 +14,6 @@ from PySide6.QtGui import QPixmap, QPainter, QIntValidator, QIcon
 from PySide6.QtWidgets import QWidget
 from PySide6.QtCore import Signal, Qt
 from PySide6.QtGui import QMouseEvent
-
-# import PySide6.QtGui as QtGui
 from PySide6.QtCore import Qt, QSize
 from app.libs.main import onClickVideos
 from app.i18n import _
@@ -109,19 +107,23 @@ class Ui_MainWindow(object):
         self.current_page = 0
         self.main_layout = QVBoxLayout(self)
         self.bar_layout = QHBoxLayout()
+        
         # Add toolbar layout at the left top
         self.toolbar = QHBoxLayout()
         self.toolbar.setAlignment(Qt.AlignLeft)
         self.toolbar.setContentsMargins(20, 10, 20, 0)
         self.createToolbarButtons()
         self.main_layout.addLayout(self.toolbar)
+        
         # next pages btn layout
         self.stacked_widget = QStackedWidget(self)
         self.pages_data: list[dict] = pages_data
         self.page_cache = {}  # cache videos page
+        
         # load frist page
         self.loadPage(0)
         self.main_layout.addWidget(self.stacked_widget)
+        
         # next page btn
         self.button_layout = QHBoxLayout()
         self.prev_button = QPushButton(_("上一页"), self)
@@ -188,5 +190,3 @@ class Ui_MainWindow(object):
             setattr(self, button["name"], btn)
             self.toolbar.addWidget(btn)
             self.toolbar.addSpacing(10)  # Add spacing between buttons
-
-        # self.main_layout.addLayout(self.toolbar)  # Removed this line

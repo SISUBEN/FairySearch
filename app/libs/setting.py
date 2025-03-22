@@ -1,15 +1,16 @@
-from app.__init__ import QApplication
-from app.assets.resource_manager import ResourceManager
+import logging
 from PySide6.QtWidgets import QLabel, QHBoxLayout, QWidget
 from PySide6.QtCore import QTranslator
 from PySide6.QtGui import QFont
+from app.__init__ import QApplication
+from app.assets.resource_manager import ResourceManager
 from app.utils.logger.logger import logger
 from app.helper.widget import WidgetCreator
 from app.assets.config import LanguageSerializer, Language
 from app.modules.ui_setting import Ui_SettingWindow
+from app.libs.expection import UnsupportedLanguageError
 from app.i18n import _, t
 from app.assets.config import cfg
-import logging
 serializer = LanguageSerializer()
 creator = WidgetCreator()
 class SettingWindow(QWidget, Ui_SettingWindow):
@@ -20,10 +21,21 @@ class SettingWindow(QWidget, Ui_SettingWindow):
         # TODO: promote to qfluentwidgets
         self.app = app
         self.rm = ResourceManager(app)
-        self.support_lang = ["English", "中文", "繁體中文"]
+        self.support_lang = ["English", "简体中文", "繁體中文"]
+        import pdb
         self.lang_combo_box = creator.createComboBox(self.support_lang)
-        self.current_lang = cfg.load("language")
-        self.lang_combo_box.setCurrentIndex()
+        # pdb.set_trace()
+        self.current_lang = cfg.get(cfg.language)
+        logger.debug(f"current language: {self.current_lang}")
+        match self.current_lang:
+            case "en_US":
+                self.lang_combo_box.setCurrentIndex(0)
+            case "zh_CN":
+                self.lang_combo_box.setCurrentIndex(1)
+            case "zh_TW":
+                self.lang_combo_box.setCurrentIndex(2)
+            case _:
+                raise UnsupportedLanguageError(self.current_lang)
         self.log_level_combo_box = creator.createComboBox(["DEBUG", "INFO"])
         
         self.addSetting("langVLayout", QLabel(_("界面语言：")), self.lang_combo_box)
@@ -80,6 +92,6 @@ class SettingWindow(QWidget, Ui_SettingWindow):
             
     def _load_translation(self, translator: QTranslator, language: str) -> None:
         t.set_language(language)
-        cfg.set("language", language)
+        cfg.set(cfg.language, language)
         translator.load(f":/i18n/{language}.qm")
         self.rm.setTranslation(language)

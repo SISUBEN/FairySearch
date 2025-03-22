@@ -1,4 +1,6 @@
 {
-    "log_level":"INFO",
-    "language":"zh_CN"
+    "Setting":{
+        "logLevel":"INFO",
+        "Language":"zh_CN"
+    }
 }

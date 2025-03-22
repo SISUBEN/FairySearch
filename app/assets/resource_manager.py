@@ -7,7 +7,7 @@ import locale
 import os
 
 
-class ResourceManager():
+class ResourceManager:
     def __init__(self, application: QApplication = None):
         self.app = application
         self.current_dir: str = os.path.dirname(os.path.abspath(__file__))
@@ -15,7 +15,7 @@ class ResourceManager():
         self.covers_dir: str = os.path.join(self.current_dir, "covers")
         self.videos_dir: str = os.path.join(self.current_dir, "videos")
         self.i18n_dir: str = os.path.join(self.current_dir, "i18n")
-        
+
         self.locale_lang: str = locale.getdefaultlocale()[0]
         self.support_lang: List[str] = ["en_US", "zh_CN", "zh_TW"]
 
@@ -105,7 +105,7 @@ class ResourceManager():
         Args:
             app (QApplication): Pyside6 application
             trans (str, optional): tanslate lang. Defaults to "Auto" and auto detect.
-            
+
         Raises:
             UnsupportedLanguageError: if language is not supported
 
@@ -114,8 +114,14 @@ class ResourceManager():
         """
         self.translator = self.getTranslator(lang)
         self.app.installTranslator(self.translator)
-        
-    def uninstallTranslation(self, lang: str) -> None:
-        self.app.removeTranslator(self.translator)
-        
 
+    def getConfig(self, config_name: str = "config.json") -> str:
+        """get config file path
+
+        Returns:
+            str: config file path
+        """
+        return os.path.join(self.current_dir, "config" , config_name)
+
+    # def uninstallTranslation(self, lang: str) -> None:
+    #     self.app.removeTranslator(self.translator)
