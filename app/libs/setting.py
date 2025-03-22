@@ -1,4 +1,4 @@
-from app.__init__ import *
+from app.__init__ import QApplication
 from app.assets.resource_manager import ResourceManager
 from PySide6.QtWidgets import QLabel, QVBoxLayout, QHBoxLayout, QWidget, QComboBox
 from PySide6.QtCore import QTranslator

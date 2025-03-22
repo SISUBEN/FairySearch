@@ -16,7 +16,7 @@
 # DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, 
 # ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-from app.__init__ import *
+from app.__init__ import Console, Rule, QApplication, QIcon
 from app.libs.login import LoginWindow
 from app.assets.resource_manager import ResourceManager
 from app.libs.expection import UnsupportedLanguageError

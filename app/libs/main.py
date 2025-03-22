@@ -2,7 +2,7 @@ from app.libs.video_browser import VideoBrowser
 from app.libs.expection import NoLoginError, VideoNotFoundError
 from app.libs.dialog import Dialog
 dialog = Dialog()
-from app.__init__ import *
+from app.__init__ import QApplication, QWidget, logger, QPainter, QPixmap
 
 # to avoid circular import
 def onClickVideos(vid: int) -> None:

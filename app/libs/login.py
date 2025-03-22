@@ -1,4 +1,4 @@
-from app.__init__ import *
+from app.__init__ import QApplication, QWidget, QPainter, QPixmap, logger
 from app.modules.ui_login import Ui_Form
 from app.database.queries import Database
 from app.utils.crypto import CryptoHasher
