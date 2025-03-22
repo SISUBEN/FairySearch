@@ -1,7 +1,6 @@
-from app.__init__ import *
+from app.__init__ import QApplication
 from app.assets.resource_manager import ResourceManager
-from qfluentwidgets import *
-from PySide6.QtWidgets import QLabel, QVBoxLayout, QHBoxLayout, QWidget, QComboBox
+from PySide6.QtWidgets import QLabel, QHBoxLayout, QWidget
 from PySide6.QtCore import QTranslator
 from PySide6.QtGui import QFont
 from app.utils.logger.logger import logger

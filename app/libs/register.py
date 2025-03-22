@@ -1,12 +1,14 @@
-from app.__init__ import *
+from app.__init__ import QWidget, QPainter, QPixmap, logger
 from app.modules.ui_registor import Ui_Registor
 from app.database.queries import Database
 from app.utils.crypto import CryptoHasher
 from app.utils.validator import Password, Username
 from app.libs.main import MainWindow
-# from app.libs.main import 
+
+# from app.libs.main import
 from app.libs.expection import NoLoginError
 from app.libs.dialog import Dialog
+
 dialog = Dialog()
 from app.i18n import _
 
@@ -54,15 +56,17 @@ class RegisterWindow(QWidget, Ui_Registor):
         elif not passwd_val.validate(self.password_ipt):
             dialog.standardDialog(
                 title=_("提示"),
-                text=_("密码格式不正确\n必须包含大小写字母和数字的组合，可以使用特殊字符，长度在8-10之间"),
+                text=_(
+                    "密码格式不正确\n必须包含大小写字母和数字的组合，可以使用特殊字符，长度在8-10之间"
+                ),
             )
         else:
             dialog.standardDialog(title=_("提示"), text=_("两次输入的密码不一致"))
-            
+
     def openLoginWindow(self) -> None:
         self.close()
         self.login_window.show()
-        
+
     def openMainWindow(self) -> None:
         self.close()
         try:

@@ -1,5 +1,5 @@
 from app.modules.ui_dialog import Ui_Dialog
-from app.__init__ import *
+from app.__init__ import QCoreApplication, QDialog
 
 class DialogWindow(QDialog, Ui_Dialog):
     def __init__(self, title: str, text: str) -> None:

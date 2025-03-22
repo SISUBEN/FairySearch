@@ -1,3 +1,4 @@
+
 <div align="center">
 <h1 size="300%">Fairy Search Engine</h1>
 <div align="center">
@@ -32,6 +33,7 @@
 2. 切换目录`cd ./FairySearch-main/`  
 3. 运行构建脚本（暂时没写好） 
 
+
 ## 使用方法
 - **从源码运行**
 1. 首先使用git克隆本项目`git clone https://github.com/SISUBEN/FairySearch.git`  
@@ -39,8 +41,10 @@
 3. 安装依赖`pip install -r ./requirements.txt`
 4. 启动应用`python3 ./fs.py`
    
+
 - **从Release版本运行**
 1. 下载Release版本
+
 2. 打开`fs.exe`
 
 ## 功能

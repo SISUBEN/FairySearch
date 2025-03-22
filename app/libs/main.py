@@ -2,7 +2,7 @@ from app.libs.video_browser import VideoBrowser
 from app.libs.expection import NoLoginError, VideoNotFoundError
 from app.libs.dialog import Dialog
 dialog = Dialog()
-from app.__init__ import *
+from app.__init__ import QApplication, QWidget, logger, QPainter, QPixmap
 
 # to avoid circular import
 def onClickVideos(vid: int) -> None:
@@ -18,7 +18,7 @@ from app.modules.ui_main import Ui_MainWindow, ItemWidget, PageWidget
 from app.libs.profile import ProfileWindow
 from app.database.queries import Database
 from app.utils.time import TimeKeeper
-from app.libs.setting import SettingWindow  # Ensure SettingWindow is imported
+from app.libs.setting import SettingWindow
 from app.i18n import _
 # import pdb
 db = Database()
