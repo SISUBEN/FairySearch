@@ -39,8 +39,8 @@
 3. 安装依赖`pip install -r ./requirements.txt`
 4. 启动应用`python3 ./fs.py`
    
-- **从Realse版本运行**
-1. 下载Realse版本
+- **从Release版本运行**
+1. 下载Release版本
 2. 打开`fs.exe`
 
 ## 功能
