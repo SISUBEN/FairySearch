@@ -39,8 +39,8 @@
 3. 安裝依賴`pip install -r ./requirements.txt`
 4. 啟動應用程式`python3 ./fs.py`
 
-- **從Realse版本運行**
-1. 下載Realse版本
+- **從Release版本運行**
+1. 下載Release版本
 2. 開啟`fs.exe`
 
 ## 功能
