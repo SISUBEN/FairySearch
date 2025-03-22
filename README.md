@@ -1,7 +1,7 @@
 <div align="center">
 <h1 size="300%">Fairy Search Engine</h1>
 <div align="center">
-<img alt="" src="https://github.com/SISUBEN/FairySearch/blob/main/app/assets/images/H.D.D.png" width="30%" height="30%" />  
+<img alt="" src="./app/assets/images/H.D.D.png" width="30%" height="30%" />  
 </div>
 <img alt="" src="https://img.shields.io/pypi/pyversions/Pyside6" />
 <img alt="" src="https://img.shields.io/github/commit-activity/y/SISUBEN/FairySearch" />
@@ -12,10 +12,16 @@
 <img alt="GitHub repo file or directory count" src="https://img.shields.io/github/directory-file-count/SISUBEN/FairySearch">
 <img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/SISUBEN/FairySearch">
 <p>FairySearch 是一个免费的视频搜索引擎，它通过分析用户的浏览数据和喜欢推荐视频。  </p> 
-<a herf="https://github.com/SISUBEN/FairySearch/blob/main/README.md">简体中文 |</a>
-<a herf="https://github.com/SISUBEN/FairySearch/blob/main/README_zh_TW.md">繁体中文 |</a>
-<a herf="https://github.com/SISUBEN/FairySearch/blob/main/README_en_US.md">English</a>
+
 </div>  
+
+<div align="center">  
+  
+[简体中文](https://github.com/SISUBEN/FairySearch/blob/main/README.md) |
+[English](https://github.com/SISUBEN/FairySearch/blob/main/README_en_US.md) |
+[繁體中文](https://github.com/SISUBEN/FairySearch/blob/main/README_zh_TW.md)  
+
+</div>       
 
 ## 注意事项
 > ⚠️使用本程序前请确保本地环境是完整版Python 3.8+  
@@ -66,6 +72,9 @@
 ## 免责声明
 版权所有 © 2025 SISUBENY。保留所有权利。
 
-FairySearch 是一款用于提交 2026 年香港中学文凭考试 *[HKDSE](https://en.wikipedia.org/wiki/Hong_Kong_Diploma_of_Secondary_Education)* 和资讯及通讯科技 *(ICT)[(https://www.hkeaa.edu.hk/en/hkdse/hkdse_subj.html?A2&2&16]* 校本评估 *(SBA)[https://www.hkeaa.edu.hk/en/sba/introduction]* 的应用程序。有关此应用程序的更多详细信息，请参阅报告。
+FairySearch 是一款用于提交 2026 年香港中学文凭考试 *[HKDSE](https://en.wikipedia.org/wiki/Hong_Kong_Diploma_of_Secondary_Education)* 和资讯及通讯科技 *
+(ICT)[https://www.hkeaa.edu.hk/en/hkdse/hkdse_subj.html?A2&2&16]* 校本评估 *
+(SBA)[https://www.hkeaa.edu.hk/en/sba/introduction]* 的应用程序。有关此应用程序的更多详细信息，请参阅报告。
 
-Copyright 2025 SISUBENY. license under *(GPL v3)[https://www.gnu.org/licenses/gpl-3.0.en.html]*
+Copyright 2025 SISUBENY. license under *
+(GPL v3)[https://www.gnu.org/licenses/gpl-3.0.en.html]*
