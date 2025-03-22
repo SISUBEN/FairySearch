@@ -1,15 +1,38 @@
-# Fairy Search Engine
---------------
-FairySearch 是一个免费的视频搜索引擎，它通过分析用户的浏览数据和喜欢推荐视频。  
-[简体中文](README.md)|[繁體中文](README_zh_TW.md)|[English](README_en_US.md)
+
+<div align="center">
+<h1 size="300%">Fairy Search Engine</h1>
+<div align="center">
+<img alt="" src="./app/assets/images/H.D.D.png" width="30%" height="30%" />  
+</div>
+<img alt="" src="https://img.shields.io/pypi/pyversions/Pyside6" />
+<img alt="" src="https://img.shields.io/github/commit-activity/y/SISUBEN/FairySearch" />
+<img alt="" src="https://img.shields.io/github/last-commit/SISUBEN/FairySearch" />
+<img alt="" src="https://img.shields.io/github/contributors-anon/SISUBEN/FairySearch" />
+<img alt="" src="https://img.shields.io/github/issues/SISUBEN/FairySearch">
+<img alt="GitHub code size in bytes" src="https://img.shields.io/github/languages/code-size/SISUBEN/FairySearch">
+<img alt="GitHub repo file or directory count" src="https://img.shields.io/github/directory-file-count/SISUBEN/FairySearch">
+<img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/SISUBEN/FairySearch">
+<p>FairySearch 是一个免费的视频搜索引擎，它通过分析用户的浏览数据和喜欢推荐视频。  </p> 
+
+</div>  
+
+<div align="center">  
+  
+[简体中文](https://github.com/SISUBEN/FairySearch/blob/main/README.md) |
+[English](https://github.com/SISUBEN/FairySearch/blob/main/README_en_US.md) |
+[繁體中文](https://github.com/SISUBEN/FairySearch/blob/main/README_zh_TW.md)  
+
+</div>       
+
 ## 注意事项
-> ⚠️使用本程序前请确保本地环境是完整版Python 3.8+
+> ⚠️使用本程序前请确保本地环境是完整版Python 3.8+  
 
 ## 如何使用
 - **从源码构建**  
 1. 首先使用git克隆本项目`git clone https://github.com/SISUBEN/FairySearch.git`  
 2. 切换目录`cd ./FairySearch-main/`  
 3. 运行构建脚本（暂时没写好） 
+
 
 ## 使用方法
 - **从源码运行**
@@ -18,8 +41,10 @@ FairySearch 是一个免费的视频搜索引擎，它通过分析用户的浏�
 3. 安装依赖`pip install -r ./requirements.txt`
 4. 启动应用`python3 ./fs.py`
    
-- **从Realse版本运行**
-1. 下载Realse版本
+
+- **从Release版本运行**
+1. 下载Release版本
+
 2. 打开`fs.exe`
 
 ## 功能
@@ -51,6 +76,14 @@ FairySearch 是一个免费的视频搜索引擎，它通过分析用户的浏�
 ## 免责声明
 版权所有 © 2025 SISUBENY。保留所有权利。
 
-FairySearch 是一款用于提交 2026 年香港中学文凭考试 *[HKDSE](https://en.wikipedia.org/wiki/Hong_Kong_Diploma_of_Secondary_Education)* 和资讯及通讯科技 *(ICT)[(https://www.hkeaa.edu.hk/en/hkdse/hkdse_subj.html?A2&2&16]* 校本评估 *(SBA)[https://www.hkeaa.edu.hk/en/sba/introduction]* 的应用程序。有关此应用程序的更多详细信息，请参阅报告。
+FairySearch 是一款用于提交 2026 年香港中学文凭考试 *[HKDSE](https://en.wikipedia.org/wiki/Hong_Kong_Diploma_of_Secondary_Education)* 和资讯及通讯科技 *
+(ICT)[https://www.hkeaa.edu.hk/en/hkdse/hkdse_subj.html?A2&2&16]* 校本评估 *
+(SBA)[https://www.hkeaa.edu.hk/en/sba/introduction]* 的应用程序。有关此应用程序的更多详细信息，请参阅报告。
 
-Copyright 2025 SISUBENY. license under *(GPL v3)[https://www.gnu.org/licenses/gpl-3.0.en.html]*
+本文件是 FairySearch 的一部分。
+
+FairySearch 是自由软件：你可以再分发之和/或依照由自由软件基金会发布的 GNU 通用公共许可证修改之，无论是版本 3 许可证，还是（按你的决定）任何以后版都可以。
+
+发布 FairySearch 是希望它能有用，但是并无保障;甚至连可销售和符合某个特定的目的都不保证。请参看 GNU 通用公共许可证，了解详情。
+
+你应该随程序获得一份 GNU 通用公共许可证的复本。如果没有，请看 <https://www.gnu.org/licenses/>。
