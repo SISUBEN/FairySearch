@@ -78,3 +78,11 @@ FairySearch 是一款用於提交 2026 年香港中學文憑考試 *[HKDSE](http
 
 Copyright 2025 SISUBENY. license under *
 (GPL v3)[https://www.gnu.org/licenses/gpl-3.0.en.html]*
+
+本文件是 FairySearch 的一部分。
+
+FairySearch 是自由軟體：你可以再分發之和/或依照由自由軟體基金會發布的 GNU 通用公共許可證修改之，無論是版本 3 許可證，還是（按你的決定）任何以後版都可以。
+
+發布 Fa​​irySearch 是希望它能有用，但是並無保障;甚至連可銷售和符合某個特定的目的都不保證。請參閱 GNU 通用公共許可證，了解詳情。
+
+你應該隨程式取得一份 GNU 通用公共授權的複本。如果沒有，請看 https://www.gnu.org/licenses/。
