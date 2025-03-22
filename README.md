@@ -49,7 +49,7 @@ FairySearch 是一个免费的视频搜索引擎，它通过分析用户的浏�
 | PyQt-Fluent-Widgets | 实现Config类 | https://pypi.org/project/PyQt-Fluent-Widgets/ |
 
 ## 免责声明
-版权所有 © 2026 SISUBENY。保留所有权利。
+版权所有 © 2025 SISUBENY。保留所有权利。
 
 FairySearch 是一款用于提交 2026 年香港中学文凭考试 *[HKDSE](https://en.wikipedia.org/wiki/Hong_Kong_Diploma_of_Secondary_Education)* 和资讯及通讯科技 *(ICT)[(https://www.hkeaa.edu.hk/en/hkdse/hkdse_subj.html?A2&2&16]* 校本评估 *(SBA)[https://www.hkeaa.edu.hk/en/sba/introduction]* 的应用程序。有关此应用程序的更多详细信息，请参阅报告。
 
