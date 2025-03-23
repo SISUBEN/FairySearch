@@ -1,5 +1,5 @@
 from typing import List
-from PySide6.QtCore import QTranslator
+from PySide6.QtCore import QFile, QTextStream, QTranslator
 from app.utils.logger.logger import logger
 from app.libs.expection import UnsupportedLanguageError
 from PySide6.QtWidgets import QApplication
@@ -115,13 +115,24 @@ class ResourceManager:
         self.translator = self.getTranslator(lang)
         self.app.installTranslator(self.translator)
 
-    def getConfig(self, config_name: str = "config.json") -> str:
-        """get config file path
+    @staticmethod
+    def load(resource_path: str) -> str:
+        """load qrc file
+
+        Args:
+            file (str): qrc file path
 
         Returns:
-            str: config file path
+            str: file content
         """
-        return os.path.join(self.current_dir, "config" , config_name)
+        file = QFile(resource_path)
+        if not file.open(QFile.ReadOnly | QFile.Text):
+            logger.error(f"Cannot open resource file: {resource_path}")
+            raise FileNotFoundError(f"Cannot open resource file: {resource_path}")
+        stream = QTextStream(file)
+        content = stream.readAll()
+        file.close()
+        return content
 
     # def uninstallTranslation(self, lang: str) -> None:
     #     self.app.removeTranslator(self.translator)

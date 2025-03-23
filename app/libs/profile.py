@@ -13,29 +13,29 @@ from app.database.queries import Database
 from app.helper.widget import WidgetCreator
 from app.i18n import _
 
-timekeeper = TimeKeeper()
-widget_helper = WidgetCreator()
-db = Database()
-
-
 class ProfileWindow(QWidget, Ui_Profile):
     def __init__(self, token: str) -> None:
         super().__init__()
-        self.__name = db.userdb.query_username(token)
-        self.__uid = db.userdb.query_uid(token)
+        self.db = Database()
+        self.widget_helper = WidgetCreator()
+        self.timekeeper = TimeKeeper()
+        
+        self.__name = self.db.userdb.query_username(token)
+        self.__uid = self.db.userdb.query_uid(token)
         self.setupUi(self, self.__name, self.__uid)
+        
         # disable zoom
         self.setFixedSize(self.width(), self.height())
         self.setWindowTitle(_("个人资料"))
+        
         # init search history
-        # self.tableWidget.horizontalHeader
-        # self.tableWidget.verticalHeaderItem
         self.tableWidget.setColumnCount(3)
         self.tableWidget.setHorizontalHeaderLabels(
             [_("浏览时间"), _("标题"), _("时长")]
         )
         self.tableWidget.setColumnHidden(3, True)  # only for listener function
         self.tableWidget.setEditTriggers(QTableWidget.NoEditTriggers)
+        
         # bind slot
         self.onSearchHistory()
         self.changeAvatar.clicked.connect(self.onChangeAvatar)
@@ -56,7 +56,7 @@ class ProfileWindow(QWidget, Ui_Profile):
         title: str,
         duration: str,
         vid: str,
-        time: int = timekeeper.get_timestamp(),
+        time: int = TimeKeeper.get_timestamp(),
     ) -> None:
         """add search history to table
 
@@ -64,7 +64,7 @@ class ProfileWindow(QWidget, Ui_Profile):
             title (str): search history title
             duration (str): the duration of the video
             uuid (str): the video uid
-            time (int, optional): browsing time. Defaults to timekeeper.get_timestamp().
+            time (int, optional): browsing time. Defaults to TimeKeeper.get_timestamp().
         """
         # calc new row num
         row_position = self.tableWidget.rowCount()
@@ -77,7 +77,7 @@ class ProfileWindow(QWidget, Ui_Profile):
 
         # add title
         # title_item = QTableWidgetItem(title)
-        title_item = widget_helper.creatLink(title, color="black")
+        title_item = self.widget_helper.creatLink(title, color="black")
         title_item.clicked.connect(lambda _, v=vid: self.onClickTitle(v))
         # title_item.setTextAlignment(Qt.AlignCenter)
         self.tableWidget.setCellWidget(row_position, 1, title_item)
@@ -93,15 +93,15 @@ class ProfileWindow(QWidget, Ui_Profile):
         vid_item.setFlags(vid_item.flags() & ~Qt.ItemIsEditable)  # disable edit
         self.tableWidget.setItem(row_position, 3, vid_item)
 
-    @timekeeper.timer
+    @TimeKeeper.timer
     def onSearchHistory(self) -> None:
-        results = db.searchHisdb.query_search_history_all(self.__uid)
+        results = self.db.searchHisdb.query_search_history_all(self.__uid)
         # TODO: lazy load
         for row in results:
             title, timestamp, duration, uuid, vid = row
             self.addSearchHistory(
                 title=title,
-                time=timekeeper.datetime(timestamp),
+                time=self.timekeeper.datetime(timestamp),
                 duration=duration,
                 vid=vid,
             )

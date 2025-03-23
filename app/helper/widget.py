@@ -19,7 +19,6 @@ class WidgetCreator(object):
         Returns:
             QPushButton: return a QPushButton object
         """
-        assert isinstance(content, str), "content must be a string"
         self.link_like_btn = QPushButton()
         link_id = str(uuid.uuid4())
         self.link_like_btn.setObjectName(f"link_like_btn_{link_id}")
@@ -53,8 +52,15 @@ class WidgetCreator(object):
         ...
 
     def createComboBox(self, items: list) -> QComboBox:
+        """Create a QComboBox with items
+
+        Args:
+            items (list): the items of the QComboBox
+
+        Returns:
+            QComboBox: return a QComboBox object
+        """        
         box = QComboBox()
         box.addItems(items)
         return box
         
-# class SettingComboBox()

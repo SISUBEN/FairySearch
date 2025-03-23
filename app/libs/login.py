@@ -5,16 +5,17 @@ from app.utils.crypto import CryptoHasher
 from app.libs.register import RegisterWindow
 from app.libs.main import MainWindow
 from app.libs.dialog import Dialog
-dialog = Dialog()
 from app.i18n import _
-db = Database()
-cryptor = CryptoHasher()
-
 
 class LoginWindow(QWidget, Ui_Form):
     def __init__(self, app: QApplication) -> None:
         super().__init__()
+        
         self.app = app
+        self.db = Database()
+        self.cryptor = CryptoHasher()
+        self.dialog = Dialog()
+        
         self.setupUi(self)
         self.setWindowTitle(_("登录"))
 
@@ -31,21 +32,21 @@ class LoginWindow(QWidget, Ui_Form):
     def login(self) -> None:
         username_input: str = self.username.text()
         password_input: str = self.password.text()
-        enctrypt: str = cryptor.sha256(password_input)
-        if db.userdb.is_user_exists(self.username.text()):
+        enctrypt: str = self.cryptor.sha256(password_input)
+        if self.db.userdb.is_user_exists(self.username.text()):
             logger.debug(f"user exists")
-            if db.userdb.verify_user(username=username_input, password=enctrypt):
+            if self.db.userdb.verify_user(username=username_input, password=enctrypt):
                 logger.debug(f"verified scuccess")
-                token = db.userdb.generate_token(
+                token = self.db.userdb.generate_token(
                     username=username_input, password=enctrypt
                 )
                 logger.debug(f"token: {token}")
-                dialog.standardDialog(_("登入成功"), f"{self.username.text()}" + " " +_("欢迎") )
+                self.dialog.standardDialog(_("登入成功"), f"{self.username.text()}" + " " +_("欢迎") )
                 self.openMainWindow(token)
             else:
-                dialog.standardDialog(_("登入失败"), _("用户名或者密码错误\n请再试一次"))
+                self.dialog.standardDialog(_("登入失败"), _("用户名或者密码错误\n请再试一次"))
         else:
-            dialog.standardDialog(_("登入失败"), _("用户名或者密码错误\n请再试一次"))
+            self.dialog.standardDialog(_("登入失败"), _("用户名或者密码错误\n请再试一次"))
 
     def openRegisterWindow(self) -> None:
         # self.close()

@@ -76,7 +76,5 @@ class Config(QConfig):
     )
 
 
-# 创建配置实例并使用配置文件来初始化它
 cfg = Config()
-
 qconfig.load("config/config.json", cfg)

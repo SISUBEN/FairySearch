@@ -4,23 +4,20 @@ from app.database.queries import Database
 from app.utils.crypto import CryptoHasher
 from app.utils.validator import Password, Username
 from app.libs.main import MainWindow
-
-# from app.libs.main import
 from app.libs.expection import NoLoginError
 from app.libs.dialog import Dialog
-
-dialog = Dialog()
 from app.i18n import _
-
-db = Database()
-cryptor = CryptoHasher()
-passwd_val = Password()
-usrname_val = Username()
 
 
 class RegisterWindow(QWidget, Ui_Registor):
     def __init__(self, login_window: object) -> None:
         super().__init__()
+        self.db = Database()
+        self.cryptor = CryptoHasher()
+        self.passwd_val = Password()
+        self.usrname_val = Username()
+        self.dialog = Dialog()
+
         self.login_window = login_window
         self.setupUi(self)
         self.setWindowTitle(_("注册"))
@@ -38,30 +35,30 @@ class RegisterWindow(QWidget, Ui_Registor):
         self._username = self.username.text()
         self.password_ipt = self.password.text()
         self.password2_ipt = self.password_2.text()
-        if db.userdb.is_user_exists(self._username):
-            dialog.standardDialog(title=_("提示"), text=_("用户名已存在"))
+        if self.db.userdb.is_user_exists(self._username):
+            self.dialog.standardDialog(title=_("提示"), text=_("用户名已存在"))
         elif self.password_ipt == self.password2_ipt:
             # db.userdb.user_add(
             #     self._username, cryptor.sha256(self.password_ipt)
             # )
             # encyted = cryptor.sha256(self.password_ipt)
-            self.__token = db.userdb.t_user_add(self._username, self.password_ipt)
-            dialog.standardDialog(title=_("提示"), text=_("注册成功"))
+            self.__token = self.db.userdb.t_user_add(self._username, self.password_ipt)
+            self.dialog.standardDialog(title=_("提示"), text=_("注册成功"))
             self.openMainWindow()
-        elif not usrname_val.validate(self._username):
-            dialog.standardDialog(
+        elif not self.usrname_val.validate(self._username):
+            self.dialog.standardDialog(
                 title=_("提示"),
                 text=_("用户名格式不正确\n字母开头，长度5-16个字，字母数字下划线组合"),
             )
-        elif not passwd_val.validate(self.password_ipt):
-            dialog.standardDialog(
+        elif not self.passwd_val.validate(self.password_ipt):
+            self.dialog.standardDialog(
                 title=_("提示"),
                 text=_(
                     "密码格式不正确\n必须包含大小写字母和数字的组合，可以使用特殊字符，长度在8-10之间"
                 ),
             )
         else:
-            dialog.standardDialog(title=_("提示"), text=_("两次输入的密码不一致"))
+            self.dialog.standardDialog(title=_("提示"), text=_("两次输入的密码不一致"))
 
     def openLoginWindow(self) -> None:
         self.close()
@@ -73,5 +70,5 @@ class RegisterWindow(QWidget, Ui_Registor):
             self.mainWindow = MainWindow(token=self.__token)
         except NoLoginError:
             logger.log("user not login, back to [login.py] page")
-            dialog.standardDialog(_("提示"), _("请先登录"))
+            self.dialog.standardDialog(_("提示"), _("请先登录"))
         self.mainWindow.show()

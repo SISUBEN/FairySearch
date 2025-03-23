@@ -11,11 +11,12 @@ from app.modules.ui_setting import Ui_SettingWindow
 from app.libs.expection import UnsupportedLanguageError
 from app.i18n import _, t
 from app.assets.config import cfg
-serializer = LanguageSerializer()
-creator = WidgetCreator()
+
 class SettingWindow(QWidget, Ui_SettingWindow):
     def __init__(self, app: QApplication) -> None:
         super().__init__()
+        self.serializer = LanguageSerializer()
+        self.creater = WidgetCreator()
         self.setupUi(self)
         self.setWindowTitle(_('设置'))
         # TODO: promote to qfluentwidgets
@@ -23,7 +24,7 @@ class SettingWindow(QWidget, Ui_SettingWindow):
         self.rm = ResourceManager(app)
         self.support_lang = ["English", "简体中文", "繁體中文"]
         import pdb
-        self.lang_combo_box = creator.createComboBox(self.support_lang)
+        self.lang_combo_box = self.creator.createComboBox(self.support_lang)
         # pdb.set_trace()
         self.current_lang = cfg.get(cfg.language)
         logger.debug(f"current language: {self.current_lang}")
@@ -36,7 +37,7 @@ class SettingWindow(QWidget, Ui_SettingWindow):
                 self.lang_combo_box.setCurrentIndex(2)
             case _:
                 raise UnsupportedLanguageError(self.current_lang)
-        self.log_level_combo_box = creator.createComboBox(["DEBUG", "INFO"])
+        self.log_level_combo_box = self.creator.createComboBox(["DEBUG", "INFO"])
         
         self.addSetting("langVLayout", QLabel(_("界面语言：")), self.lang_combo_box)
         self.addSetting("devVLayout", QLabel(_("日志等级：")), self.log_level_combo_box)
@@ -78,13 +79,13 @@ class SettingWindow(QWidget, Ui_SettingWindow):
             cfg.set("log_level", "INFO")
             
     def onChangeLang(self, index: int) -> None:
-        serializer.serialize(Language.AUTO)
+        self.serializer.serialize(Language.AUTO)
         if index == 0:
-            lang = serializer.serialize(Language.ENGLISH)
+            lang = self.serializer.serialize(Language.ENGLISH)
         elif index == 1:
-            lang = serializer.serialize(Language.SIMP_CHINESE)
+            lang = self.serializer.serialize(Language.SIMP_CHINESE)
         elif index == 2:
-            lang = serializer.serialize(Language.TRA_CHINESE)
+            lang = self.serializer.serialize(Language.TRA_CHINESE)
             logger.debug(f"Change language to {lang}")
         _translator = self.rm.getTranslator(lang)
         self._load_translation(_translator, lang)

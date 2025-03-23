@@ -20,7 +20,8 @@ class TimeKeeper:
         """
         return time.strftime(self.date_format, time.localtime(timestamp))
     
-    def timestamp(self, _datetime: str) -> float:
+    @staticmethod
+    def timestamp(_datetime: str) -> float:
         """Convert datetime to timestamp
 
         Args:
@@ -31,7 +32,8 @@ class TimeKeeper:
         """
         return datetime.timestamp(_datetime)
     
-    def get_timestamp(self) -> float:
+    @staticmethod
+    def get_timestamp() -> float:
         """Get current timestamp
 
         Returns:

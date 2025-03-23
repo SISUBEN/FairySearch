@@ -1,7 +1,6 @@
 from app.libs.video_browser import VideoBrowser
 from app.libs.expection import NoLoginError, VideoNotFoundError
 from app.libs.dialog import Dialog
-dialog = Dialog()
 from app.__init__ import QApplication, QWidget, logger, QPainter, QPixmap
 
 # to avoid circular import
@@ -11,8 +10,10 @@ def onClickVideos(vid: int) -> None:
         logger.debug(f"onClickVideos: {vid}")
         videosBrower.show()
     except VideoNotFoundError:
+        from app.i18n import _
+        dialog = Dialog()
         logger.error(f"Video ID:{vid} does not exist")
-        dialog.standardDialog("无法找到该视频", f"视频【{vid}】不存在")
+        dialog.standardDialog(_("无法找到该视频"), _(f"视频【{vid}】不存在"))
 
 from app.modules.ui_main import Ui_MainWindow, ItemWidget, PageWidget
 from app.libs.profile import ProfileWindow
@@ -20,8 +21,6 @@ from app.database.queries import Database
 from app.utils.time import TimeKeeper
 from app.libs.setting import SettingWindow
 from app.i18n import _
-# import pdb
-db = Database()
 
 class MainWindow(
     QWidget,
@@ -30,9 +29,10 @@ class MainWindow(
     def __init__(self, token: str, app: QApplication) -> None:
         super().__init__()
         self.app = app
+        self.db = Database()
         self.__token = token
         if self.__token is None:
-            raise NoLoginError("未登录")
+            raise NoLoginError
         self.bg_image_path = ":/images/images/background.png"  # using QRC path
         self.def_cover_path = ":/covers/covers/default.png"  # using QRC path
         self.pages_data = self.getVideos()
@@ -50,7 +50,7 @@ class MainWindow(
     def getVideos(
         self, page_size: int = 9
     ) -> list:
-        results = db.videodb.query_videos_all()
+        results = self.db.videodb.query_videos_all()
         videos = [
             {"cover": result[2], "title": result[1], "vid": result[0]}
             for result in results
