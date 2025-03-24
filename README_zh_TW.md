@@ -24,26 +24,33 @@
 </div>
 
 ## 注意事項
-> ⚠️使用本程式前請確保本地環境是完整版Python 3.8+
+
+> ⚠️ 使用本程式前請確保本地環境是完整版 Python 3.8+
 
 ## 如何使用
+
 - **從原始碼建構**
-1. 先使用git克隆本專案`git clone https://github.com/SISUBEN/FairySearch.git`
+
+1. 先使用 git 克隆本專案`git clone https://github.com/SISUBEN/FairySearch.git`
 2. 切換目錄`cd ./FairySearch-main/`
 3. 執行建置腳本（暫時沒寫好）
 
 ## 使用方法
+
 - **從原始碼運行**
-1. 先使用git克隆本專案`git clone https://github.com/SISUBEN/FairySearch.git`
+
+1. 先使用 git 克隆本專案`git clone https://github.com/SISUBEN/FairySearch.git`
 2. 切換目錄`cd ./FairySearch-main/`
 3. 安裝依賴`pip install -r ./requirements.txt`
 4. 啟動應用程式`python3 ./fs.py`
 
-- **從Release版本運行**
-1. 下載Release版本
+- **從 Release 版本運行**
+
+1. 下載 Release 版本
 2. 開啟`fs.exe`
 
 ## 功能
+
 - [x] 登入
 - [x] 註冊
 - [x] 個人資料
@@ -53,31 +60,29 @@
 - [ ] 分析使用者喜好
 
 ## TODO
+
 - [ ] 影片新增功能
 - [ ] 搜尋紀錄
 - [ ] 機器學習使用者喜好
-- [ ] 接入OpenAI/Deepseek等LLM模型
+- [ ] 接入 OpenAI/Deepseek 等 LLM 模型
 
 ## 技術棧
-| 模組 | 用途 | 引用 |
-| ---- | ---- | ---- |
-| PySide6 | 繪製圖形介面 | https://doc.qt.io/qtforpython-6/ |
-| hashlib | 加密使用者敏感資訊 | https://docs.python.org/3/library/hashlib.html |
-| sqlite3 | 資料庫 | https://docs.python.org/3/library/sqlite3.html |
-| Python-vlc | 播放影片 | https://pypi.org/project/python-vlc/ |
-| rich | 用於重寫部分logging方法，實現多樣化日誌 | https://pypi.org/project/rich/ |
-| logging | 提供日誌 | https://pypi.org/project/logging/ |
-| PyQt-Fluent-Widgets | 實作Config類別 | https://pypi.org/project/PyQt-Fluent-Widgets/ |
+
+| 模組                | 用途                                      | 引用                                           |
+| ------------------- | ----------------------------------------- | ---------------------------------------------- |
+| PySide6             | 繪製圖形介面                              | https://doc.qt.io/qtforpython-6/               |
+| hashlib             | 加密使用者敏感資訊                        | https://docs.python.org/3/library/hashlib.html |
+| sqlite3             | 資料庫                                    | https://docs.python.org/3/library/sqlite3.html |
+| Python-vlc          | 播放影片                                  | https://pypi.org/project/python-vlc/           |
+| rich                | 用於重寫部分 logging 方法，實現多樣化日誌 | https://pypi.org/project/rich/                 |
+| logging             | 提供日誌                                  | https://pypi.org/project/logging/              |
+| PyQt-Fluent-Widgets | 實作 Config 類別                          | https://pypi.org/project/PyQt-Fluent-Widgets/  |
 
 ## 免責聲明
+
 版權所有 © 2025 SISUBENY。保留所有權利。
 
-FairySearch 是一款用於提交 2026 年香港中學文憑考試 *[HKDSE](https://en.wikipedia.org/wiki/Hong_Kong_Diploma_of_Secondary_Education)* 和資訊及通訊科技 *
-(ICT)[https://www.hkeaa.edu.hk/en/hkdse/hkdse_subj.html?A2&2&16]* 校本評估 *
-(SBA)[https://www.hkeaa.edu.hk/en/sba/introduction]* 的應用程式。有關此應用程式的更多詳細信息，請參閱報告。
-
-Copyright 2025 SISUBENY. license under *
-(GPL v3)[https://www.gnu.org/licenses/gpl-3.0.en.html]*
+FairySearch 是一款用於提交 2026 年香港中學文憑考試 [HKDSE](https://en.wikipedia.org/wiki/Hong_Kong_Diploma_of_Secondary_Education) 和資訊及通訊科技校本評估的應用程式。有關此應用程式的更多詳細信息，請參閱報告。
 
 本文件是 FairySearch 的一部分。
 
