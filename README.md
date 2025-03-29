@@ -22,7 +22,7 @@
 [English](https://github.com/SISUBEN/FairySearch/blob/main/README_en_US.md) |
 [繁體中文](https://github.com/SISUBEN/FairySearch/blob/main/README_zh_TW.md)  
 
-</div>       
+</div>        
 
 ## 注意事项
 > ⚠️使用本程序前请确保本地环境是完整版Python 3.8+  

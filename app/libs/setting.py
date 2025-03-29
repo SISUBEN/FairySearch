@@ -2,7 +2,7 @@ import logging
 from PySide6.QtWidgets import QLabel, QHBoxLayout, QWidget
 from PySide6.QtCore import QTranslator
 from PySide6.QtGui import QFont
-from app.__init__ import QApplication
+from app import QApplication
 from app.assets.resource_manager import ResourceManager
 from app.utils.logger.logger import logger
 from app.helper.widget import WidgetCreator
@@ -16,7 +16,8 @@ class SettingWindow(QWidget, Ui_SettingWindow):
     def __init__(self, app: QApplication) -> None:
         super().__init__()
         self.serializer = LanguageSerializer()
-        self.creater = WidgetCreator()
+        self.creator = WidgetCreator()
+        
         self.setupUi(self)
         self.setWindowTitle(_('设置'))
         # TODO: promote to qfluentwidgets

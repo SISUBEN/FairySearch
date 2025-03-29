@@ -21,9 +21,24 @@ class Translate:
         self.trans.install()
     
     def translate(self, text: str):
+        """translate
+            Translates text to the currently set language
+        
+        Args:
+            text (str): The original text to be translated
+            
+        Returns:
+            str: The translated text
+        """
         return self.trans.gettext(text)
     
     def set_language(self, language: str):
+        """set_language
+            Set the language for translation
+
+        Args:
+            language (str): The language code to set
+        """
         language = locale.getlocale()[0] if language == "Auto" else language
         self.trans = gettext.translation(domain='messages', localedir=FILE_PATH, languages=[language], fallback=True)
         self.trans.install()

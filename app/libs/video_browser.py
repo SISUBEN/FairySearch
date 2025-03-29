@@ -1,7 +1,7 @@
 import vlc
 from PySide6.QtCore import QTimer
 from PySide6.QtMultimedia import QMediaPlayer
-from app.__init__ import logger, QWidget, QPainter, QPixmap
+from app import logger, QWidget, QPainter, QPixmap
 from app.modules.ui_video_browser import Ui_VideoBrowser
 from app.database.queries import Database
 from app.assets.resource_manager import ResourceManager
@@ -15,6 +15,7 @@ class VideoBrowser(QWidget, Ui_VideoBrowser):
         self.res_manager = ResourceManager()
         self.dialog = Dialog()
         self.db = Database()
+        
         self.setupUi(self)
         self.timer = QTimer(self)
         self.timer.setInterval(100)
@@ -30,7 +31,7 @@ class VideoBrowser(QWidget, Ui_VideoBrowser):
             f"Video Info:\n title: {self.__title}\n desc :{self.__desc}\n vid: {vid}"
         )
         if self.__title is None or self.__desc is None:
-            self.dialog.standardDialog(_("错误"), _("无法找到该视频"))
+            self.dialog.standard(_("错误"), _("无法找到该视频"))
             raise VideoNotFoundError
 
         self.vid = vid
@@ -51,7 +52,7 @@ class VideoBrowser(QWidget, Ui_VideoBrowser):
             if self.filename is None:
                 raise VideoNotFoundError
         except TypeError:
-            self.dialog.standardDialog(_("错误"), _("vid无效"))
+            self.dialog.standard(_("错误"), _("vid无效"))
         self.media = self.instance.media_new(self.filename)
         try:
             self.media_player.set_media(self.media)
@@ -64,7 +65,7 @@ class VideoBrowser(QWidget, Ui_VideoBrowser):
             self.onPlay()
         except Exception as e:
             logger.debug(f"Error: {e}")
-            self.dialog.standardDialog(_("错误"), _("视频播放失败"))
+            self.dialog.standard(_("错误"), _("视频播放失败"))
 
         self.title.setText(self.__title)
         self.describe.setText(self.__desc)

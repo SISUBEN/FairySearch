@@ -1,0 +1,23 @@
+QPushButton {
+    background-color: rgb(0, 0, 0);
+    color: white;
+    border: 3px solid #262626;
+    height: 50px;
+    width: 500px;
+    border-radius: 25px;
+}
+
+QPushButton #search_box {
+    background-color: rgb(0, 0, 0);
+    color: white;
+    border: 3px solid #262626;
+    height: 50px;
+    width: 500px;
+    border-radius: 10px;
+}
+
+QPushButton:pressed {
+    background-color: #a6c100;
+    color: black;
+    border: 5px solid #a6c100;
+}

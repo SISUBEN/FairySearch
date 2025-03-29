@@ -1,7 +1,7 @@
 from app.libs.video_browser import VideoBrowser
 from app.libs.expection import NoLoginError, VideoNotFoundError
 from app.libs.dialog import Dialog
-from app.__init__ import QApplication, QWidget, logger, QPainter, QPixmap
+from app import QApplication, QWidget, logger, QPainter, QPixmap
 
 # to avoid circular import
 def onClickVideos(vid: int) -> None:
@@ -13,7 +13,7 @@ def onClickVideos(vid: int) -> None:
         from app.i18n import _
         dialog = Dialog()
         logger.error(f"Video ID:{vid} does not exist")
-        dialog.standardDialog(_("无法找到该视频"), _(f"视频【{vid}】不存在"))
+        dialog.standard(_("无法找到该视频"), _(f"视频【{vid}】不存在"))
 
 from app.modules.ui_main import Ui_MainWindow, ItemWidget, PageWidget
 from app.libs.profile import ProfileWindow
@@ -30,6 +30,7 @@ class MainWindow(
         super().__init__()
         self.app = app
         self.db = Database()
+        
         self.__token = token
         if self.__token is None:
             raise NoLoginError
@@ -38,10 +39,11 @@ class MainWindow(
         self.pages_data = self.getVideos()
         self.setupUi(self, self.pages_data)
 
-        # bind button click events
+        # bind click events
         self.prev_button.clicked.connect(self.showPrevPage)
         self.next_button.clicked.connect(self.showNextPage)
         self.page_number.editingFinished.connect(self.jump2Page)
+        self.search_box.returnPressed.connect(lambda x: logger.debug(f"search_box: {x}"))
         self.user_profile_btn.clicked.connect(self.showUserProfile)
         self.setting_btn.clicked.connect(self.showSetting)
         self.updateButtons()

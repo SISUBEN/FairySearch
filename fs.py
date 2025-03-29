@@ -1,4 +1,4 @@
-# Author: SISUBENY <https://github.com/SISUBEN>
+# Author: SISUBENY
 # Version: 0.0.1
 # Date: 2025-03-23
 # License: GPL-3.0-or-later
@@ -15,7 +15,7 @@
 # You should have received a copy of the GNU General Public License along with FairySearch. 
 # If not, see <https://www.gnu.org/licenses/>.
 
-from app.__init__ import Console, Rule, QApplication, QIcon
+from app import Console, Rule, QApplication, QIcon
 from app.libs.login import LoginWindow
 from app.assets.resource_manager import ResourceManager
 from app.libs.expection import UnsupportedLanguageError

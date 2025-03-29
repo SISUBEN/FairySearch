@@ -51,4 +51,8 @@
     <file>sql/init_search_history_db.sql</file>
     <file>sql/init_user_db.sql</file>
   </qresource>
+  <qresource prefix="qss">
+    <file>qss/button.qss</file>
+    <file>qss/line_edit.qss</file>
+  </qresource>
 </RCC>

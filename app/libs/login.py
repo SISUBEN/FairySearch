@@ -1,4 +1,4 @@
-from app.__init__ import QApplication, QWidget, QPainter, QPixmap, logger
+from app import QApplication, QWidget, QPainter, QPixmap, logger
 from app.modules.ui_login import Ui_Form
 from app.database.queries import Database
 from app.utils.crypto import CryptoHasher
@@ -10,7 +10,6 @@ from app.i18n import _
 class LoginWindow(QWidget, Ui_Form):
     def __init__(self, app: QApplication) -> None:
         super().__init__()
-        
         self.app = app
         self.db = Database()
         self.cryptor = CryptoHasher()
@@ -41,12 +40,12 @@ class LoginWindow(QWidget, Ui_Form):
                     username=username_input, password=enctrypt
                 )
                 logger.debug(f"token: {token}")
-                self.dialog.standardDialog(_("登入成功"), f"{self.username.text()}" + " " +_("欢迎") )
+                self.dialog.standard(_("登入成功"), f"{self.username.text()}" + " " +_("欢迎") )
                 self.openMainWindow(token)
             else:
-                self.dialog.standardDialog(_("登入失败"), _("用户名或者密码错误\n请再试一次"))
+                self.dialog.standard(_("登入失败"), _("用户名或者密码错误\n请再试一次"))
         else:
-            self.dialog.standardDialog(_("登入失败"), _("用户名或者密码错误\n请再试一次"))
+            self.dialog.standard(_("登入失败"), _("用户名或者密码错误\n请再试一次"))
 
     def openRegisterWindow(self) -> None:
         # self.close()

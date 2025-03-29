@@ -5,8 +5,6 @@ from PySide6.QtWidgets import (
     QDialog,
     QPushButton,
     QTableWidgetItem,
-    
-    
     QTableWidget,
     QMainWindow,
     QVBoxLayout,

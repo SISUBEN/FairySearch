@@ -1,4 +1,4 @@
-from app.__init__ import (
+from app import (
     QWidget,
     QTableWidget,
     QPainter,
