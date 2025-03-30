@@ -17,7 +17,7 @@ def onClickVideos(vid: int) -> None:
 
 from app.modules.ui_main import Ui_MainWindow, ItemWidget, PageWidget
 from app.libs.profile import ProfileWindow
-from app.database.queries import Database
+from app.database.videos import Videodb
 from app.utils.time import TimeKeeper
 from app.libs.setting import SettingWindow
 from app.i18n import _
@@ -29,7 +29,7 @@ class MainWindow(
     def __init__(self, token: str, app: QApplication) -> None:
         super().__init__()
         self.app = app
-        self.db = Database()
+        self.videodb = Videodb()
         
         self.__token = token
         if self.__token is None:
@@ -52,7 +52,7 @@ class MainWindow(
     def getVideos(
         self, page_size: int = 9
     ) -> list:
-        results = self.db.videodb.query_videos_all()
+        results = self.videodb.query_videos_all()
         videos = [
             {"cover": result[2], "title": result[1], "vid": result[0]}
             for result in results

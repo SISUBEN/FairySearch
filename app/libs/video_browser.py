@@ -3,7 +3,7 @@ from PySide6.QtCore import QTimer
 from PySide6.QtMultimedia import QMediaPlayer
 from app import logger, QWidget, QPainter, QPixmap
 from app.modules.ui_video_browser import Ui_VideoBrowser
-from app.database.queries import Database
+from app.database.videos import Videodb
 from app.assets.resource_manager import ResourceManager
 from app.libs.dialog import Dialog
 from app.libs.expection import VideoNotFoundError
@@ -14,7 +14,7 @@ class VideoBrowser(QWidget, Ui_VideoBrowser):
         super().__init__()
         self.res_manager = ResourceManager()
         self.dialog = Dialog()
-        self.db = Database()
+        self.videodb = Videodb()
         
         self.setupUi(self)
         self.timer = QTimer(self)
@@ -25,8 +25,8 @@ class VideoBrowser(QWidget, Ui_VideoBrowser):
         self.is_liked = False
         self.is_favorited = False
         self.is_coined = False
-        self.__title = self.db.videodb.query_title_by_vid(vid)[0][0] or None
-        self.__desc = self.db.videodb.query_desc_by_vid(vid)[0][0] or None
+        self.__title = self.videodb.query_title_by_vid(vid) or None
+        self.__desc = self.videodb.query_desc_by_vid(vid) or None
         logger.debug(
             f"Video Info:\n title: {self.__title}\n desc :{self.__desc}\n vid: {vid}"
         )

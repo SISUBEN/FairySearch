@@ -1,6 +1,6 @@
 from app import QApplication, QWidget, QPainter, QPixmap, logger
 from app.modules.ui_login import Ui_Form
-from app.database.queries import Database
+from app.database.users import Userdb
 from app.utils.crypto import CryptoHasher
 from app.libs.register import RegisterWindow
 from app.libs.main import MainWindow
@@ -11,7 +11,7 @@ class LoginWindow(QWidget, Ui_Form):
     def __init__(self, app: QApplication) -> None:
         super().__init__()
         self.app = app
-        self.db = Database()
+        self.userdb = Userdb()
         self.cryptor = CryptoHasher()
         self.dialog = Dialog()
         
@@ -31,12 +31,14 @@ class LoginWindow(QWidget, Ui_Form):
     def login(self) -> None:
         username_input: str = self.username.text()
         password_input: str = self.password.text()
+        # import pdb
+        # pdb.set_trace()
         enctrypt: str = self.cryptor.sha256(password_input)
-        if self.db.userdb.is_user_exists(self.username.text()):
+        if self.userdb.is_user_exists(self.username.text()):
             logger.debug(f"user exists")
-            if self.db.userdb.verify_user(username=username_input, password=enctrypt):
+            if self.userdb.verify_user(username=username_input, password=enctrypt):
                 logger.debug(f"verified scuccess")
-                token = self.db.userdb.generate_token(
+                token = self.userdb.generate_token(
                     username=username_input, password=enctrypt
                 )
                 logger.debug(f"token: {token}")

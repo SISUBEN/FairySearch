@@ -9,19 +9,21 @@ from app import (
 )
 from app.modules.ui_profile import Ui_Profile
 from app.utils.time import TimeKeeper
-from app.database.queries import Database
+from app.database.users import Userdb
+from app.database.search_history import SearchHistorydb
 from app.helper.widget import WidgetCreator
 from app.i18n import _
 
 class ProfileWindow(QWidget, Ui_Profile):
     def __init__(self, token: str) -> None:
         super().__init__()
-        self.db = Database()
+        self.userdb = Userdb()
+        self.searchHisdb = SearchHistorydb()
         self.widget_helper = WidgetCreator()
         self.timekeeper = TimeKeeper()
         
-        self.__name = self.db.userdb.query_username(token)
-        self.__uid = self.db.userdb.query_uid(token)
+        self.__name = self.userdb.get_username(token)
+        self.__uid = self.userdb.get(token)
         self.setupUi(self, self.__name, self.__uid)
         
         # disable zoom
@@ -95,7 +97,7 @@ class ProfileWindow(QWidget, Ui_Profile):
 
     @TimeKeeper.timer
     def onSearchHistory(self) -> None:
-        results = self.db.searchHisdb.query_search_history_all(self.__uid)
+        results = self.searchHisdb.query_all(self.__uid)
         # TODO: lazy load
         for row in results:
             title, timestamp, duration, uuid, vid = row

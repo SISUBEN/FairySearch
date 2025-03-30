@@ -2,66 +2,124 @@ import sqlite3
 from .db_config import Config
 from app.utils.crypto import CryptoHasher
 from app.utils.logger.logger import logger
+from app.database.base import Database
 import uuid
-cryptor = CryptoHasher()
 
-class SearchHistorydb:
-        def __init__(self) -> None:
-            self.search_connect = sqlite3.connect(Config.PATHS["user_db"])
-            self.INIT_SH_DB_SQL = Config.load(Config.PATHS["init_search_history_db_sql"])
-            self.init_searchdb()
 
-        def __del__(self):
-            self.search_connect.close()
+class SearchHistorydb(Database):
+    def __init__(self) -> None:
+        self.cryptor = CryptoHasher()
+        self.search_connect = sqlite3.connect(Config.PATHS["user_db"])
+        self.INIT_SH_DB_SQL = Config.load(Config.PATHS["init_search_history_db_sql"])
+        self.init()
 
-        def init_searchdb(self) -> None:
-            try:
-                self.search_connect.execute(self.INIT_SH_DB_SQL)
-                self.search_connect.commit()
-            except sqlite3.Error as e:
-                logger.debug(f"init search db fail: {e}")
+    def __del__(self) -> None:
+        self.search_connect.close()
 
-        def get_total_historys(self, username: str) -> int:
-            try:
-                return self.search_connect.execute(Config.COUNT_SH, (username,)).fetchone()[0]
-            except sqlite3.Error as e:
-                logger.debug(f"get total historys error: {e}")
+    def init(self) -> None:
+        try:
+            self.search_connect.execute(self.INIT_SH_DB_SQL)
+            self.search_connect.commit()
+        except sqlite3.Error as e:
+            logger.error(f"init search db fail: {e}")
 
-        def generate_uuid(self) -> str:
-            return uuid.uuid4().hex
+    def get_total_history(self, username: str) -> int:
+        """
+        Retrieves the total number of search history entries for a given user.
+        Args:
+            username (str): The username for which the search history count is retrieved.
+        Returns:
+            int: The total number of search history entries for the specified user.
+        Raises:
+            sqlite3.Error: If an error occurs during the database query.
+        """
+        try:
+            return self.search_connect.execute(Config.COUNT_SH, (username,)).fetchone()[
+                0
+            ]
+        except sqlite3.Error as e:
+            logger.error(f"get total historys error: {e}")
 
-        def search_history_add(
-            self, uuid: str, vid: int, userid: int, title: str, timestamp: str, duration: str
-        ) -> None:
-            try:
-                self.search_connect.execute(
-                    Config.SH_ADD, (uuid, vid, userid, title, timestamp, duration)
-                )
-                self.search_connect.commit()
-            except sqlite3.Error as e:
-                logger.debug(f"add search history fail: {e}")
-                self.search_connect.rollback()
+    def generate_uuid(self) -> str:
+        return uuid.uuid4().hex
 
-        def query_search_history(
-            self, userid: int, page_size: int, page_num: int
-        ) -> list:
-            offset = (page_num - 1) * page_size
-            try:
-                return self.search_connect.execute(
-                    Config.FILTE_SH, (userid, offset, page_size)
-                ).fetchall()
-            except sqlite3.Error as e:
-                logger.debug(f"query search history error: {e}")
-            
-        def query_search_history_all(self, userid: int) -> list:
-            try:
-                return self.search_connect.execute(Config.FILTE_SH_ALL, (userid,)).fetchall()
-            except sqlite3.Error as e:
-                logger.debug(f"query search history error: {e}")
+    def insert(
+        self,
+        uuid: str,
+        vid: int,
+        userid: int,
+        title: str,
+        timestamp: str,
+        duration: str,
+    ) -> None:
+        """
+        Inserts a new search history record into the database.
 
-        def destroy_db(self, db_name: str) -> None:
-            try:
-                self.search_connect.execute(f"DROP TABLE IF EXISTS {db_name};")
-                self.search_connect.commit()
-            except sqlite3.Error as e:
-                logger.debug(f"destroy db fail: {e}")
+        Args:
+            uuid (str): A unique identifier for the search history entry.
+            vid (int): The video ID associated with the search.
+            userid (int): The user ID who performed the search.
+            title (str): The title of the search or video.
+            timestamp (str): The timestamp of when the search was performed.
+            duration (str): The duration of the search or video.
+
+        Returns:
+            None
+
+        Raises:
+            sqlite3.Error: If an error occurs during the database operation.
+        """
+        try:
+            self.search_connect.execute(
+                Config.SH_ADD, (uuid, vid, userid, title, timestamp, duration)
+            )
+            self.search_connect.commit()
+        except sqlite3.Error as e:
+            logger.error(f"add search history fail: {e}")
+            self.search_connect.rollback()
+
+    def query(self, userid: int, page_size: int, page_num: int) -> list:
+        """
+        Query the search history for a specific user with pagination.
+        Args:
+            userid (int): The ID of the user whose search history is being queried.
+            page_size (int): The number of records to retrieve per page.
+            page_num (int): The page number to retrieve (1-based index).
+        Returns:
+            list: A list of search history records for the specified user and page.
+        Raises:
+            sqlite3.Error: If an error occurs during the database query.
+        """
+        offset = (page_num - 1) * page_size
+        try:
+            return self.search_connect.execute(
+                Config.FILTE_SH, (userid, offset, page_size)
+            ).fetchall()
+        except sqlite3.Error as e:
+            logger.error(f"query search history error: {e}")
+
+    def query_all(self, userid: int) -> list:
+        """
+        Retrieve all search history records for a given user.
+        Args:
+            userid (int): The ID of the user whose search history is to be retrieved.
+        Returns:
+            list: A list of all search history records associated with the given user.
+        Raises:
+            sqlite3.Error: If an error occurs during the database query.
+        """
+        try:
+            return self.search_connect.execute(
+                Config.FILTE_SH_ALL, (userid,)
+            ).fetchall()
+        except sqlite3.Error as e:
+            logger.error(f"query search history error: {e}")
+
+    def get() -> None: ...
+
+    def destroy(self, db_name: str) -> None:
+        try:
+            self.search_connect.execute(f"DROP TABLE IF EXISTS {db_name};")
+            self.search_connect.commit()
+        except sqlite3.Error as e:
+            logger.error(f"destroy db fail: {e}")

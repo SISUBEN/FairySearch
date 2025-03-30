@@ -45,16 +45,13 @@ class Config:
     FILTE_SH_ALL = "SELECT title, timestamp, duration, uuid, vid FROM search_history WHERE userid=? ORDER BY timestamp"
     SH_ADD = "INSERT INTO search_history (uuid, vid, userid ,title, timestamp, duration) VALUES (?, ?, ?, ?, ?, ?);"
     # user
-    USER_ADD = "INSERT INTO users (username, password) VALUES (?, ?);"
-    USER_QUERY = "SELECT * FROM users WHERE username=?;"
-    USER_QUERY_PWD = "SELECT password FROM users WHERE username=?;"
-    USER_QUERY_UID = "SELECT uid FROM users WHERE username=?;"
-    # T_ for token-base auth method
-    T_USER_ADD = "INSERT INTO users (username, password, token) VALUES (?, ?, ?);"
-    T_USER_QUERY = "SELECT * FROM users WHERE token=?;"
-    T_USERNAME_QUERY = "SELECT username FROM users WHERE token=?;"
-    T_USER_QUERY_PWD = "SELECT password FROM users WHERE token=?;"
-    T_USER_QUERY_UID = "SELECT uid FROM users WHERE token=?;"
+    USER_ADD = "INSERT INTO users (username, password, token) VALUES (?, ?, ?);"
+    USER_QUERY_EXISTS = "SELECT * FROM users WHERE username=?;"
+    USER_QUERY = "SELECT * FROM users WHERE token=?;"
+    USERNAME_QUERY = "SELECT username FROM users WHERE token=?;"
+    USER_QUERY_PWD = "SELECT password FROM users WHERE token=?;"
+    USER_QUERY_PWD_BY_USRNAME = "SELECT password FROM users WHERE username=?;"
+    USER_QUERY_UID = "SELECT uid FROM users WHERE token=?;"
     USER_QUERY_TOKEN = "SELECT token FROM users WHERE username=?;"
     DESTROY_TABLE = "DROP TABLE IF EXISTS ?;"
     # video
@@ -65,3 +62,4 @@ class Config:
     VIDEO_COUNT = "SELECT COUNT(*) FROM videos"
     VIDEO_QUERY_TITLE = "SELECT video_title FROM videos WHERE video_id = ?;"
     VIDEO_QUERY_DESC = "SELECT video_desc FROM videos WHERE video_id = ?;"
+    VIDEO_QUERY_TAG = "SELECT video_id FROM videos WHERE video_tag = ?;"
