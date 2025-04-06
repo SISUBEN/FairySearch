@@ -50,6 +50,7 @@
     <file>sql/init_video_db.sql</file>
     <file>sql/init_search_history_db.sql</file>
     <file>sql/init_user_db.sql</file>
+    <file>sql/create_triggers.sql</file>
   </qresource>
   <qresource prefix="qss">
     <file>qss/button.qss</file>

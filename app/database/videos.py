@@ -7,18 +7,18 @@ from app.utils.logger.logger import logger
 class Videodb:
     def __init__(self) -> None:
         self.cryptor = CryptoHasher()
-        self.video_connect = sqlite3.connect(Config.PATHS["video_db"])
-        self.INIT_VIDEO_DB_SQL = Config.load(Config.PATHS["init_video_db_sql"])
+        self.connect = sqlite3.connect(Config.PATHS.get("video_db"))
+        self.INIT_VIDEO_DB_SQL = Config.load(Config.PATHS.get("init_video_db_sql"))
         self.init()
 
     def init(self) -> None:
         try:
-            self.video_connect.execute(self.INIT_VIDEO_DB_SQL)
-            self.video_connect.commit()
+            self.connect.execute(self.INIT_VIDEO_DB_SQL)
+            self.connect.commit()
         except sqlite3.Error as e:
             logger.error(f"init videodb fail: {e}")
-            self.video_connect.rollback()
-
+            self.connect.rollback()
+    
     def insert(
         self,
         video_title: str,
@@ -46,7 +46,7 @@ class Videodb:
         tags = ",".join(video_tags)
         types = ",".join(video_type)
         try:
-            self.video_connect.execute(
+            self.connect.execute(
                 Config.VIDEO_ADD,
                 (
                     video_title,
@@ -57,18 +57,18 @@ class Videodb:
                     video_desc,
                 ),
             )
-            self.video_connect.commit()
+            self.connect.commit()
         except sqlite3.Error as e:
             logger.debug(f"add video error: {e}")
-            self.video_connect.rollback()
+            self.connect.rollback()
 
     def count_videos(self) -> int:
         try:
-            return int(self.video_connect.execute(Config.VIDEO_COUNT).fetchone()[0])
+            return int(self.connect.execute(Config.VIDEO_COUNT).fetchone()[0])
         except sqlite3.Error as e:
             logger.debug(f"count videos error: {e}")
         finally:
-            self.video_connect.close()
+            self.connect.close()
 
     def get(self, video_id: int) -> tuple:
         """
@@ -82,7 +82,7 @@ class Videodb:
         """
 
         try:
-            return self.video_connect.execute(
+            return self.connect.execute(
                 Config.VIDEO_QUERY, (video_id,)
             ).fetchall()[0]
         except sqlite3.Error as e:
@@ -100,9 +100,9 @@ class Videodb:
         """
         try:
             logger.debug(
-                f"title: {self.video_connect.execute(Config.VIDEO_QUERY_TITLE, (vid,)).fetchall()[0][0]}\nvid: {vid}"
+                f"title: {self.connect.execute(Config.VIDEO_QUERY_TITLE, (vid,)).fetchall()[0][0]}\nvid: {vid}"
             )
-            return self.video_connect.execute(
+            return self.connect.execute(
                 Config.VIDEO_QUERY_TITLE, (vid,)
             ).fetchall()
 
@@ -120,7 +120,7 @@ class Videodb:
             sqlite3.Error: If a database error occurs during the query execution.
         """
         try:
-            return self.video_connect.execute(
+            return self.connect.execute(
                 Config.VIDEO_QUERY_DESC, (vid,)
             ).fetchall()[0][0]
         except sqlite3.Error as e:
@@ -137,9 +137,9 @@ class Videodb:
         Raises:
             sqlite3.Error: If an error occurs during the database query.
         """
-        
+
         try:
-            return self.video_connect.execute(
+            return self.connect.execute(
                 Config.VIDEO_QUERY_BY_PAGE, (page, page_size)
             ).fetchall()[0]
         except sqlite3.Error as e:
@@ -150,18 +150,18 @@ class Videodb:
 
         Return:
             list: all videos e.g. [(1, 'title', 'path', 100, 'type1,type2', 'tag1,tag2', 'desc')]
-        
+
         Raises:
             sqlite3.Error: if query fail
         """
         try:
-            return self.video_connect.execute(Config.VIDEO_QUERY_ALL).fetchall()
+            return self.connect.execute(Config.VIDEO_QUERY_ALL).fetchall()
         except sqlite3.Error as e:
             logger.debug(f"query videos all error: {e}")
 
     def query(self, tag: str) -> list:
         """Query videos by tag
-        
+
         Args:
             type (str): video tag
 
@@ -172,14 +172,19 @@ class Videodb:
             sqlite3.Error: if query fail
         """
         try:
-            return self.video_connect.execute(Config.VIDEO_QUERY_TAG, (tag,)).fetchall()
+            return self.connect.execute(Config.VIDEO_QUERY_TAG, (tag,)).fetchall()
         except sqlite3.Error as e:
             logger.debug(f"query videos by type error: {e}")
-    
-    def destroy_db(self, db_name: str) -> None:
-        self.video_connect.execute(f"DROP TABLE IF EXISTS {db_name};")
-        # self.video_connect.execute(f"ALTER TABLE {db_name} AUTO_INCREMENT=1")
-        self.video_connect.commit()
 
-    def __del__(self) -> None:
-        self.video_connect.close()
+    def destroy(self, db_name: str) -> None:
+        """Destroy target database"""
+        self.connect.execute(f"DROP TABLE IF EXISTS {db_name};")
+        # self.video_connect.execute(f"ALTER TABLE {db_name} AUTO_INCREMENT=1")
+        self.connect.commit()
+
+    def destroy_this(self) -> None:
+        """Destroy `videos` database and linked delete `video_fts`"""
+        self.connect.execute(f"DROP TABLE IF EXISTS videos;")
+        # Chain Deletion (recommend)
+        self.connect.execute(f"DROP TABLE IF EXISTS videos_fts;")
+        self.connect.commit()

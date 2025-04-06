@@ -2,8 +2,6 @@ import time
 from datetime import datetime
 from app.utils.logger.logger import logger
 from functools import wraps
-# Author: Vertin
-# Date: 1999
 
 class TimeKeeper:
     def __init__(self) -> None:

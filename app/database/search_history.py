@@ -1,31 +1,28 @@
-import sqlite3
 from .db_config import Config
 from app.utils.crypto import CryptoHasher
 from app.utils.logger.logger import logger
 from app.database.base import Database
 import uuid
-
+import sqlite3
 
 class SearchHistorydb(Database):
     def __init__(self) -> None:
         self.cryptor = CryptoHasher()
-        self.search_connect = sqlite3.connect(Config.PATHS["user_db"])
-        self.INIT_SH_DB_SQL = Config.load(Config.PATHS["init_search_history_db_sql"])
+        self.connect = sqlite3.connect(Config.PATHS.get("user_db"))
+        self.INIT_SH_DB_SQL = Config.load(Config.PATHS.get("init_search_history_db_sql"))
         self.init()
-
-    def __del__(self) -> None:
-        self.search_connect.close()
 
     def init(self) -> None:
         try:
-            self.search_connect.execute(self.INIT_SH_DB_SQL)
-            self.search_connect.commit()
+            self.connect.execute(self.INIT_SH_DB_SQL)
+            self.connect.commit()
         except sqlite3.Error as e:
             logger.error(f"init search db fail: {e}")
 
     def get_total_history(self, username: str) -> int:
         """
         Retrieves the total number of search history entries for a given user.
+        
         Args:
             username (str): The username for which the search history count is retrieved.
         Returns:
@@ -34,7 +31,7 @@ class SearchHistorydb(Database):
             sqlite3.Error: If an error occurs during the database query.
         """
         try:
-            return self.search_connect.execute(Config.COUNT_SH, (username,)).fetchone()[
+            return self.connect.execute(Config.COUNT_SH, (username,)).fetchone()[
                 0
             ]
         except sqlite3.Error as e:
@@ -70,29 +67,32 @@ class SearchHistorydb(Database):
             sqlite3.Error: If an error occurs during the database operation.
         """
         try:
-            self.search_connect.execute(
+            self.connect.execute(
                 Config.SH_ADD, (uuid, vid, userid, title, timestamp, duration)
             )
-            self.search_connect.commit()
+            self.connect.commit()
         except sqlite3.Error as e:
             logger.error(f"add search history fail: {e}")
-            self.search_connect.rollback()
+            self.connect.rollback()
 
     def query(self, userid: int, page_size: int, page_num: int) -> list:
         """
         Query the search history for a specific user with pagination.
+        
         Args:
             userid (int): The ID of the user whose search history is being queried.
             page_size (int): The number of records to retrieve per page.
             page_num (int): The page number to retrieve (1-based index).
+            
         Returns:
             list: A list of search history records for the specified user and page.
+            
         Raises:
             sqlite3.Error: If an error occurs during the database query.
         """
         offset = (page_num - 1) * page_size
         try:
-            return self.search_connect.execute(
+            return self.connect.execute(
                 Config.FILTE_SH, (userid, offset, page_size)
             ).fetchall()
         except sqlite3.Error as e:
@@ -109,17 +109,15 @@ class SearchHistorydb(Database):
             sqlite3.Error: If an error occurs during the database query.
         """
         try:
-            return self.search_connect.execute(
+            return self.connect.execute(
                 Config.FILTE_SH_ALL, (userid,)
             ).fetchall()
         except sqlite3.Error as e:
             logger.error(f"query search history error: {e}")
 
-    def get() -> None: ...
-
     def destroy(self, db_name: str) -> None:
         try:
-            self.search_connect.execute(f"DROP TABLE IF EXISTS {db_name};")
-            self.search_connect.commit()
+            self.connect.execute(f"DROP TABLE IF EXISTS {db_name};")
+            self.connect.commit()
         except sqlite3.Error as e:
             logger.error(f"destroy db fail: {e}")

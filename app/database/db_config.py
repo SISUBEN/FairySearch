@@ -1,9 +1,9 @@
 # db addr
-import os
-from app.utils.logger.logger import logger
-from dataclasses import dataclass
-import app.assets.resources_rc
 from PySide6.QtCore import QFile, QTextStream
+from dataclasses import dataclass
+from app.utils.logger.logger import logger
+import app.assets.resources_rc
+import os
 
 logger.debug(f"Current file dir: {os.getcwd()}")
 
@@ -21,8 +21,8 @@ class Config:
         "init_video_db_sql": ":/table_sql/sql/init_video_db.sql",
         "init_user_db_sql": ":/table_sql/sql/init_user_db.sql",
         "init_search_history_db_sql": ":/table_sql/sql/init_search_history_db.sql",
+        "create_trigger_sql": ":/table_sql/sql/create_triggers.sql"
     }
-
     @staticmethod
     def load(resource_path: str) -> str:
         file = QFile(resource_path)
@@ -63,3 +63,5 @@ class Config:
     VIDEO_QUERY_TITLE = "SELECT video_title FROM videos WHERE video_id = ?;"
     VIDEO_QUERY_DESC = "SELECT video_desc FROM videos WHERE video_id = ?;"
     VIDEO_QUERY_TAG = "SELECT video_id FROM videos WHERE video_tag = ?;"
+    # search
+    SEARCH_ALL = "SELECT TITLE, SUMMARY, URL FROM videos_fts WHERE videos_fts MATCH jieba_query(?);"

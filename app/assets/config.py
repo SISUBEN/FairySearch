@@ -1,9 +1,3 @@
-from PySide6.QtCore import QLocale, Qt, QObject, QFile, QTextStream
-from app.utils.logger.logger import logger
-from enum import Enum
-import json
-import logging
-from app.assets.resource_manager import ResourceManager
 from qfluentwidgets import (
     QConfig,
     ConfigItem,
@@ -15,8 +9,11 @@ from qfluentwidgets import (
     exceptionHandler,
     Path
 )
-
-rm = ResourceManager()
+from PySide6.QtCore import QLocale, Qt, QObject, QFile, QTextStream
+from app.utils.logger.logger import logger
+from enum import Enum
+import json
+import logging
 
 class Language(Enum):
     """Language enumeration class"""

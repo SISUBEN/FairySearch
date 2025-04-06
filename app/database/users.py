@@ -1,23 +1,23 @@
-import sqlite3
 from .db_config import Config
 from app.database.base import Database
 from app.utils.crypto import CryptoHasher
 from app.utils.logger.logger import logger
+import sqlite3
 
 class Userdb(Database):
     def __init__(self) -> None:
         self.cryptor = CryptoHasher()
-        self.user_connect = sqlite3.connect(Config.PATHS["user_db"])
-        self.INIT_USER_DB_SQL = Config.load(Config.PATHS["init_user_db_sql"])
+        self.connect = sqlite3.connect(Config.PATHS.get("user_db"))
+        self.INIT_USER_DB_SQL = Config.load(Config.PATHS.get("init_user_db_sql"))
         self.init()
 
     def init(self) -> None:
         try:
-            self.user_connect.execute(self.INIT_USER_DB_SQL)
-            self.user_connect.commit()
+            self.connect.execute(self.INIT_USER_DB_SQL)
+            self.connect.commit()
         except sqlite3.Error as e:
             logger.debug(f"init user db fail: {e}")
-            self.user_connect.rollback()
+            self.connect.rollback()
 
     def insert(self, username: str, password: str) -> str:
         """Add user to database with token (a shortcut of create_user)
@@ -46,12 +46,12 @@ class Userdb(Database):
         try:
             encrypted = self.cryptor.sha256(password)
             token = self.generate_token(username, encrypted)
-            self.user_connect.execute(Config.USER_ADD, (username, encrypted, token))
-            self.user_connect.commit()
+            self.connect.execute(Config.USER_ADD, (username, encrypted, token))
+            self.connect.commit()
             return token
         except sqlite3.Error as e:
             logger.debug(f"add user token fail: {e}")
-            self.user_connect.rollback()
+            self.connect.rollback()
         except Exception as e:
             logger.debug(f"create token fail: {e}")
 
@@ -66,7 +66,7 @@ class Userdb(Database):
         """
         try:
             return (
-                self.user_connect.execute(Config.USER_QUERY, (token,)).fetchone()
+                self.connect.execute(Config.USER_QUERY, (token,)).fetchone()
                 is not None
             )
         except sqlite3.Error as e:
@@ -85,7 +85,7 @@ class Userdb(Database):
             sqlite3.Error: if error occurs
         """
         try:
-            return self.user_connect.execute(
+            return self.connect.execute(
                 Config.USER_QUERY, (username,)
             ).fetchone()[0][0]
         except sqlite3.Error as e:
@@ -125,7 +125,7 @@ class Userdb(Database):
         """
         try:
             return (
-                self.user_connect.execute(Config.USER_QUERY_EXISTS, (username,)).fetchone()
+                self.connect.execute(Config.USER_QUERY_EXISTS, (username,)).fetchone()
                 is not None
             )  # if query result is not None, return True, else return result
         except sqlite3.Error as e:
@@ -141,7 +141,7 @@ class Userdb(Database):
             str: username
         """
         try:
-            return self.user_connect.execute(
+            return self.connect.execute(
                 Config.USERNAME_QUERY, (token,)
             ).fetchall()[0][0]
         except sqlite3.Error as e:
@@ -149,8 +149,8 @@ class Userdb(Database):
 
     def destroy_db(self, db_name: str) -> None:
         try:
-            self.user_connect.execute(f"DROP TABLE IF EXISTS {db_name};")
-            self.user_connect.commit()
+            self.connect.execute(f"DROP TABLE IF EXISTS {db_name};")
+            self.connect.commit()
         except sqlite3.Error as e:
             logger.debug(f"destroy db fail: {e}")
 
@@ -164,7 +164,7 @@ class Userdb(Database):
             str: user password
         """
         try:
-            return self.user_connect.execute(
+            return self.connect.execute(
                 Config.USER_QUERY_PWD_BY_USRNAME, (username,)
             ).fetchall()[0][0]
         except sqlite3.Error as e:
@@ -185,7 +185,7 @@ class Userdb(Database):
             sqlite3.Error: if query fail
         """
         try:
-            return self.user_connect.execute(
+            return self.connect.execute(
                 Config.USER_QUERY_UID, (token,)
             ).fetchall()[0][0]
         except sqlite3.Error as e:
@@ -204,6 +204,3 @@ class Userdb(Database):
             bool: True if password is correct, False otherwise
         """
         return self.__get_user_password(username) == password
-
-    def __del__(self) -> None:
-        self.user_connect.close()

@@ -16,11 +16,10 @@ from PySide6.QtCore import Signal, Qt
 from PySide6.QtGui import QMouseEvent
 from PySide6.QtCore import Qt, QSize
 from app.libs.main import onClickVideos
-from app.i18n import _
 from app.assets.resource_manager import ResourceManager
 from app.assets import resources_rc
 from app.utils.logger.logger import logger
-
+from app.i18n import _
 
 # template
 class ItemWidget(QWidget):

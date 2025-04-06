@@ -28,7 +28,7 @@ dialog = Dialog()
 if __name__ == "__main__":
     try:
         console = Console()
-        console.print(Rule(_("初始化")))
+        console.print(Rule("Initializing"))
 
         app = QApplication([])
         rm = ResourceManager(app)
