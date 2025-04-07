@@ -17,40 +17,34 @@
 
 <div align="center">
 
-[简体中文](https://github.com/SISUBEN/FairySearch/blob/main/README.md) |
+[Simplified Chinese](https://github.com/SISUBEN/FairySearch/blob/main/README.md) |
 [English](https://github.com/SISUBEN/FairySearch/blob/main/README_en_US.md) |
-[繁體中文](https://github.com/SISUBEN/FairySearch/blob/main/README_zh_TW.md)
+[Traditional Chinese](https://github.com/SISUBEN/FairySearch/blob/main/README_zh_TW.md)
 
 </div>
 
 ## Notes
-
 > ⚠️ Before using this program, please make sure that your local environment is the full version of Python 3.8+
 
 ## How to use
-
 - **Build from source**
-
 1. First use git to clone this project `git clone https://github.com/SISUBEN/FairySearch.git`
 2. Switch directory `cd ./FairySearch-main/`
 3. Run the build script (not yet written)
 
 ## How to use
-
 - **Run from source code**
-
 1. First use git to clone this project `git clone https://github.com/SISUBEN/FairySearch.git`
 2. Switch directory `cd ./FairySearch-main/`
 3. Install dependencies `pip install -r ./requirements.txt`
 4. Start the application `python3 ./fs.py`
 
 - **Run from Release version**
-
 1. Download Release version
+
 2. Open `fs.exe`
 
 ## Functions
-
 - [x] Login
 - [x] Register
 - [x] Profile
@@ -60,33 +54,31 @@
 - [ ] Analyze user preferences
 
 ## TODO
-
 - [ ] Video add function
 - [ ] Search history
 - [ ] Machine learning user preferences
 - [ ] Connect to OpenAI/Deepseek and other LLM models
 
 ## Technology stack
-
-| Module              | Purpose                                                                | Reference                                      |
-| ------------------- | ---------------------------------------------------------------------- | ---------------------------------------------- |
-| PySide6             | Draw graphical interface                                               | https://doc.qt.io/qtforpython-6/               |
-| hashlib             | Encrypt user sensitive information                                     | https://docs.python.org/3/library/hashlib.html |
-| sqlite3             | Database                                                               | https://docs.python.org/3/library/sqlite3.html |
-| Python-vlc          | Play video                                                             | https://pypi.org/project/python-vlc/           |
-| rich                | Used to rewrite some logging methods and implement diversified logging | https://pypi.org/project/rich/                 |
-| logging             | Provide logs                                                           | https://pypi.org/project/logging/              |
-| PyQt-Fluent-Widgets | Implement Config class                                                 | https://pypi.org/project/PyQt-Fluent-Widgets/  |
+| Module | Purpose | Reference |
+| ---- | ---- | ---- |
+| PySide6 | Draw graphical interface | https://doc.qt.io/qtforpython-6/ |
+| hashlib | Encrypt user sensitive information | https://docs.python.org/3/library/hashlib.html |
+| sqlite3 | Database | https://docs.python.org/3/library/sqlite3.html |
+| Python-vlc | Play video | https://pypi.org/project/python-vlc/ |
+| rich | Used to rewrite some logging methods and implement diversified logging | https://pypi.org/project/rich/ |
+| logging | Provide logs | https://pypi.org/project/logging/ |
+| PyQt-Fluent-Widgets | Implement Config class | https://pypi.org/project/PyQt-Fluent-Widgets/ |
 
 ## Disclaimer
-
 Copyright © 2025 SISUBENY. All rights reserved.
 
-FairySearch is an application for submission of 2026 Hong Kong Diploma of Secondary Education Examination [HKDSE](https://en.wikipedia.org/wiki/Hong_Kong_Diploma_of_Secondary_Education) and Information and Communications Technology School-Based Assessment. For more details on this application, please refer to the report.
+FairySearch is an application for submitting papers for the 2026 Hong Kong Diploma of Secondary Education Examination [HKDSE](https://en.wikipedia.org/wiki/Hong_Kong_Diploma_of_Secondary_Education) and ICT School-Based Assessments. For more details about this application, see the report.
 
 This file is part of FairySearch.
+
 FairySearch is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
-FairySearch is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-See the GNU General Public License for more details.
-You should have received a copy of the GNU General Public License along with FairySearch.
-If not, see <https://www.gnu.org/licenses/>.
+
+FairySearch is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for details.
+
+You should have received a copy of the GNU General Public License along with the program. If not, see <https://www.gnu.org/licenses/>.
