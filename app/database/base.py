@@ -3,7 +3,7 @@ import abc
 
 
 class Database(metaclass=abc.ABCMeta):
-    @abc.abstractmetho
+    @abc.abstractmethod
     def __init__(self) -> None: ...
     
     # @abc.abstractmethod

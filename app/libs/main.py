@@ -17,10 +17,12 @@ def onClickVideos(vid: int) -> None:
 
 from app.modules.ui_main import Ui_MainWindow, ItemWidget, PageWidget
 from app.libs.profile import ProfileWindow
+from app.libs.setting import SettingWindow
 from app.database.videos import Videodb
 from app.utils.time import TimeKeeper
-from app.libs.setting import SettingWindow
+from app.database.search import Searchdb
 from app.i18n import _
+
 
 class MainWindow(
     QWidget,
@@ -30,6 +32,7 @@ class MainWindow(
         super().__init__()
         self.app = app
         self.videodb = Videodb()
+        self.searchdb = Searchdb()
         
         self.__token = token
         if self.__token is None:
@@ -43,11 +46,16 @@ class MainWindow(
         self.prev_button.clicked.connect(self.showPrevPage)
         self.next_button.clicked.connect(self.showNextPage)
         self.page_number.editingFinished.connect(self.jump2Page)
-        self.search_box.returnPressed.connect(lambda x: logger.debug(f"search_box: {x}"))
+        self.search_box.returnPressed.connect(self.onSearch)
         self.user_profile_btn.clicked.connect(self.showUserProfile)
         self.setting_btn.clicked.connect(self.showSetting)
         self.updateButtons()
         
+    def onSearch(self) -> None:
+        # keyword = self.search_box.text()
+        # result = self.searchdb.search(keyword)
+        self.pages_data = []
+    
     @TimeKeeper.timer
     def getVideos(
         self, page_size: int = 9
