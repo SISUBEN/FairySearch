@@ -21,7 +21,9 @@ class Config:
         "init_video_db_sql": ":/table_sql/sql/init_video_db.sql",
         "init_user_db_sql": ":/table_sql/sql/init_user_db.sql",
         "init_search_history_db_sql": ":/table_sql/sql/init_search_history_db.sql",
-        "create_trigger_sql": ":/table_sql/sql/create_triggers.sql"
+        "after_del_trigger_sql": ":/table_sql/sql/after_del_trigger.sql",
+        "after_ins_trigger_sql": ":/table_sql/sql/after_ins_trigger.sql",
+        "after_upd_trigger_sql": ":/table_sql/sql/after_upd_trigger.sql"
     }
     @staticmethod
     def load(resource_path: str) -> str:
@@ -64,4 +66,4 @@ class Config:
     VIDEO_QUERY_DESC = "SELECT video_desc FROM videos WHERE video_id = ?;"
     VIDEO_QUERY_TAG = "SELECT video_id FROM videos WHERE video_tag = ?;"
     # search
-    SEARCH_ALL = "SELECT TITLE, SUMMARY, URL FROM videos_fts WHERE videos_fts MATCH jieba_query(?);"
+    SEARCH_ALL = "SELECT video_title, video_tags, video_desc FROM videos_fts WHERE videos_fts MATCH jieba_query(?) ORDER BY bm25(videos_fts);"

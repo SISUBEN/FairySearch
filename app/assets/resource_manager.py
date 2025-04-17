@@ -2,7 +2,7 @@ from typing import List
 from PySide6.QtCore import QFile, QTextStream, QTranslator
 from PySide6.QtWidgets import QApplication
 from app.utils.logger.logger import logger
-from app.libs.expection import UnsupportedLanguageError
+from app.libs.expection import UnsupportedLanguageError, ResourceNotFoundError
 from app.assets import resources_rc
 import locale
 import os
@@ -12,6 +12,7 @@ class ResourceManager:
     def __init__(self, application: QApplication = None):
         self.app = application
         self.current_dir: str = os.path.dirname(os.path.abspath(__file__))
+        logger.debug(self.current_dir)
         # TODO: change to QRC path mode
         self.covers_dir: str = os.path.join(self.current_dir, "covers")
         self.videos_dir: str = os.path.join(self.current_dir, "videos")
@@ -76,6 +77,22 @@ class ResourceManager:
             self.getI18nDirectory(),
             trans_file if trans_file else self.locale_lang + ".qm",
         )
+
+    def get3rdPartyLibs(self, name: str, libs: str = "") -> str:
+        path = os.path.join(self.current_dir, "3rdParty", name, libs)
+        # path = "c:\\Users\\32426\\Desktop\\toolbox\\.code\\py\\FairySearch\\app\\assets\\3rdParty\\libsimple"
+        logger.debug(path)
+        if os.path.exists(path) is True:
+            return path
+        else:
+            raise ResourceNotFoundError
+    def get3rdPartyDir(self, name: str) -> str:
+        path = os.path.join(self.current_dir, "3rdParty", name)
+        logger.debug(path)
+        if os.path.exists(path) is True:
+            return path
+        else:
+            raise ResourceNotFoundError
 
     def getTranslator(self, lang: str = "Auto") -> QTranslator:
         """get translator

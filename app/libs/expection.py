@@ -6,3 +6,6 @@ class VideoNotFoundError(Exception):
     
 class UnsupportedLanguageError(Exception):
     ...
+    
+class ResourceNotFoundError(Exception):
+    ...
