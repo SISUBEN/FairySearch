@@ -74,10 +74,10 @@ class SettingWindow(QWidget, Ui_SettingWindow):
     def onChangeLogLevel(self, index: int) -> None:
         if index == 0:
             logger.setLevel(logging.DEBUG)
-            cfg.set("log_level", "DEBUG")
+            cfg.set("logLevel", "DEBUG")
         elif index == 1:
             logger.setLevel(logging.INFO)
-            cfg.set("log_level", "INFO")
+            cfg.set("logLevel", "INFO")
             
     def onChangeLang(self, index: int) -> None:
         self.serializer.serialize(Language.AUTO)

@@ -41,7 +41,7 @@ class Videodb:
         Exception:
             sqlite3.Error: if add fail
         """
-        if self.get(video_title):
+        if self.is_video_exist(video_title):
             return
         tags = ",".join(video_tags)
         types = ",".join(video_type)
@@ -69,6 +69,16 @@ class Videodb:
             logger.debug(f"count videos error: {e}")
         finally:
             self.connect.close()
+        
+    def is_video_exist(self, video_title: str) -> bool:
+        try:
+            return bool(
+                self.connect.execute(
+                    Config.VIDEO_QUERY_TITLE, (video_title,)
+                ).fetchone()
+            )
+        except sqlite3.Error as e:
+            logger.debug(f"is video exist error: {e}")
 
     def get(self, video_id: int) -> tuple:
         """
@@ -82,9 +92,12 @@ class Videodb:
         """
 
         try:
-            return self.connect.execute(
+            logger.debug(video_id)
+            result = self.connect.execute(
                 Config.VIDEO_QUERY, (video_id,)
             ).fetchall()[0]
+            logger.debug(result)
+            return result
         except sqlite3.Error as e:
             logger.debug(f"video query error: {e}")
 

@@ -11,7 +11,7 @@ from PySide6.QtWidgets import (
     QLineEdit,
 )
 from PySide6.QtGui import QPixmap, QPainter, QIntValidator, QIcon
-from PySide6.QtWidgets import QWidget
+from PySide6.QtWidgets import QWidget, QStyle
 from PySide6.QtCore import Signal, Qt
 from PySide6.QtGui import QMouseEvent
 from PySide6.QtCore import Qt, QSize
@@ -33,7 +33,7 @@ class ItemWidget(QWidget):
         self.cover_label = QLabel(self)
         pixmap = QPixmap(cover_image_path)
         self.cover_label.setPixmap(pixmap)
-        self.cover_label.setScaledContents(True)  # zoom cover image
+        self.cover_label.setScaledContents(True) # zoom cover image
         layout.addWidget(self.cover_label)
 
         # allowd to zoom cover image
@@ -59,7 +59,9 @@ class PageWidget(QWidget):
     def __init__(self, items_data=list, *args, **kwargs):
         super(PageWidget, self).__init__(*args, **kwargs)
         layout = QGridLayout()
+        # layout.setObjectName("videos_layout")
         # set grid layout
+        
         for i, item_data in enumerate(items_data):
             item = ItemWidget(item_data["cover"], item_data["title"])
             item.clicked.connect(lambda v=item_data["vid"]: onClickVideos(v))
@@ -73,7 +75,6 @@ class PageWidget(QWidget):
         layout.setSpacing(10)  # set spacing between items
         layout.setContentsMargins(20, 10, 20, 20)
         self.setLayout(layout)
-
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWin, pages_data=[]):
@@ -93,25 +94,21 @@ class Ui_MainWindow(object):
                 "icon": ":/icons/icons/setting.svg",
             },
         ]
-        self.bg_image_path = ":/images/images/background.png"  # using QRC path
-        self.def_cover_path = ":/covers/covers/default.png"  # using QRC path
+        self.bg_image_path = ":/images/images/background.png"
+        self.def_cover_path = ":/covers/covers/default.png"
         self.button_qss = self.res_mgr.load(":/qss/qss/button.qss")
         self.line_edit_qss = self.res_mgr.load(":/qss/qss/line_edit.qss")
         self.setStyleSheet(
             "QWidget#Form {\n" f"	background-image: url({self.bg_image_path})\n" "}"
         )
-        # Prog layout
-        #         ↓ start from 0
-        # Pages: |0|1|2|...|n|
-        # User layout
-        #           ↓ start from 1
-        # Pages: |0|1|2|3|...|n+1|
         self.current_page = 0
+        self.search_box_current_page = 0
         self.main_layout = QVBoxLayout(self)
         self.bar_layout = QHBoxLayout()
         self.button_layout = QHBoxLayout()
         self.toolbar = QHBoxLayout()
         self.stacked_widget = QStackedWidget(self)
+        self.search_results_widget = QStackedWidget(self)
         
         # Add toolbar layout at the left top
         self.toolbar.setAlignment(Qt.AlignLeft)

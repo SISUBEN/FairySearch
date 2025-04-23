@@ -213,6 +213,7 @@ temp.ts
 *.mo
 *.qm
 app/assets/resources_rc.py
+*.bin
 
 # # config
 # config.json

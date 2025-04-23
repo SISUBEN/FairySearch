@@ -25,7 +25,7 @@ file.setFormatter(file_formatter)
 # cd to root
 os.chdir(root_dir)  # os.path.join(os.path.dirname(__file__), "../../../")
 script_name = os.path.splitext(os.path.basename(sys.argv[0]))[0]
-
+console = Console()
 # Creat RichHandler obj
 rich_handler = RichHandler(
     show_time=True,
@@ -69,7 +69,7 @@ def set_file_logger(name=script_name):
     except FileNotFoundError:
         os.mkdir("./log")
         file = open(log_file, mode="a", encoding="utf-8")
-
+    
     file_console = Console(
         file=file,
         no_color=True,
