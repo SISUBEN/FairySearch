@@ -19,31 +19,32 @@ from PySide6.QtWidgets import (QApplication, QHBoxLayout, QLabel, QSizePolicy,
     QSpacerItem, QTabWidget, QVBoxLayout, QWidget)
 from app.assets import resources_rc
 
-
 class Ui_SettingWindow(object):
     def setupUi(self, SettingWindow):
         if not SettingWindow.objectName():
             SettingWindow.setObjectName(u"SettingWindow")
         SettingWindow.resize(1139, 732)
         SettingWindow.setStyleSheet(u"QWidget {\n"
-"	background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0.987, y2:1, stop:0.159686 rgba(10, 10, 10, 255), stop:0.465969 rgba(43, 42, 40, 255), stop:1 rgba(108, 108, 108, 255))\n"
+"	background-color: url(:/images/images/background.png);\n"
 "    width:100%;\n"
 "    height:100%;\n"
 "}")
         self.verticalLayout_2 = QVBoxLayout(SettingWindow)
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
         self.verticalLayout = QVBoxLayout()
+        self.verticalLayout.setSpacing(6)
         self.verticalLayout.setObjectName(u"verticalLayout")
+        self.verticalLayout.setContentsMargins(20, -1, 20, 5)
         self.horizontalLayout = QHBoxLayout()
         self.horizontalLayout.setObjectName(u"horizontalLayout")
-        self.label_2 = QLabel(SettingWindow)
-        self.label_2.setObjectName(u"label_2")
+        self.title = QLabel(SettingWindow)
+        self.title.setObjectName(u"title")
         font = QFont()
         font.setFamilies([u"\u5fae\u8f6f\u96c5\u9ed1"])
         font.setPointSize(20)
         font.setBold(True)
-        self.label_2.setFont(font)
-        self.label_2.setStyleSheet(u"/*QTabWidget*/\n"
+        self.title.setFont(font)
+        self.title.setStyleSheet(u"/*QTabWidget*/\n"
 "QTabWidget::pane{\n"
 "border:none;\n"
 "}\n"
@@ -75,10 +76,14 @@ class Ui_SettingWindow(object):
 "    border-radius:6px;\n"
 "}")
 
-        self.horizontalLayout.addWidget(self.label_2)
+        self.horizontalLayout.addWidget(self.title)
 
 
         self.verticalLayout.addLayout(self.horizontalLayout)
+
+        self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.verticalLayout.addItem(self.horizontalSpacer)
 
         self.tabWidget = QTabWidget(SettingWindow)
         self.tabWidget.setObjectName(u"tabWidget")
@@ -86,37 +91,6 @@ class Ui_SettingWindow(object):
         font1.setFamilies([u"Microsoft YaHei"])
         font1.setPointSize(12)
         self.tabWidget.setFont(font1)
-        self.tabWidget.setStyleSheet(u"/*QTabWidget*/\n"
-"QTabWidget::pane{\n"
-"border:none;\n"
-"}\n"
-"\n"
-"QTabWidget::tab-bar {\n"
-"     left: 5px;\n"
-"}\n"
-"\n"
-"QTabBar::tab {\n"
-"     background: gray;\n"
-"     /*border: 2px solid #C4C4C3;*/\n"
-"     border-bottom-color: #C2C7CB;\n"
-"     border-top-left-radius: 4px;\n"
-"     border-top-right-radius: 4px;\n"
-"     min-width: 60px;\n"
-"     padding: 2px;\n"
-" }\n"
-"\n"
-"QTabBar::tab:selected{\n"
-"    background:qlineargradient(spread:pad,x1:0,y1:0,x2:0,y2:1,stop:0 #626262,stop:1 #545454);\n"
-"}\n"
-"\n"
-"QTabBar::tab:!selected{\n"
-"    margin-top:5px;\n"
-"}\n"
-"/*\u56db\u4e2a\u4e0b\u5c5e\u754c\u9762*/\n"
-"/*#tabWidget > QWidget*/\n"
-"QWidget #devSettingPage #langSettingPage  {\n"
-"	border:1px solid gray;\n"
-"}")
         self.langSettingPage = QWidget()
         self.langSettingPage.setObjectName(u"langSettingPage")
         self.langSettingPage.setStyleSheet(u"")
@@ -149,13 +123,16 @@ class Ui_SettingWindow(object):
 
         self.verticalLayout.addWidget(self.tabWidget)
 
+        self.verticalLayout.setStretch(0, 5)
+        self.verticalLayout.setStretch(1, 1)
+        self.verticalLayout.setStretch(2, 40)
 
         self.verticalLayout_2.addLayout(self.verticalLayout)
 
 
         self.retranslateUi(SettingWindow)
 
-        self.tabWidget.setCurrentIndex(1)
+        self.tabWidget.setCurrentIndex(0)
 
 
         QMetaObject.connectSlotsByName(SettingWindow)
@@ -163,7 +140,8 @@ class Ui_SettingWindow(object):
 
     def retranslateUi(self, SettingWindow):
         SettingWindow.setWindowTitle(QCoreApplication.translate("SettingWindow", u"Form", None))
-        self.label_2.setText(QCoreApplication.translate("SettingWindow", u"FairySearch - \u8bbe\u5b9a", None))
+        self.title.setText(QCoreApplication.translate("SettingWindow", u"FairySearch - \u8bbe\u5b9a", None))
+        self.tabWidget.setStyleSheet(QCoreApplication.translate("SettingWindow", u"0", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.langSettingPage), QCoreApplication.translate("SettingWindow", u"\u8bed\u8a00", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.devSettinPage), QCoreApplication.translate("SettingWindow", u"\u5f00\u53d1\u8005\u8bbe\u5b9a", None))
     # retranslateUi

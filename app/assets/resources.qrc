@@ -53,6 +53,7 @@
     <file>sql/init_fts.sql</file>
     <file>sql/init_fts_table.sql</file>
     <file>sql/triggers.sql</file>
+    <file>sql/queries.yaml</file>
   </qresource>
   <qresource prefix="qss">
     <file>qss/button.qss</file>

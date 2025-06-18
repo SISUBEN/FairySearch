@@ -1,4 +1,5 @@
 from .db_config import Config
+from app.database.db_config import DatabaseQueryManager as QueryMgr
 from app.database.base import Database
 from app.utils.crypto import CryptoHasher
 from app.utils.logger.logger import logger
@@ -7,8 +8,8 @@ import sqlite3
 class Userdb(Database):
     def __init__(self) -> None:
         self.cryptor = CryptoHasher()
-        self.connect = sqlite3.connect(Config.PATHS.get("user_db"))
-        self.INIT_USER_DB_SQL = Config.load(Config.PATHS.get("init_user_db_sql"))
+        self.connect = sqlite3.connect(Config.get_path("user_db"))
+        self.INIT_USER_DB_SQL = Config.load(Config.get_path("init_user_db_sql"))
         self.init()
 
     def init(self) -> None:
@@ -46,7 +47,8 @@ class Userdb(Database):
         try:
             encrypted = self.cryptor.sha256(password)
             token = self.generate_token(username, encrypted)
-            self.connect.execute(Config.USER_ADD, (username, encrypted, token))
+            
+            self.connect.execute(QueryMgr.get_query("user.user_add"), (username, encrypted, token))
             self.connect.commit()
             return token
         except sqlite3.Error as e:
@@ -65,8 +67,9 @@ class Userdb(Database):
             bool: is True if token is valid
         """
         try:
+            
             return (
-                self.connect.execute(Config.USER_QUERY, (token,)).fetchone()
+                self.connect.execute(QueryMgr.get_query("user.user_query"), (token,)).fetchone()
                 is not None
             )
         except sqlite3.Error as e:
@@ -86,7 +89,7 @@ class Userdb(Database):
         """
         try:
             return self.connect.execute(
-                Config.USER_QUERY, (username,)
+                QueryMgr.get_query("user.user_query"), (username,)
             ).fetchone()[0][0]
         except sqlite3.Error as e:
             logger.debug(f"get token error: {e}")
@@ -125,7 +128,7 @@ class Userdb(Database):
         """
         try:
             return (
-                self.connect.execute(Config.USER_QUERY_EXISTS, (username,)).fetchone()
+                self.connect.execute(QueryMgr.get_query("user.user_query_exists"), (username,)).fetchone()
                 is not None
             )  # if query result is not None, return True, else return result
         except sqlite3.Error as e:
@@ -142,7 +145,7 @@ class Userdb(Database):
         """
         try:
             return self.connect.execute(
-                Config.USERNAME_QUERY, (token,)
+                QueryMgr.get_query("user.username_query"), (token,)
             ).fetchall()[0][0]
         except sqlite3.Error as e:
             logger.debug(f"query username error: {e}")
@@ -165,7 +168,7 @@ class Userdb(Database):
         """
         try:
             return self.connect.execute(
-                Config.USER_QUERY_PWD_BY_USRNAME, (username,)
+                QueryMgr.get_query("user.user_query_pwd_by_usrname"), (username,)
             ).fetchall()[0][0]
         except sqlite3.Error as e:
             logger.debug(f"query user password error: {e}")
@@ -186,7 +189,7 @@ class Userdb(Database):
         """
         try:
             return self.connect.execute(
-                Config.USER_QUERY_UID, (token,)
+                QueryMgr.get_query("user.user_query_uid"), (token,)
             ).fetchall()[0][0]
         except sqlite3.Error as e:
             logger.debug(f"get uid error: {e}")

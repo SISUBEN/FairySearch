@@ -71,6 +71,8 @@ class Config(QConfig):
         "zh_CN",
         OptionsValidator(["en_US", "zh_CN", "zh_TW", "Auto"]),
     )
+    video_db = ConfigItem("Path", "video_db", Path())
+    user_db = ConfigItem("Path", "user_db", Path())
 
 
 cfg = Config()

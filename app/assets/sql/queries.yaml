@@ -1,0 +1,40 @@
+sql:
+  reset_id: "alter table ? AUTO_INCREMENT=1;"
+
+search_history:
+  query_sh: "SELECT title FROM search_history WHERE userid=?;"
+  count_sh: "SELECT COUNT(*) FROM search_history WHERE userid=?;"
+  filte_sh: "SELECT title, timestamp, duration FROM search_history WHERE userid=? ORDER BY timestamp DESC LIMIT ? OFFSET ?;"
+  filte_sh_all: "SELECT title, timestamp, duration, uuid, vid FROM search_history WHERE userid=? ORDER BY timestamp"
+  add_sh: "INSERT INTO search_history (uuid, vid, userid ,title, timestamp, duration) VALUES (?, ?, ?, ?, ?, ?);"
+
+user:
+  user_add: "INSERT INTO users (username, password, token) VALUES (?, ?, ?);"
+  user_query_exists: "SELECT * FROM users WHERE username=?;"
+  user_query: "SELECT * FROM users WHERE token=?;"
+  username_query: "SELECT username FROM users WHERE token=?;"
+  user_query_pwd: "SELECT password FROM users WHERE token=?;"
+  user_query_pwd_by_usrname: "SELECT password FROM users WHERE username=?;"
+  user_query_uid: "SELECT uid FROM users WHERE token=?;"
+  user_query_token: "SELECT token FROM users WHERE username=?;"
+  destroy_table: "DROP TABLE IF EXISTS ?;"
+
+video:
+  video_add: "INSERT INTO videos (video_title, video_cover_path, video_time_sec, video_type, video_tags, video_desc) VALUES (?, ?, ?, ?, ?, ?);"
+  video_query: "SELECT * FROM videos WHERE video_id=?;"
+  video_query_by_page: "SELECT * FROM videos ORDER BY video_id DESC LIMIT ?,?;"
+  video_query_all: "SELECT * FROM videos;"
+  video_count: "SELECT COUNT(*) FROM videos"
+  video_query_title: "SELECT video_title FROM videos WHERE video_id = ?;"
+  video_query_desc: "SELECT video_desc FROM videos WHERE video_id = ?;"
+  video_query_tag: "SELECT video_id FROM videos WHERE video_tag = ?;"
+
+search:
+  search_all: "SELECT video_id, video_title, video_tags, video_desc FROM videos_fts WHERE videos_fts MATCH jieba_query(?) ORDER BY bm25(videos_fts);"
+  simple_search: "SELECT video_id, video_title, video_tags, video_desc FROM videos_fts WHERE videos_fts MATCH ? ORDER BY bm25(videos_fts);"
+
+general:
+  db_is_exists: "SELECT name FROM sqlite_master WHERE type='table' AND name=?;"
+
+# import this:
+# from app.database.db_config import DatabaseQueryManager as QueryMgr

@@ -11,6 +11,7 @@ from app.modules.ui_setting import Ui_SettingWindow
 from app.libs.expection import UnsupportedLanguageError
 from app.i18n import _, t
 from app.assets.config import cfg
+from qfluentwidgets import SwitchButton
 
 class SettingWindow(QWidget, Ui_SettingWindow):
     def __init__(self, app: QApplication) -> None:
@@ -24,9 +25,7 @@ class SettingWindow(QWidget, Ui_SettingWindow):
         self.app = app
         self.rm = ResourceManager(app)
         self.support_lang = ["English", "简体中文", "繁體中文"]
-        import pdb
         self.lang_combo_box = self.creator.createComboBox(self.support_lang)
-        # pdb.set_trace()
         self.current_lang = cfg.get(cfg.language)
         logger.debug(f"current language: {self.current_lang}")
         match self.current_lang:

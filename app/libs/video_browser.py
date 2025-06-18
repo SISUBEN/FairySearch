@@ -180,13 +180,13 @@ class VideoBrowser(QWidget, Ui_VideoBrowser):
         painter.drawPixmap(self.rect(), pixmap)
 
     def closeEvent(self, event):
+        self.submitStatus()
         self.media_player.stop()
         self.timer.stop()
         self.media_player.set_media(QMediaPlayer.Media())
         event.accept()
 
     def closeEventWrapper(self, event):
-        self.submitStatus()
         self.media_player.stop()
         self.timer.stop()
         event.accept()

@@ -16,32 +16,37 @@
 # If not, see <https://www.gnu.org/licenses/>.
 
 from app import Console, Rule, QApplication, QIcon
-from app.libs.login import LoginWindow
 from app.assets.resource_manager import ResourceManager
+from app.database.db_config import DatabaseQueryManager as QueryMgr
+from app.libs.login import LoginWindow
 from app.libs.expection import UnsupportedLanguageError
 from app.libs.dialog import Dialog
 from app.utils.logger.logger import logger
 from app.i18n import _
 
-rm = ResourceManager()
-dialog = Dialog()
+import pretty_errors
+
 if __name__ == "__main__":
     try:
         console = Console()
         console.print(Rule("Initializing"))
 
         app = QApplication([])
+        QueryMgr.load_queries()
+        logger.debug("Database queries loaded")
         rm = ResourceManager(app)
         rm.setTranslation()
         app.setWindowIcon(QIcon(":/icons/icons/icon.ico"))
 
-        loginWindow = LoginWindow(app)
+        try:
+            dialog = Dialog()
+            loginWindow = LoginWindow(app)
+        except Exception as e:
+            logger.error(f"Error initializing UI components: {e}")
+            raise
         loginWindow.show()
-
         app.exec()
     except KeyboardInterrupt:
-        logger.error(_(f"The program was interrupted by the user"))
-    except UnsupportedLanguageError:
-        pass
+        logger.error(f"The program was interrupted by the user")
     finally:
         app.shutdown()

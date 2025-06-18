@@ -1,7 +1,8 @@
-from .db_config import Config
+from .db_config import Config, DatabaseQueryManager as query_mgr
 from app.utils.crypto import CryptoHasher
 from app.utils.logger.logger import logger
 from app.assets.resource_manager import ResourceManager
+from app.database.db_config import DatabaseQueryManager as QueryMgr
 import uuid
 import sqlite3
 import traceback
@@ -11,9 +12,9 @@ import os
 class Searchdb:
     def __init__(self) -> None:
         self.res_mgr = ResourceManager()
-        self.connect = sqlite3.connect(Config.PATHS.get("video_db"))
-        self.init_search_db = Config.load(Config.PATHS.get("init_fts_sql"))
-        self.triggers = Config.load(Config.PATHS.get("triggers_sql"))
+        self.connect = sqlite3.connect(Config.get_path("video_db"))
+        self.init_search_db = Config.load(Config.get_path("init_fts_sql"))
+        self.triggers = Config.load(Config.get_path("triggers_sql"))
         # # detect is video and video_fts exists
         # result = self.connect.execute(
         #     "SELECT name FROM sqlite_master WHERE type='table' AND name='videos' OR name='videos_fts';"
@@ -49,7 +50,8 @@ class Searchdb:
             bool: True if the database exists, False otherwise.
         """
         cursor = self.connect.cursor()
-        result = cursor.execute(Config.DB_IS_EXISTS, (db_name,)).fetchone()
+        # result = cursor.execute(Config.DB_IS_EXISTS, (db_name,)).fetchone()
+        result = cursor.execute(query_mgr.get_query("general.db_is_exists"), (db_name,))
         return result is not None
 
     def destroy(self, db_name: str) -> None:
@@ -80,15 +82,15 @@ class Searchdb:
         try:
             path = self.res_mgr.get3rdPartyDir("libsimple")
             os.chdir(path)
-            # result = self.connect.execute(Config.SEARCH_ALL, (keyword,))
-            result = self.connect.execute(Config.SIMPLE_SEARCH, (keyword,))
+            result = self.connect.execute(QueryMgr.get_query("search.search_all"), (keyword,))
+            # result = self.connect.execute(QueryMgr.get_query("search.simple_search"), (keyword,))
             return result.fetchall()
         except sqlite3.Error as e:
             logger.error(f"search fail: {traceback.format_exc()}")
             return []
         except sqlite3.OperationalError:
             logger.error("Fail to init search engine, change to default search mode")
-            result = self.connect.execute(Config.SIMPLE_SEARCH, (keyword,))
+            result = self.connect.execute(QueryMgr.get_query("search.simple_search"), (keyword,))
             return result.fetchall()
 
     def __del__(self):

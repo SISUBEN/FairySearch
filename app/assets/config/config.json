@@ -1,6 +1,10 @@
 {
-    "Setting":{
-        "logLevel":"INFO",
-        "Language":"zh_CN"
-    }
+  "Setting": {
+    "logLevel": "INFO",
+    "Language": "zh_CN"
+  },
+  "Path": {
+    "video_db": "",
+    "user_db": ""
+  }
 }

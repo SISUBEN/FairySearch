@@ -54,7 +54,6 @@ class ItemWidget(QWidget):
             self.clicked.emit()  # Emit clicked signal
         super().mousePressEvent(event)
 
-
 class PageWidget(QWidget):
     def __init__(self, items_data=list, *args, **kwargs):
         super(PageWidget, self).__init__(*args, **kwargs)
@@ -151,10 +150,10 @@ class Ui_MainWindow(object):
 
         # add buttons to layout
         self.button_layout.addWidget(self.prev_button)
-        self.button_layout.addWidget(self.next_button)
         self.button_layout.addWidget(self.label)
-        self.button_layout.addWidget(self.label2)
         self.button_layout.addWidget(self.page_number)
+        self.button_layout.addWidget(self.label2)
+        self.button_layout.addWidget(self.next_button)
         self.main_layout.addLayout(self.button_layout)
 
     def createSearchBox(self):

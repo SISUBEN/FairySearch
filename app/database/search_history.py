@@ -2,14 +2,15 @@ from .db_config import Config
 from app.utils.crypto import CryptoHasher
 from app.utils.logger.logger import logger
 from app.database.base import Database
+from app.database.db_config import DatabaseQueryManager as QueryMgr
 import uuid
 import sqlite3
 
 class SearchHistorydb(Database):
     def __init__(self) -> None:
         self.cryptor = CryptoHasher()
-        self.connect = sqlite3.connect(Config.PATHS.get("user_db"))
-        self.INIT_SH_DB_SQL = Config.load(Config.PATHS.get("init_search_history_db_sql"))
+        self.connect = sqlite3.connect(Config.get_path("user_db"))
+        self.INIT_SH_DB_SQL = Config.load(Config.get_path("init_search_history_db_sql"))
         self.init()
 
     def init(self) -> None:
@@ -31,7 +32,7 @@ class SearchHistorydb(Database):
             sqlite3.Error: If an error occurs during the database query.
         """
         try:
-            return self.connect.execute(Config.COUNT_SH, (username,)).fetchone()[
+            return self.connect.execute(QueryMgr.get_query("search_history.count_sh"), (username,)).fetchone()[
                 0
             ]
         except sqlite3.Error as e:
@@ -68,7 +69,7 @@ class SearchHistorydb(Database):
         """
         try:
             self.connect.execute(
-                Config.SH_ADD, (uuid, vid, userid, title, timestamp, duration)
+                QueryMgr.get_query("search_history.add_sh"), (uuid, vid, userid, title, timestamp, duration)
             )
             self.connect.commit()
         except sqlite3.Error as e:
@@ -91,9 +92,10 @@ class SearchHistorydb(Database):
             sqlite3.Error: If an error occurs during the database query.
         """
         offset = (page_num - 1) * page_size
+        from app.database.db_config import DatabaseQueryManager as QueryMgr
         try:
             return self.connect.execute(
-                Config.FILTE_SH, (userid, offset, page_size)
+                QueryMgr.get_query("search_history.query_sh"), (userid, offset, page_size)
             ).fetchall()
         except sqlite3.Error as e:
             logger.error(f"query search history error: {e}")
@@ -108,9 +110,10 @@ class SearchHistorydb(Database):
         Raises:
             sqlite3.Error: If an error occurs during the database query.
         """
+        
         try:
             return self.connect.execute(
-                Config.FILTE_SH_ALL, (userid,)
+                QueryMgr.get_query("search_history.filte_sh_all"), (userid,)
             ).fetchall()
         except sqlite3.Error as e:
             logger.error(f"query search history error: {e}")

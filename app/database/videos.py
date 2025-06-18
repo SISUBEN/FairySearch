@@ -1,5 +1,5 @@
 import sqlite3
-from .db_config import Config
+from .db_config import Config, Default, DatabaseQueryManager as QueryMgr
 from app.utils.crypto import CryptoHasher
 from app.utils.logger.logger import logger
 
@@ -7,8 +7,8 @@ from app.utils.logger.logger import logger
 class Videodb:
     def __init__(self) -> None:
         self.cryptor = CryptoHasher()
-        self.connect = sqlite3.connect(Config.PATHS.get("video_db"))
-        self.INIT_VIDEO_DB_SQL = Config.load(Config.PATHS.get("init_video_db_sql"))
+        self.connect = sqlite3.connect(Config.get_path("video_db"))
+        self.INIT_VIDEO_DB_SQL = Config.load(Config.get_path("init_video_db_sql"))
         self.init()
 
     def init(self) -> None:
@@ -26,7 +26,7 @@ class Videodb:
         video_type: str,
         video_tags: list,
         video_desc: str,
-        video_cover_path: str = Config.DEFAULT_COVER,
+        video_cover_path: str = Default.DEFAULT_COVER,
     ):
         """insert video to database
 
@@ -47,7 +47,7 @@ class Videodb:
         types = ",".join(video_type)
         try:
             self.connect.execute(
-                Config.VIDEO_ADD,
+                QueryMgr.get_query("video.video_add"),
                 (
                     video_title,
                     video_cover_path,
@@ -64,7 +64,7 @@ class Videodb:
 
     def count_videos(self) -> int:
         try:
-            return int(self.connect.execute(Config.VIDEO_COUNT).fetchone()[0])
+            return int(self.connect.execute(QueryMgr.get_query("video.video_count")).fetchone()[0])
         except sqlite3.Error as e:
             logger.debug(f"count videos error: {e}")
         finally:
@@ -74,7 +74,7 @@ class Videodb:
         try:
             return bool(
                 self.connect.execute(
-                    Config.VIDEO_QUERY_TITLE, (video_title,)
+                    QueryMgr.get_query("video.video_query_title"), (video_title,)
                 ).fetchone()
             )
         except sqlite3.Error as e:
@@ -94,7 +94,7 @@ class Videodb:
         try:
             logger.debug(video_id)
             result = self.connect.execute(
-                Config.VIDEO_QUERY, (video_id,)
+                QueryMgr.get_query("video.video_query"), (video_id,)
             ).fetchall()[0]
             logger.debug(result)
             return result
@@ -112,11 +112,8 @@ class Videodb:
             sqlite3.Error: If an error occurs during the database query.
         """
         try:
-            logger.debug(
-                f"title: {self.connect.execute(Config.VIDEO_QUERY_TITLE, (vid,)).fetchall()[0][0]}\nvid: {vid}"
-            )
             return self.connect.execute(
-                Config.VIDEO_QUERY_TITLE, (vid,)
+                QueryMgr.get_query("video.video_query_title"), (vid,)
             ).fetchall()
 
         except sqlite3.Error as e:
@@ -134,7 +131,7 @@ class Videodb:
         """
         try:
             return self.connect.execute(
-                Config.VIDEO_QUERY_DESC, (vid,)
+                QueryMgr.get_query("video.video_query_desc"), (vid,)
             ).fetchall()[0][0]
         except sqlite3.Error as e:
             logger.debug(f"query desc by vid error: {e}")
@@ -153,7 +150,7 @@ class Videodb:
 
         try:
             return self.connect.execute(
-                Config.VIDEO_QUERY_BY_PAGE, (page, page_size)
+                QueryMgr.get_query("video.video_query_by_page"), (page, page_size)
             ).fetchall()[0]
         except sqlite3.Error as e:
             logger.debug(f"query videos by page error: {e}")
@@ -168,7 +165,7 @@ class Videodb:
             sqlite3.Error: if query fail
         """
         try:
-            return self.connect.execute(Config.VIDEO_QUERY_ALL).fetchall()
+            return self.connect.execute(QueryMgr.get_query("video.video_query_all")).fetchall()
         except sqlite3.Error as e:
             logger.debug(f"query videos all error: {e}")
 
@@ -185,7 +182,7 @@ class Videodb:
             sqlite3.Error: if query fail
         """
         try:
-            return self.connect.execute(Config.VIDEO_QUERY_TAG, (tag,)).fetchall()
+            return self.connect.execute(QueryMgr.get_query("video.video_query_tag"), (tag,)).fetchall()
         except sqlite3.Error as e:
             logger.debug(f"query videos by type error: {e}")
 
