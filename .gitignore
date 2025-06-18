@@ -214,6 +214,7 @@ temp.ts
 *.qm
 app/assets/resources_rc.py
 *resources_rc.py
+resources_rc.py
 *.bin
 
 # # config
