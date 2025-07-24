@@ -2,7 +2,7 @@ from typing import List
 from PySide6.QtCore import QFile, QTextStream, QTranslator
 from PySide6.QtWidgets import QApplication
 from app.utils.logger.logger import logger
-from app.libs.expection import UnsupportedLanguageError, ResourceNotFoundError
+from app.libs.exception import UnsupportedLanguageError, ResourceNotFoundError
 from app.assets import resources_rc
 import locale
 import os

@@ -4,7 +4,7 @@ from app.database.users import Userdb
 from app.utils.crypto import CryptoHasher
 from app.utils.validator import Password, Username
 from app.libs.main import MainWindow
-from app.libs.expection import NoLoginError
+from app.libs.exception import NoLoginError
 from app.libs.dialog import Dialog
 from app.i18n import _
 

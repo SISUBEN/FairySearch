@@ -1,6 +1,6 @@
 from typing import Callable
 from app.libs.video_browser import VideoBrowser
-from app.libs.expection import NoLoginError, VideoNotFoundError
+from app.libs.exception import NoLoginError, VideoNotFoundError
 from app.libs.dialog import Dialog
 from app import QApplication, QWidget, logger, QPainter, QPixmap, QPushButton
 

@@ -6,7 +6,7 @@ from app.modules.ui_video_browser import Ui_VideoBrowser
 from app.database.videos import Videodb
 from app.assets.resource_manager import ResourceManager
 from app.libs.dialog import Dialog
-from app.libs.expection import VideoNotFoundError
+from app.libs.exception import VideoNotFoundError
 from app.i18n import _
 
 class VideoBrowser(QWidget, Ui_VideoBrowser):

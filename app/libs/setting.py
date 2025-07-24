@@ -8,7 +8,7 @@ from app.utils.logger.logger import logger
 from app.helper.widget import WidgetCreator
 from app.assets.config import LanguageSerializer, Language
 from app.modules.ui_setting import Ui_SettingWindow
-from app.libs.expection import UnsupportedLanguageError
+from app.libs.exception import UnsupportedLanguageError
 from app.i18n import _, t
 from app.assets.config import cfg
 from qfluentwidgets import SwitchButton

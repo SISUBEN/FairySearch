@@ -19,7 +19,7 @@ from app import Console, Rule, QApplication, QIcon
 from app.assets.resource_manager import ResourceManager
 from app.database.db_config import DatabaseQueryManager as QueryMgr
 from app.libs.login import LoginWindow
-from app.libs.expection import UnsupportedLanguageError
+from app.libs.exception import UnsupportedLanguageError
 from app.libs.dialog import Dialog
 from app.utils.logger.logger import logger
 from app.i18n import _
