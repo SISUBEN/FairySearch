@@ -2,6 +2,7 @@ from typing import Callable
 from app.libs.video_browser import VideoBrowser
 from app.libs.exception import NoLoginError, VideoNotFoundError
 from app.libs.dialog import Dialog
+from app.libs.search_window import SearchWindow
 from app import QApplication, QWidget, logger, QPainter, QPixmap, QPushButton
 
 # to avoid circular import
@@ -85,14 +86,13 @@ class MainWindow(
                 logger.info(f"Keyword [{keyword}] No search result")
                 dialog.standard(_("错误"), _(f"没有找到相关视频"))
             else:
-                self.stacked_widget.setVisible(False)
-                self.search_results_widget.setVisible(True)
-                self.search_result = self.converter(self.search_result)
-                # logger.debug(f"test: {self.search_result}")
-                self.loadSearchPage(0)
-        else:
-            self.stacked_widget.setVisible(True)
-            self.search_results_widget.setVisible(False)
+                # Convert search results and open in new window
+                converted_results = self.converter(self.search_result)
+                search_window = SearchWindow(converted_results, keyword, self.app)
+                search_window.show()
+                
+                # Clear search box
+                self.search_box.clear()
 
     @TimeKeeper.timer
     def getVideos(self, page_size: int = 9) -> list:
@@ -138,17 +138,28 @@ class MainWindow(
         loader: function = self.__getCurrentLoader()
         current_page_no = self.__getCurrentPageNo()
         page_data = self.__getCurrentData()
-        page_num = int(self.page_number.text())
-        if page_num < 0 or page_num < len(page_data) - 1:
-            return
-        current_page_no = page_num - 1
-        loader(current_page_no)
-        self.updateButtons()
+        try:
+            page_num = int(self.page_number.text())
+            if page_num < 1 or page_num > len(page_data):
+                return
+            target_page = page_num - 1
+            
+            # Update current page variable
+            if self.content_container.currentIndex() == 1:
+                self.search_box_current_page = target_page
+            else:
+                self.current_page = target_page
+                
+            loader(target_page)
+            self.updateButtons()
+        except ValueError:
+            # Invalid input, ignore
+            pass
 
     def __getCurrentBoxObj(self) -> QStackedWidget:
         return (
             self.search_results_widget
-            if self.search_results_widget.isVisible()
+            if self.content_container.currentIndex() == 1
             else self.stacked_widget
         )
 
@@ -178,21 +189,21 @@ class MainWindow(
     def __getCurrentPageNo(self) -> int:
         return (
             self.search_box_current_page
-            if self.search_results_widget.isVisible()
+            if self.content_container.currentIndex() == 1
             else self.current_page
         )
 
     def __getCurrentLoader(self) -> Callable:
         return (
-            self.loadPage
-            if self.search_results_widget.isVisible()
-            else self.loadSearchPage
+            self.loadSearchPage
+            if self.content_container.currentIndex() == 1
+            else self.loadPage
         )
 
     def __getCurrentData(self) -> list:
         return (
             self.search_result
-            if self.search_results_widget.isVisible()
+            if self.content_container.currentIndex() == 1
             else self.pages_data
         )
 
@@ -209,14 +220,25 @@ class MainWindow(
     #     self.search_results_widget.setCurrentIndex(page_index)
 
     def loadSearchPage(self, page_index: int) -> None:
-        # no cache
-        if 0 <= page_index < len(self.search_result):
-            # import pdb;pdb.set_trace()
-            # logger.debug(self.search_result[page_index])
-            page = PageWidget([self.search_result[page_index]])
-            self.search_results_widget.addWidget(page)
-            logger.debug(f"Page {page_index, self.search_result[page_index]} loaded")
-        self.search_results_widget.setCurrentIndex(page_index)
+        # Initialize search cache if needed
+        if not hasattr(self, 'search_cache'):
+            self.search_cache = {}
+        
+        # Check if page is already cached
+        if page_index not in self.search_cache:
+            if 0 <= page_index < len(self.search_result):
+                # Create page with single search result item
+                page = PageWidget([self.search_result[page_index]])
+                self.search_results_widget.addWidget(page)
+                self.search_cache[page_index] = self.search_results_widget.count() - 1
+                logger.debug(f"Search page {page_index} loaded")
+        
+        # Set current page
+        if page_index in self.search_cache:
+            self.search_results_widget.setCurrentIndex(self.search_cache[page_index])
+        
+        # Update current page number
+        self.search_box_current_page = page_index
 
     # Lazy loading
     def loadPage(self, page_index: int) -> None:
@@ -234,13 +256,16 @@ class MainWindow(
         current_page_no = self.__getCurrentPageNo()
         if current_page_no > 0:
             current_page_no -= 1
+            
+            # Update current page variable
+            if self.content_container.currentIndex() == 1:
+                self.search_box_current_page = current_page_no
+            else:
+                self.current_page = current_page_no
+                
             self.page_number.setText(str(current_page_no + 1))
             # self.loadPage(current_page_no)  # load prev page
             loader(current_page_no)
-            self.updateButtons()
-        elif current_page_no == 0:
-            self.page_number.setText("1")
-            loader(0)
             self.updateButtons()
 
     def showNextPage(self) -> None:
@@ -248,8 +273,16 @@ class MainWindow(
         # pdb.set_trace()
         current_page_no = self.__getCurrentPageNo()
         loader: function = self.__getCurrentLoader()
-        if current_page_no < len(self.pages_data) - 1:
+        page_data = self.__getCurrentData()
+        if current_page_no < len(page_data) - 1:
             current_page_no += 1
+            
+            # Update current page variable
+            if self.content_container.currentIndex() == 1:
+                self.search_box_current_page = current_page_no
+            else:
+                self.current_page = current_page_no
+                
             self.page_number.setText(str(current_page_no + 1))
             # self.loadPage(current_page_no)
             loader(current_page_no)
@@ -258,7 +291,7 @@ class MainWindow(
     def updateButtons(self) -> None:
         current_page_no = self.__getCurrentPageNo()
         page_data = self.__getCurrentData()
-        # self.prev_button.setEnabled(current_page_no > 0)
-        # self.next_button.setEnabled(current_page_no < len(page_data) - 1)
+        self.prev_button.setEnabled(current_page_no > 0)
+        self.next_button.setEnabled(current_page_no < len(page_data) - 1)
 
     

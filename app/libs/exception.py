@@ -15,22 +15,22 @@ class ResourceNotFoundError(Exception):
 class PRTSRuntimeError(Exception):
     ...
     
-class RealityFabricationError(Exception, PRTSRuntimeError):
+class RealityFabricationError(PRTSRuntimeError):
     ...
     
-class EncryptionCollapseError(Exception, PRTSRuntimeError):
+class EncryptionCollapseError(PRTSRuntimeError):
     ...
     
-class CausalityLoopDetected(Exception, PRTSRuntimeError):
+class CausalityLoopDetected(PRTSRuntimeError):
     ...
     
-class TypeEtherViolation(Exception, PRTSRuntimeError):
+class TypeEtherViolation(PRTSRuntimeError):
     ...
     
-class IdentityNotFoundException(Exception, PRTSRuntimeError):
+class IdentityNotFoundException(PRTSRuntimeError):
     ...
     
-class HydroThermalError(Exception, PRTSRuntimeError):
+class HydroThermalError(PRTSRuntimeError):
     ...
     
 # //SYSTEM STATUS UPDATE//

@@ -11,7 +11,10 @@ from PySide6.QtWidgets import (
     QFileDialog,
     QHBoxLayout,
     QFrame,
-    QGridLayout
+    QGridLayout,
+    QStackedWidget,
+    QLabel,
+    QLineEdit
 )
 from PySide6.QtCore import Qt
 from PySide6.QtCore import QCoreApplication

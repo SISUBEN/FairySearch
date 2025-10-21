@@ -41,6 +41,7 @@ class ProfileWindow(QWidget, Ui_Profile):
         # bind slot
         self.onSearchHistory()
         self.changeAvatar.clicked.connect(self.onChangeAvatar)
+        self.RecomImmediatelyBtn.clicked.connect(self.onClickRecomImme)
         # self.tableWidget.cellClicked.connect(self.onClickTitle)
         # self.tableWidget.cellDoubleClicked.connect(self.onClickTitle)
 
@@ -52,6 +53,25 @@ class ProfileWindow(QWidget, Ui_Profile):
 
     def onClickTitle(self, vid: int):
         logger.debug(f"to vid: {vid}")
+    
+    def onClickRecomImme(self):
+        from app.libs.dialog import Dialog
+        self.dialog = Dialog()
+        self.dialog.standard(
+            title="⚠警告⚠",
+            text="此功能透过填写一些与您相关\n的表单以向 FairyRecom 立即请求推荐的结果\n可能存在不准确的结果，您要继续吗？"
+        )
+        self.init_fairyrecom()
+        import webbrowser
+        webbrowser.open("http://localhost:8000/recom_form")
+        
+    def init_fairyrecom(self):
+        import subprocess
+        result = subprocess.Popen("python ../../FairyRecom/run_api.py", shell=True)
+        if result.returncode != 0:
+            logger.error("FairyRecom run_api.py failed")
+            return
+        logger.info("FairyRecom run_api.py success")
 
     def addSearchHistory(
         self,

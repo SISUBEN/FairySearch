@@ -26,12 +26,17 @@ class ItemWidget(QWidget):
     clicked = Signal()
     
     def __init__(self, cover_image_path: str, title: str, *args, **kwargs):
-        super(ItemWidget, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         layout = QVBoxLayout()
 
         # cover
         self.cover_label = QLabel(self)
-        pixmap = QPixmap(cover_image_path)
+        # Handle enum values by converting to string
+        if hasattr(cover_image_path, 'value'):
+            cover_path = cover_image_path.value
+        else:
+            cover_path = cover_image_path
+        pixmap = QPixmap(cover_path)
         self.cover_label.setPixmap(pixmap)
         self.cover_label.setScaledContents(True) # zoom cover image
         layout.addWidget(self.cover_label)
@@ -106,7 +111,14 @@ class Ui_MainWindow(object):
         self.bar_layout = QHBoxLayout()
         self.button_layout = QHBoxLayout()
         self.toolbar = QHBoxLayout()
+        
+        # Create main content container
+        self.content_container = QStackedWidget(self)
+        
+        # Main videos widget
         self.stacked_widget = QStackedWidget(self)
+        
+        # Search results widget  
         self.search_results_widget = QStackedWidget(self)
         
         # Add toolbar layout at the left top
@@ -121,9 +133,18 @@ class Ui_MainWindow(object):
         self.pages_data: list[dict] = pages_data
         self.page_cache = {}  # cache videos page
 
+        # Add both widgets to content container
+        self.content_container.addWidget(self.stacked_widget)  # index 0: main videos
+        self.content_container.addWidget(self.search_results_widget)  # index 1: search results
+        
+        # Set main videos as default
+        self.content_container.setCurrentIndex(0)
+        
         # load frist page
         self.loadPage(0)
-        self.main_layout.addWidget(self.stacked_widget)
+        
+        # Add content container to main layout
+        self.main_layout.addWidget(self.content_container)
 
         # next page btn
         self.prev_button = QPushButton(_("上一页"), self)

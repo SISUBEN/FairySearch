@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'profile.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.7.2
+## Created by: Qt User Interface Compiler version 6.8.0
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -16,8 +16,9 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QHeaderView, QLabel, QPushButton,
-    QSizePolicy, QTableWidget, QTableWidgetItem, QWidget)
-from app.assets import resources_rc
+    QSizePolicy, QTableWidget, QTableWidgetItem, QVBoxLayout,
+    QWidget)
+from ..assets import resources_rc
 
 class Ui_Profile(object):
     def setupUi(self, Profile, username, uid):
@@ -27,24 +28,7 @@ class Ui_Profile(object):
         Profile.setMinimumSize(QSize(1053, 601))
         Profile.setStyleSheet(u"QWidget#Profile {\n"
 "	background-image: url(:/images/images/profile.png);\n"
-# "	background-size:cover;\n"
 "}")
-        self.link_like_btn = QPushButton(Profile)
-        self.link_like_btn.setObjectName(u"link_like_btn")
-        self.link_like_btn.setStyleSheet(u"QPushButton#link_like_btn {\n"
-        "	color: #1a0dab;\n"
-        "	color: white;\n"
-        "	background-color:transparent;\n"
-        "}\n"
-        "QPushButton#link_like_btn:pressed {\n"
-        "	color: #681DA8;\n"
-        "	background-color:transparent;\n"
-        "}\n"
-        "QPushButton#link_like_btn:hover {\n"
-        "	text-decoration: underline;\n"
-        "	background-color:transparent;\n"
-        "}")
-        
         self.username = QLabel(Profile)
         self.username.setObjectName(u"username")
         self.username.setGeometry(QRect(140, 410, 151, 41))
@@ -83,7 +67,31 @@ class Ui_Profile(object):
 "}")
         self.tableWidget = QTableWidget(Profile)
         self.tableWidget.setObjectName(u"tableWidget")
-        self.tableWidget.setGeometry(QRect(365, 121, 601, 401))
+        self.tableWidget.setGeometry(QRect(365, 121, 601, 341))
+        self.verticalLayoutWidget = QWidget(Profile)
+        self.verticalLayoutWidget.setObjectName(u"verticalLayoutWidget")
+        self.verticalLayoutWidget.setGeometry(QRect(360, 480, 161, 58))
+        self.verticalLayout = QVBoxLayout(self.verticalLayoutWidget)
+        self.verticalLayout.setObjectName(u"verticalLayout")
+        self.verticalLayout.setContentsMargins(0, 0, 0, 0)
+        self.RecomImmediatelyBtn = QPushButton(self.verticalLayoutWidget)
+        self.RecomImmediatelyBtn.setObjectName(u"RecomImmediatelyBtn")
+        self.RecomImmediatelyBtn.setStyleSheet(u"QPushButton {\n"
+"    background-color: rgb(0, 0, 0);\n"
+"    color: white;\n"
+"    border: 3px solid #262626;\n"
+"    height: 50px;\n"
+"    /*width: 500px;*/\n"
+"    border-radius: 25px;\n"
+"}\n"
+"QPushButton:pressed {\n"
+"    background-color: #a6c100;\n"
+"    color: black;\n"
+"    border: 5px solid #a6c100;\n"
+"}")
+
+        self.verticalLayout.addWidget(self.RecomImmediatelyBtn)
+
 
         self.retranslateUi(Profile, username, uid)
 
@@ -94,7 +102,8 @@ class Ui_Profile(object):
         Profile.setWindowTitle(QCoreApplication.translate("Profile", u"Profile", None))
         self.username.setText(QCoreApplication.translate("Profile", f"{username}", None))
         self.uid.setText(QCoreApplication.translate("Profile", f"UID: {uid}", None))
-        self.username_3.setText(QCoreApplication.translate("Profile", u"\u641c\u7d22\u5386\u53f2\uff1a", None))
+        self.username_3.setText(QCoreApplication.translate("Profile", f"{username}", None))
         self.changeAvatar.setText("")
+        self.RecomImmediatelyBtn.setText(QCoreApplication.translate("Profile", u"\u7acb\u5373\u63a8\u8350(Beta)", None))
     # retranslateUi
 

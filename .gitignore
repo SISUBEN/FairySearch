@@ -223,3 +223,6 @@ resources_rc.py
 # # database
 # *.db
 
+# ext
+FairyRecom/
+FairyRecom/*

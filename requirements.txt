@@ -5,3 +5,5 @@ PyQt-Fluent-Widgets==1.7.6
 loguru==0.7.2
 rich==13.6.0
 python-vlc==3.0.21203
+yaml==6.0.1
+pretty_errors==1.2.25
