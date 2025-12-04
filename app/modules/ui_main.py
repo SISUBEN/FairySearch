@@ -11,31 +11,34 @@ from PySide6.QtWidgets import (
     QLineEdit,
 )
 from PySide6.QtGui import QPixmap, QPainter, QIntValidator, QIcon
-from PySide6.QtWidgets import QWidget
+from PySide6.QtWidgets import QWidget, QStyle
 from PySide6.QtCore import Signal, Qt
 from PySide6.QtGui import QMouseEvent
-
-# import PySide6.QtGui as QtGui
 from PySide6.QtCore import Qt, QSize
 from app.libs.main import onClickVideos
-from app.i18n import _
+from app.assets.resource_manager import ResourceManager
 from app.assets import resources_rc
 from app.utils.logger.logger import logger
-
+from app.i18n import _
 
 # template
 class ItemWidget(QWidget):
     clicked = Signal()
-
+    
     def __init__(self, cover_image_path: str, title: str, *args, **kwargs):
-        super(ItemWidget, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         layout = QVBoxLayout()
 
         # cover
         self.cover_label = QLabel(self)
-        pixmap = QPixmap(cover_image_path)
+        # Handle enum values by converting to string
+        if hasattr(cover_image_path, 'value'):
+            cover_path = cover_image_path.value
+        else:
+            cover_path = cover_image_path
+        pixmap = QPixmap(cover_path)
         self.cover_label.setPixmap(pixmap)
-        self.cover_label.setScaledContents(True)  # zoom cover image
+        self.cover_label.setScaledContents(True) # zoom cover image
         layout.addWidget(self.cover_label)
 
         # allowd to zoom cover image
@@ -53,15 +56,16 @@ class ItemWidget(QWidget):
 
     def mousePressEvent(self, event: QMouseEvent):
         if event.button() == Qt.LeftButton:
-            self.clicked.emit()  # Emit the custom clicked signal
+            self.clicked.emit()  # Emit clicked signal
         super().mousePressEvent(event)
-
 
 class PageWidget(QWidget):
     def __init__(self, items_data=list, *args, **kwargs):
         super(PageWidget, self).__init__(*args, **kwargs)
         layout = QGridLayout()
+        # layout.setObjectName("videos_layout")
         # set grid layout
+        
         for i, item_data in enumerate(items_data):
             item = ItemWidget(item_data["cover"], item_data["title"])
             item.clicked.connect(lambda v=item_data["vid"]: onClickVideos(v))
@@ -76,13 +80,14 @@ class PageWidget(QWidget):
         layout.setContentsMargins(20, 10, 20, 20)
         self.setLayout(layout)
 
-
 class Ui_MainWindow(object):
     def setupUi(self, MainWin, pages_data=[]):
         # super(Ui_MainWindow, self).__init__()
         if not MainWin.objectName():
             MainWin.setObjectName("Form")
         self.setWindowTitle(_("Videos"))
+
+        self.res_mgr = ResourceManager()
         self.toolbar_btns = [
             {
                 "name": "user_profile_btn",
@@ -93,81 +98,75 @@ class Ui_MainWindow(object):
                 "icon": ":/icons/icons/setting.svg",
             },
         ]
-        # self.bg_image_path = "./assets/images/background.png" # using absolute path
-        self.bg_image_path = ":/images/images/background.png"  # using QRC path
-        # self.def_cover_path = "./assets/covers/default.png" # using absolute path
-        self.def_cover_path = ":/covers/covers/default.png"  # using QRC path
+        self.bg_image_path = ":/images/images/background.png"
+        self.def_cover_path = ":/covers/covers/default.png"
+        self.button_qss = self.res_mgr.load(":/qss/qss/button.qss")
+        self.line_edit_qss = self.res_mgr.load(":/qss/qss/line_edit.qss")
         self.setStyleSheet(
             "QWidget#Form {\n" f"	background-image: url({self.bg_image_path})\n" "}"
         )
-        # Prog layout
-        #         ↓ start from 0
-        # Pages: |0|1|2|...|n|
-        # User layout
-        #           ↓ start from 1
-        # Pages: |0|1|2|3|...|n+1|
         self.current_page = 0
+        self.search_box_current_page = 0
         self.main_layout = QVBoxLayout(self)
         self.bar_layout = QHBoxLayout()
-        # Add toolbar layout at the left top
+        self.button_layout = QHBoxLayout()
         self.toolbar = QHBoxLayout()
+        
+        # Create main content container
+        self.content_container = QStackedWidget(self)
+        
+        # Main videos widget
+        self.stacked_widget = QStackedWidget(self)
+        
+        # Search results widget  
+        self.search_results_widget = QStackedWidget(self)
+        
+        # Add toolbar layout at the left top
         self.toolbar.setAlignment(Qt.AlignLeft)
         self.toolbar.setContentsMargins(20, 10, 20, 0)
+        
         self.createToolbarButtons()
+        self.createSearchBox()
         self.main_layout.addLayout(self.toolbar)
+
         # next pages btn layout
-        self.stacked_widget = QStackedWidget(self)
         self.pages_data: list[dict] = pages_data
         self.page_cache = {}  # cache videos page
+
+        # Add both widgets to content container
+        self.content_container.addWidget(self.stacked_widget)  # index 0: main videos
+        self.content_container.addWidget(self.search_results_widget)  # index 1: search results
+        
+        # Set main videos as default
+        self.content_container.setCurrentIndex(0)
+        
         # load frist page
         self.loadPage(0)
-        self.main_layout.addWidget(self.stacked_widget)
+        
+        # Add content container to main layout
+        self.main_layout.addWidget(self.content_container)
+
         # next page btn
-        self.button_layout = QHBoxLayout()
         self.prev_button = QPushButton(_("上一页"), self)
+        self.prev_button.setStyleSheet(self.button_qss)
+
         self.next_button = QPushButton(_("下一页"), self)
+        self.next_button.setStyleSheet(self.button_qss)
+
         self.label = QLabel(_("第"), self)
-        self.page_number = QLineEdit(self)
-        self.label2 = QLabel(_("页"), self)
-        self.prev_button.setStyleSheet(
-            "QPushButton {\n"
-            "    background-color: rgb(0, 0, 0);\n"
-            "    color: white;\n"
-            "    border: 3px solid #262626;\n"
-            "    height: 50px;\n"
-            "    width: 500px;\n"
-            "    border-radius: 25px;\n"
-            "}\n"
-            "QPushButton:pressed {\n"
-            "    background-color: #a6c100;\n"
-            "    color: black;\n"
-            "    border: 5px solid #a6c100;\n"
-            "}"
-        )
-        self.next_button.setStyleSheet(
-            "QPushButton {\n"
-            "    background-color: rgb(0, 0, 0);\n"
-            "    color: white;\n"
-            "    border: 3px solid #262626;\n"
-            "    height: 50px;\n"
-            "    width: 500px;\n"
-            "    border-radius: 25px;\n"
-            "}\n"
-            "QPushButton:pressed {\n"
-            "    background-color: #a6c100;\n"
-            "    color: black;\n"
-            "    border: 5px solid #a6c100;\n"
-            "}"
-        )
         self.label.setStyleSheet("color: white;font-size: 16px;")
         self.label.setFixedWidth(20)
-        self.label2.setFixedWidth(20)
-        self.label2.setStyleSheet("color: white;font-size: 16px;")
 
+        self.label2 = QLabel(_("页"), self)
+        self.label2.setStyleSheet("color: white;font-size: 16px;")
+        self.label2.setFixedWidth(20)
+
+        self.page_number = QLineEdit(self)
         # set page number
         self.page_number.setFixedSize(50, 50)
         self.page_number.setStyleSheet("color: black;font-size: 16px;")
-        self.page_number.setValidator(QIntValidator(1, len(self.pages_data), self))
+        self.page_number.setValidator(
+            QIntValidator(1, len(self.pages_data), self))
         self.page_number.setText(str(self.current_page + 1))
 
         # add buttons to layout
@@ -177,6 +176,14 @@ class Ui_MainWindow(object):
         self.button_layout.addWidget(self.label2)
         self.button_layout.addWidget(self.next_button)
         self.main_layout.addLayout(self.button_layout)
+
+    def createSearchBox(self):
+        self.search_box = QLineEdit(self)
+        self.search_box.setObjectName("search_box")
+        self.search_box.setPlaceholderText(_("搜索"))
+        self.search_box.setFixedSize(500, 48)
+        self.search_box.setStyleSheet(self.line_edit_qss)
+        self.toolbar.addWidget(self.search_box)
 
     def createToolbarButtons(self):
         for button in self.toolbar_btns:
@@ -188,5 +195,3 @@ class Ui_MainWindow(object):
             setattr(self, button["name"], btn)
             self.toolbar.addWidget(btn)
             self.toolbar.addSpacing(10)  # Add spacing between buttons
-
-        # self.main_layout.addLayout(self.toolbar)  # Removed this line

@@ -1,5 +1,5 @@
 from app.modules.ui_dialog import Ui_Dialog
-from app.__init__ import QCoreApplication, QDialog
+from app import QCoreApplication, QDialog
 
 class DialogWindow(QDialog, Ui_Dialog):
     def __init__(self, title: str, text: str) -> None:
@@ -9,15 +9,12 @@ class DialogWindow(QDialog, Ui_Dialog):
             "Dialog", f"{title}", None))
         self.label.setText(QCoreApplication.translate(
             "Dialog", f"{text}", None))
-        self.okButton.clicked.connect(self.onOk)
+        self.okButton.clicked.connect(self.accept)
         self.cancelButton.clicked.connect(self.close)
-    
-    def onOk(self) -> None:
-        self.accept()
 
 class Dialog:
     @staticmethod
-    def standardDialog(title: str, text: str) -> None:
+    def standard(title: str, text: str) -> None:
         dialogWindow = DialogWindow(title, text)
         dialogWindow.exec()
         return dialogWindow

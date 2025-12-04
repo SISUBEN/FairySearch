@@ -1,0 +1,13 @@
+QLineEdit {
+    background-color: rgb(13, 13, 13);
+    /*color: rgb(41, 41, 41);*/
+	color: white;
+    border: 3px solid #262626;
+    height: 50px;
+    width: 500px;
+    border-radius: 10px;
+	padding: 0 10%;
+}
+QLineEdit::placeholderText {
+    font-size: 16px;
+}

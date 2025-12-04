@@ -17,7 +17,7 @@
 
 <div align="center">
 
-[简体中文](https://github.com/SISUBEN/FairySearch/blob/main/README.md) |
+[簡體中文](https://github.com/SISUBEN/FairySearch/blob/main/README.md) |
 [English](https://github.com/SISUBEN/FairySearch/blob/main/README_en_US.md) |
 [繁體中文](https://github.com/SISUBEN/FairySearch/blob/main/README_zh_TW.md)
 
@@ -32,6 +32,7 @@
 2. 切換目錄`cd ./FairySearch-main/`
 3. 執行建置腳本（暫時沒寫好）
 
+
 ## 使用方法
 - **從原始碼運行**
 1. 先使用git克隆本專案`git clone https://github.com/SISUBEN/FairySearch.git`
@@ -39,8 +40,10 @@
 3. 安裝依賴`pip install -r ./requirements.txt`
 4. 啟動應用程式`python3 ./fs.py`
 
+
 - **從Release版本運行**
 1. 下載Release版本
+
 2. 開啟`fs.exe`
 
 ## 功能
@@ -58,7 +61,7 @@
 - [ ] 機器學習使用者喜好
 - [ ] 接入OpenAI/Deepseek等LLM模型
 
-## 技術棧
+## 技術堆疊
 | 模組 | 用途 | 引用 |
 | ---- | ---- | ---- |
 | PySide6 | 繪製圖形介面 | https://doc.qt.io/qtforpython-6/ |
@@ -72,12 +75,7 @@
 ## 免責聲明
 版權所有 © 2025 SISUBENY。保留所有權利。
 
-FairySearch 是一款用於提交 2026 年香港中學文憑考試 *[HKDSE](https://en.wikipedia.org/wiki/Hong_Kong_Diploma_of_Secondary_Education)* 和資訊及通訊科技 *
-(ICT)[https://www.hkeaa.edu.hk/en/hkdse/hkdse_subj.html?A2&2&16]* 校本評估 *
-(SBA)[https://www.hkeaa.edu.hk/en/sba/introduction]* 的應用程式。有關此應用程式的更多詳細信息，請參閱報告。
-
-Copyright 2025 SISUBENY. license under *
-(GPL v3)[https://www.gnu.org/licenses/gpl-3.0.en.html]*
+FairySearch 是一款用於提交 2026 年香港中學文憑考試 [HKDSE](https://en.wikipedia.org/wiki/Hong_Kong_Diploma_of_Secondary_Education) 和資訊及通訊科技 校本評估的應用程式。有關此應用程式的更多詳細信息，請參閱報告。
 
 本文件是 FairySearch 的一部分。
 
@@ -85,4 +83,4 @@ FairySearch 是自由軟體：你可以再分發之和/或依照由自由軟體�
 
 發布 Fa​​irySearch 是希望它能有用，但是並無保障;甚至連可銷售和符合某個特定的目的都不保證。請參閱 GNU 通用公共許可證，了解詳情。
 
-你應該隨程式取得一份 GNU 通用公共授權的複本。如果沒有，請看 https://www.gnu.org/licenses/。
+你應該隨程式取得一份 GNU 通用公共授權的複本。如果沒有，請看 <https://www.gnu.org/licenses/>。

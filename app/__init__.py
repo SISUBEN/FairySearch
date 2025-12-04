@@ -1,12 +1,9 @@
-# Import PySide6
 from PySide6.QtWidgets import (
     QApplication,
     QWidget,
     QDialog,
     QPushButton,
     QTableWidgetItem,
-    
-    
     QTableWidget,
     QMainWindow,
     QVBoxLayout,
@@ -14,6 +11,10 @@ from PySide6.QtWidgets import (
     QFileDialog,
     QHBoxLayout,
     QFrame,
+    QGridLayout,
+    QStackedWidget,
+    QLabel,
+    QLineEdit
 )
 from PySide6.QtCore import Qt
 from PySide6.QtCore import QCoreApplication

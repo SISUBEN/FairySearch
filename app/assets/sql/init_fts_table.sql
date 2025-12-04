@@ -1,0 +1,1 @@
+CREATE VIRTUAL TABLE IF NOT EXISTS videos_fts USING fts5 (video_id, video_title, video_tags, video_desc);

@@ -22,7 +22,7 @@
 [English](https://github.com/SISUBEN/FairySearch/blob/main/README_en_US.md) |
 [繁體中文](https://github.com/SISUBEN/FairySearch/blob/main/README_zh_TW.md)  
 
-</div>       
+</div>        
 
 ## 注意事项
 > ⚠️使用本程序前请确保本地环境是完整版Python 3.8+  
@@ -76,9 +76,7 @@
 ## 免责声明
 版权所有 © 2025 SISUBENY。保留所有权利。
 
-FairySearch 是一款用于提交 2026 年香港中学文凭考试 *[HKDSE](https://en.wikipedia.org/wiki/Hong_Kong_Diploma_of_Secondary_Education)* 和资讯及通讯科技 *
-(ICT)[https://www.hkeaa.edu.hk/en/hkdse/hkdse_subj.html?A2&2&16]* 校本评估 *
-(SBA)[https://www.hkeaa.edu.hk/en/sba/introduction]* 的应用程序。有关此应用程序的更多详细信息，请参阅报告。
+FairySearch 是一款用于提交 2026 年香港中学文凭考试 [HKDSE](https://en.wikipedia.org/wiki/Hong_Kong_Diploma_of_Secondary_Education) 和资讯及通讯科技 校本评估的应用程序。有关此应用程序的更多详细信息，请参阅报告。
 
 本文件是 FairySearch 的一部分。
 

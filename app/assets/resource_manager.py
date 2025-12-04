@@ -1,21 +1,23 @@
 from typing import List
-from PySide6.QtCore import QTranslator
-from app.utils.logger.logger import logger
-from app.libs.expection import UnsupportedLanguageError
+from PySide6.QtCore import QFile, QTextStream, QTranslator
 from PySide6.QtWidgets import QApplication
+from app.utils.logger.logger import logger
+from app.libs.exception import UnsupportedLanguageError, ResourceNotFoundError
+from app.assets import resources_rc
 import locale
 import os
 
 
-class ResourceManager():
+class ResourceManager:
     def __init__(self, application: QApplication = None):
         self.app = application
         self.current_dir: str = os.path.dirname(os.path.abspath(__file__))
+        logger.debug(self.current_dir)
         # TODO: change to QRC path mode
         self.covers_dir: str = os.path.join(self.current_dir, "covers")
         self.videos_dir: str = os.path.join(self.current_dir, "videos")
         self.i18n_dir: str = os.path.join(self.current_dir, "i18n")
-        
+
         self.locale_lang: str = locale.getdefaultlocale()[0]
         self.support_lang: List[str] = ["en_US", "zh_CN", "zh_TW"]
 
@@ -46,7 +48,7 @@ class ResourceManager():
             file_type (str, optional): type of file. Defaults to "png".
 
         Returns:
-            _type_: cover file path
+            str | None: cover file path if exist, else None
         """
         if os.path.exists(p := os.path.join(self.covers_dir, f"{vid}.{file_type}")):
             return p if isEscape else p.replace("\\", "/")
@@ -75,6 +77,48 @@ class ResourceManager():
             self.getI18nDirectory(),
             trans_file if trans_file else self.locale_lang + ".qm",
         )
+
+    def get3rdPartyLibs(self, name: str, libs: str = "") -> str:
+        """
+        Retrieves the path to a specified third-party library.
+
+        Args:
+            name (str): The name of the third-party library.
+            libs (str, optional): Additional subdirectory or file name within the library. Defaults to an empty string.
+
+        Returns:
+            str: The full path to the specified third-party library.
+
+        Raises:
+            ResourceNotFoundError: If the specified path does not exist.
+        """
+        path = os.path.join(self.current_dir, "3rdParty", name, libs)
+        # path = "c:\\Users\\32426\\Desktop\\toolbox\\.code\\py\\FairySearch\\app\\assets\\3rdParty\\libsimple"
+        logger.debug(path)
+        if os.path.exists(path) is True:
+            return path
+        else:
+            raise ResourceNotFoundError
+
+    def get3rdPartyDir(self, name: str) -> str:
+        """
+        Retrieves the directory path for a specified third-party resource.
+
+        Args:
+            name (str): The name of the third-party resource.
+
+        Returns:
+            str: The full path to the third-party resource directory.
+
+        Raises:
+            ResourceNotFoundError: If the specified directory does not exist.
+        """
+        path = os.path.join(self.current_dir, "3rdParty", name)
+        logger.debug(path)
+        if os.path.exists(path) is True:
+            return path
+        else:
+            raise ResourceNotFoundError
 
     def getTranslator(self, lang: str = "Auto") -> QTranslator:
         """get translator
@@ -105,7 +149,7 @@ class ResourceManager():
         Args:
             app (QApplication): Pyside6 application
             trans (str, optional): tanslate lang. Defaults to "Auto" and auto detect.
-            
+
         Raises:
             UnsupportedLanguageError: if language is not supported
 
@@ -114,8 +158,22 @@ class ResourceManager():
         """
         self.translator = self.getTranslator(lang)
         self.app.installTranslator(self.translator)
-        
-    def uninstallTranslation(self, lang: str) -> None:
-        self.app.removeTranslator(self.translator)
-        
 
+    @staticmethod
+    def load(resource_path: str) -> str:
+        """load qrc file
+
+        Args:
+            file (str): qrc file path
+
+        Returns:
+            str: file content
+        """
+        file = QFile(resource_path)
+        if not file.open(QFile.ReadOnly | QFile.Text):
+            logger.error(f"Cannot open resource file: {resource_path}")
+            raise FileNotFoundError(f"Cannot open resource file: {resource_path}")
+        stream = QTextStream(file)
+        content = stream.readAll()
+        file.close()
+        return content

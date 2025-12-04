@@ -17,9 +17,9 @@
 
 <div align="center">
 
-[简体中文](https://github.com/SISUBEN/FairySearch/blob/main/README.md) |
+[Simplified Chinese](https://github.com/SISUBEN/FairySearch/blob/main/README.md) |
 [English](https://github.com/SISUBEN/FairySearch/blob/main/README_en_US.md) |
-[繁體中文](https://github.com/SISUBEN/FairySearch/blob/main/README_zh_TW.md)  
+[Traditional Chinese](https://github.com/SISUBEN/FairySearch/blob/main/README_zh_TW.md)
 
 </div>
 
@@ -41,6 +41,7 @@
 
 - **Run from Release version**
 1. Download Release version
+
 2. Open `fs.exe`
 
 ## Functions
@@ -72,16 +73,12 @@
 ## Disclaimer
 Copyright © 2025 SISUBENY. All rights reserved.
 
-FairySearch is an application for submission of 2026 Hong Kong Diploma of Secondary Education Examination *[HKDSE](https://en.wikipedia.org/wiki/Hong_Kong_Diploma_of_Secondary_Education)* and Information and Communications Technology *
-(ICT)[https://www.hkeaa.edu.hk/en/hkdse/hkdse_subj.html?A2&2&16]* School-Based Assessment *
-(SBA)[https://www.hkeaa.edu.hk/en/sba/introduction]*. For more details on this application, please refer to the report.
-
-Copyright 2025 SISUBENY. license under *
-(GPL v3)[https://www.gnu.org/licenses/gpl-3.0.en.html]*
+FairySearch is an application for submitting papers for the 2026 Hong Kong Diploma of Secondary Education Examination [HKDSE](https://en.wikipedia.org/wiki/Hong_Kong_Diploma_of_Secondary_Education) and ICT School-Based Assessments. For more details about this application, see the report.
 
 This file is part of FairySearch.
+
 FairySearch is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
-FairySearch is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
-See the GNU General Public License for more details.
-You should have received a copy of the GNU General Public License along with FairySearch. 
-If not, see <https://www.gnu.org/licenses/>.
+
+FairySearch is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for details.
+
+You should have received a copy of the GNU General Public License along with the program. If not, see <https://www.gnu.org/licenses/>.

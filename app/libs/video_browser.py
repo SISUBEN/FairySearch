@@ -1,22 +1,21 @@
-from app.__init__ import logger, QWidget, QPainter, QPixmap
-from PySide6.QtCore import QTimer
-from app.modules.ui_video_browser import Ui_VideoBrowser
-from app.database.queries import Database
-from app.assets.resource_manager import ResourceManager
-from PySide6.QtMultimedia import QMediaPlayer
-from app.libs.dialog import Dialog
-from app.libs.expection import VideoNotFoundError
 import vlc
+from PySide6.QtCore import QTimer
+from PySide6.QtMultimedia import QMediaPlayer
+from app import logger, QWidget, QPainter, QPixmap
+from app.modules.ui_video_browser import Ui_VideoBrowser
+from app.database.videos import Videodb
+from app.assets.resource_manager import ResourceManager
+from app.libs.dialog import Dialog
+from app.libs.exception import VideoNotFoundError
 from app.i18n import _
-
-res_manager = ResourceManager()
-dialog = Dialog()
-db = Database()
-
 
 class VideoBrowser(QWidget, Ui_VideoBrowser):
     def __init__(self, vid: int, *args, **kwargs) -> None:
         super().__init__()
+        self.res_manager = ResourceManager()
+        self.dialog = Dialog()
+        self.videodb = Videodb()
+        
         self.setupUi(self)
         self.timer = QTimer(self)
         self.timer.setInterval(100)
@@ -26,13 +25,14 @@ class VideoBrowser(QWidget, Ui_VideoBrowser):
         self.is_liked = False
         self.is_favorited = False
         self.is_coined = False
-        self.__title = db.videodb.query_title_by_vid(vid)[0][0] or None
-        self.__desc = db.videodb.query_desc_by_vid(vid)[0][0] or None
+        self.__title = self.videodb.query_title_by_vid(vid)[0][0] or None
+        logger.debug(self.__title)
+        self.__desc = self.videodb.query_desc_by_vid(vid)[0][0] or None
         logger.debug(
             f"Video Info:\n title: {self.__title}\n desc :{self.__desc}\n vid: {vid}"
         )
         if self.__title is None or self.__desc is None:
-            dialog.standardDialog(_("错误"), _("无法找到该视频"))
+            self.dialog.standard(_("错误"), _("无法找到该视频"))
             raise VideoNotFoundError
 
         self.vid = vid
@@ -49,11 +49,11 @@ class VideoBrowser(QWidget, Ui_VideoBrowser):
         self.position_slider.setMaximum(1000)
 
         try:
-            self.filename = res_manager.getVideoPath(vid=vid)
+            self.filename = self.res_manager.getVideoPath(vid=vid)
             if self.filename is None:
                 raise VideoNotFoundError
         except TypeError:
-            dialog.standardDialog(_("错误"), _("vid无效"))
+            self.dialog.standard(_("错误"), _("vid无效"))
         self.media = self.instance.media_new(self.filename)
         try:
             self.media_player.set_media(self.media)
@@ -66,7 +66,7 @@ class VideoBrowser(QWidget, Ui_VideoBrowser):
             self.onPlay()
         except Exception as e:
             logger.debug(f"Error: {e}")
-            dialog.standardDialog(_("错误"), _("视频播放失败"))
+            self.dialog.standard(_("错误"), _("视频播放失败"))
 
         self.title.setText(self.__title)
         self.describe.setText(self.__desc)
@@ -180,13 +180,13 @@ class VideoBrowser(QWidget, Ui_VideoBrowser):
         painter.drawPixmap(self.rect(), pixmap)
 
     def closeEvent(self, event):
+        self.submitStatus()
         self.media_player.stop()
         self.timer.stop()
         self.media_player.set_media(QMediaPlayer.Media())
         event.accept()
 
     def closeEventWrapper(self, event):
-        self.submitStatus()
         self.media_player.stop()
         self.timer.stop()
         event.accept()
