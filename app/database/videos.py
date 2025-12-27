@@ -112,12 +112,14 @@ class Videodb:
             sqlite3.Error: If an error occurs during the database query.
         """
         try:
-            return self.connect.execute(
+            result = self.connect.execute(
                 QueryMgr.get_query("video.video_query_title"), (vid,)
-            ).fetchall()
+            ).fetchone()
+            return result[0] if result else ""
 
         except sqlite3.Error as e:
             logger.debug(f"query title by vid error: {e}")
+            return ""
 
     def query_desc_by_vid(self, vid: int) -> str:
         """
@@ -135,6 +137,45 @@ class Videodb:
             ).fetchall()[0][0]
         except sqlite3.Error as e:
             logger.debug(f"query desc by vid error: {e}")
+            return ""
+
+    def update_interaction(self, vid: int, is_liked: bool, is_coined: bool, is_favorited: bool):
+        """
+        Updates the interaction status (like, coin, favorite) for a video.
+        """
+        try:
+            # We use direct SQL here to update the counts.
+            # This assumes the 'videos' table has 'likes', 'coins', and 'favorites' columns.
+            sql = """
+                UPDATE videos 
+                SET likes = likes + ?, 
+                    coins = coins + ?, 
+                    favorites = favorites + ? 
+                WHERE id = ?
+            """
+            self.connect.execute(sql, (int(is_liked), int(is_coined), int(is_favorited), vid))
+            self.connect.commit()
+            logger.debug(f"Updated interaction for vid {vid}: Like={is_liked}, Coin={is_coined}, Fav={is_favorited}")
+        except sqlite3.Error as e:
+            logger.error(f"Update interaction error: {e}")
+
+    def query_recommendations(self, limit: int = 9) -> list:
+        """
+        Query recommended videos based on weighted interactions.
+        Algorithm: Score = Likes * 1 + Coins * 2 + Favorites * 3
+        """
+        try:
+            # Ensure the column order matches what main.py expects: 0:id, 1:title, 2:cover
+            sql = """
+                SELECT id, title, cover 
+                FROM videos 
+                ORDER BY (likes * 1 + coins * 2 + favorites * 3) DESC 
+                LIMIT ?
+            """
+            return self.connect.execute(sql, (limit,)).fetchall()
+        except sqlite3.Error as e:
+            logger.debug(f"query recommendations error: {e}")
+            return []
 
     def query_videos_by_page(self, page: int, page_size: int) -> tuple:
         """
@@ -169,22 +210,25 @@ class Videodb:
         except sqlite3.Error as e:
             logger.debug(f"query videos all error: {e}")
 
-    def query(self, tag: str) -> list:
-        """Query videos by tag
+    def query(self, keyword: str) -> list:
+        """Query videos by keyword
 
         Args:
-            type (str): video tag
+            keyword (str): search keyword
 
         Return:
-            list: videos id
+            list: videos
 
         Raises:
             sqlite3.Error: if query fail
         """
         try:
-            return self.connect.execute(QueryMgr.get_query("video.video_query_tag"), (tag,)).fetchall()
+            return self.connect.execute(
+                QueryMgr.get_query("video.video_query_tag"), (f"%{keyword}%",)
+            ).fetchall()
         except sqlite3.Error as e:
-            logger.debug(f"query videos by type error: {e}")
+            logger.debug(f"query videos by keyword error: {e}")
+            return []
 
     def destroy(self, db_name: str) -> None:
         """Destroy target database"""

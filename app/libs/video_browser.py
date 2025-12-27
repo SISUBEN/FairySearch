@@ -42,6 +42,11 @@ class VideoBrowser(QWidget, Ui_VideoBrowser):
         self.instance = vlc.Instance()
         self.media = None
         self.media_player = self.instance.media_player_new()
+        
+        # Attach event manager to listen for playback end
+        self.events = self.media_player.event_manager()
+        self.events.event_attach(vlc.EventType.MediaPlayerEndReached, self.on_playback_finished)
+
         # logger.debug(f"title: {self.__title}")
         self.setWindowTitle(self.__title)
         self.video_frame.setAutoFillBackground(True)
@@ -79,6 +84,13 @@ class VideoBrowser(QWidget, Ui_VideoBrowser):
 
         self.volume_slider.setValue(50)
         self.media_player.audio_set_volume(50)
+
+    def on_playback_finished(self, event):
+        """Callback when video finishes playing"""
+        logger.debug("Playback finished, submitting status...")
+        self.submitStatus()
+        # Optional: Reset UI state if needed, though updateUi handles some of it
+        # self.timer.stop() 
 
     def changeBackground(self, path: str, widget: str):
         return (
@@ -197,6 +209,9 @@ class VideoBrowser(QWidget, Ui_VideoBrowser):
 
     def submitStatus(self):
         logger.debug("submit status")
+        self.videodb.update_interaction(
+            self.vid, self.is_liked, self.is_coined, self.is_favorited
+        )
 
     def __del__(self):
         try:

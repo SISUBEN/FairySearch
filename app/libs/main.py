@@ -4,6 +4,7 @@ from app.libs.exception import NoLoginError, VideoNotFoundError
 from app.libs.dialog import Dialog
 from app.libs.search_window import SearchWindow
 from app import QApplication, QWidget, logger, QPainter, QPixmap, QPushButton
+from qfluentwidgets import NavigationItemPosition, FluentIcon as FIF
 
 # to avoid circular import
 def onClickVideos(vid: int) -> None:
@@ -53,6 +54,7 @@ class MainWindow(
 
         self.user_profile_btn: QPushButton
         self.setting_btn: QPushButton
+        
         # bind click events
         self.prev_button.clicked.connect(self.showPrevPage)
         self.next_button.clicked.connect(self.showNextPage)
@@ -60,7 +62,79 @@ class MainWindow(
         self.search_box.returnPressed.connect(self.onSearch)
         self.user_profile_btn.clicked.connect(self.showUserProfile)
         self.setting_btn.clicked.connect(self.showSetting)
+        
+        # 初始化導航欄 (在此處創建推薦按鈕)
+        self.initNavigation()
+        
         self.updateButtons()
+
+    def initNavigation(self):
+        # 創建普通按鈕
+        self.btn_recommend = QPushButton("猜你喜歡", self)
+        self.btn_recommend.setMinimumHeight(30) # 確保有足夠的高度
+        # 如果您想加圖標，可以取消下面這行的註釋 (需要確保導入了 FIF)
+        # self.btn_recommend.setIcon(FIF.HEART) 
+        self.btn_recommend.clicked.connect(self.showRecommendations)
+        
+        # 嘗試將按鈕添加到 setting_btn 所在的佈局中 (放在設置按鈕旁邊)
+        if hasattr(self, 'setting_btn') and self.setting_btn.parentWidget():
+            parent = self.setting_btn.parentWidget()
+            layout = parent.layout()
+            
+            if layout:
+                # 獲取 setting button 的索引，並將推薦按鈕插入到它前面
+                index = layout.indexOf(self.setting_btn)
+                if index != -1:
+                    layout.insertWidget(index, self.btn_recommend)
+                else:
+                    layout.addWidget(self.btn_recommend)
+            else:
+                # 如果沒有佈局，則手動定位
+                self.btn_recommend.setParent(parent)
+                self.btn_recommend.move(parent.width() - 200, 10)
+                self.btn_recommend.show()
+                
+        elif hasattr(self, 'user_profile_btn') and self.user_profile_btn.parentWidget():
+            # 如果找不到 setting button，嘗試加到 profile button 旁邊
+            parent = self.user_profile_btn.parentWidget()
+            layout = parent.layout()
+            if layout:
+                layout.insertWidget(0, self.btn_recommend)
+            else:
+                self.btn_recommend.setParent(parent)
+                self.btn_recommend.move(10, 50)
+                self.btn_recommend.show()
+        else:
+            # 最後的備選方案
+            self.btn_recommend.move(20, 60)
+            self.btn_recommend.show()
+
+    def showRecommendations(self) -> None:
+        """
+        Fetches and displays recommended videos in a new window.
+        """
+        logger.debug("Fetching recommendations...")
+        # Fetch top 9 recommended videos
+        results = self.videodb.query_recommendations(9)
+
+        if not results:
+            dialog = Dialog()
+            dialog.standard(_("提示"), _("暫無推薦數據，請多觀看視頻以生成個性化推薦"))
+            return
+
+        # Convert to the format expected by the UI
+        converted_results = [
+            {
+                "cover": result[2] if result[2] else Default.DEFAULT_COVER,
+                "title": result[1],
+                "vid": result[0],
+            }
+            for result in results
+        ]
+
+        # Reuse SearchWindow to display the recommendation list
+        self.search_window = SearchWindow(converted_results, "猜你喜歡", self.app)
+        self.search_window.show()
 
     def fillSpace(self) -> None:
         if self.search_results_widget.isVisible() and len(self.search_result) % 9 != 0:
@@ -88,8 +162,14 @@ class MainWindow(
             else:
                 # Convert search results and open in new window
                 converted_results = self.converter(self.search_result)
-                search_window = SearchWindow(converted_results, keyword, self.app)
-                search_window.show()
+                
+                # Revert pagination: Pass flat list to SearchWindow
+                # SearchWindow likely expects a flat list of dicts, not a list of pages.
+                # To implement pagination, SearchWindow itself needs to be modified.
+                
+                # 修改：使用 self.search_window 防止窗口被垃圾回收
+                self.search_window = SearchWindow(converted_results, keyword, self.app)
+                self.search_window.show()
                 
                 # Clear search box
                 self.search_box.clear()
@@ -164,7 +244,7 @@ class MainWindow(
         )
 
     def converter(self, data: list) -> list:
-        # (1,'《崩坏：星穹铁道》遐蝶角色PV——「墓志铭」','崩坏：星穹铁道,崩坏星穹铁道,角色PV,米哈游,miHoYo', 'Honkai Star Rail')
+        # (1,'《崩坏：星穹铁道》遐蝶角色PV——「墓志铭」','崩坏：星穹铁道,崩坏星穹鐵道,角色PV,米哈游,miHoYo', 'Honkai Star Rail')
         """
         Converts a list of data into a FSVF (FairSearch Video Format) list.
         Args:
@@ -294,4 +374,3 @@ class MainWindow(
         self.prev_button.setEnabled(current_page_no > 0)
         self.next_button.setEnabled(current_page_no < len(page_data) - 1)
 
-    
