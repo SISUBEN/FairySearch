@@ -155,7 +155,7 @@ QPushButton:pressed {
 }</string>
       </property>
       <property name="text">
-       <string>立即推荐(Beta)</string>
+       <string>立即推荐</string>
       </property>
      </widget>
     </item>

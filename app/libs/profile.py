@@ -57,10 +57,10 @@ class ProfileWindow(QWidget, Ui_Profile):
     def onClickRecomImme(self):
         from app.libs.dialog import Dialog
         self.dialog = Dialog()
-        self.dialog.standard(
-            title="⚠警告⚠",
-            text="此功能透过填写一些与您相关\n的表单以向 FairyRecom 立即请求推荐的结果\n可能存在不准确的结果，您要继续吗？"
-        )
+        # self.dialog.standard(
+        #     title="⚠警告⚠",
+        #     text="此功能透过填写一些与您相关\n的表单以向 FairyRecom 立即请求推荐的结果\n可能存在不准确的结果，您要继续吗？"
+        # )
         self.init_fairyrecom()
         import webbrowser
         webbrowser.open("http://localhost:8000/recom_form")
